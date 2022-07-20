@@ -1,12 +1,14 @@
-import { Button } from 'primereact/button';
-import './App.css';
+import { BrowserRouter } from 'react-router-dom';
+import { AppRouter } from './router';
+
 
 function App() {
   return (
     <>
-      <h1 className='text-2xl bg-blue-400'>Add Prime Ng and Tailwind</h1>
-      <Button label="Save" />
-     
+      <BrowserRouter>
+        <AppRouter />
+      </BrowserRouter>
+
     </>
   );
 }
