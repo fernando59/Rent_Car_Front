@@ -1,4 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
+import { IndexBackOfficePage } from '../backoffice/pages/IndexBackOfficePage';
 import { IndexPage } from '../rentcarapp/page/IndexPage';
 
 // import { LoginPage } from '../auth';
@@ -18,6 +19,7 @@ export const AppRouter = () => {
                 // : <Route path="/*" element={ <IndexPage /> } />
             }
             <Route path="/" element={<IndexPage />} />
+            <Route path="/backoffice" element={<IndexBackOfficePage />} />
 
             {/* <Route path="/*" element={<Navigate to="/auth/login" />} /> */}
         </Routes>
