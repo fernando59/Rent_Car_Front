@@ -1,9 +1,11 @@
+import { ListTypeVehicle } from "../components/ListTypeVehicle"
 import { StatisticsCards } from "../components/StatisticsCards"
 
-function IndexBackOfficePage(){
+function IndexBackOfficePage() {
   return (
     <>
-    <StatisticsCards/>
+      <StatisticsCards />
+      <ListTypeVehicle/>
 
 
     </>
