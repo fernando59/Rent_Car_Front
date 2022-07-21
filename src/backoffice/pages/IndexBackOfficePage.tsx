@@ -1,6 +1,6 @@
 import { StatisticsCards } from "../components/StatisticsCards"
 
-export const IndexBackOfficePage = () => {
+function IndexBackOfficePage(){
   return (
     <>
     <StatisticsCards/>
@@ -9,3 +9,5 @@ export const IndexBackOfficePage = () => {
     </>
   )
 }
+
+export default IndexBackOfficePage

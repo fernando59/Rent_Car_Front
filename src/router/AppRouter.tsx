@@ -1,10 +1,12 @@
+import { lazy, Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { IndexBackOfficePage } from '../backoffice/pages/IndexBackOfficePage';
-import { IndexPage } from '../rentcarapp/page/IndexPage';
+// import { IndexPage } from '../rentcarapp/pages/IndexPage';
 
 // import { LoginPage } from '../auth';
 // import { CalendarPage } from '../calendar';
 
+const IndexPage = lazy(() => import('../rentcarapp/pages/IndexPage'))
+const IndexBackOfficePage = lazy(() => import('../backoffice/pages/IndexBackOfficePage'))
 
 export const AppRouter = () => {
 
@@ -18,8 +20,16 @@ export const AppRouter = () => {
                 // ? <Route path="/auth/*" element={ <LoginPage /> } />
                 // : <Route path="/*" element={ <IndexPage /> } />
             }
-            <Route path="/" element={<IndexPage />} />
-            <Route path="/backoffice" element={<IndexBackOfficePage />} />
+            <Route path="/" element={
+                <Suspense fallback={<h1>Loading ...</h1>}>
+                    <IndexPage />
+                </Suspense>}
+             />
+            <Route path="/backoffice" element={
+                <Suspense fallback={<h1>Loading ...</h1>}>
+                    <IndexBackOfficePage />
+                </Suspense>} 
+            />
 
             {/* <Route path="/*" element={<Navigate to="/auth/login" />} /> */}
         </Routes>

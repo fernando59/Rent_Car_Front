@@ -22,7 +22,7 @@ export const Reservation = () => {
         <h2 className='text-6xl font-bold text-center py-10'>Book Now</h2>
         <div className='flex justify-center h-full'>
 
-            <form onSubmit={handleSubmit(onHandleSubmit)} autoComplete="off" className='flex items-center flex-col md:flex-row gap-2 h-full'>
+            <form onSubmit={handleSubmit(onHandleSubmit)} autoComplete="off" className='flex items-end flex-col md:flex-row gap-2 h-full'>
 
                 <label>
                     <span> Vehicle delivery location </span>

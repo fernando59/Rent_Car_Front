@@ -3,7 +3,10 @@ import { AboutUs } from '../components/AboutUs';
 import { Banner } from '../components/Banner';
 import { Navbar } from '../components/Navbar';
 import { Reservation } from '../components/Reservation';
-export const IndexPage = () => {
+
+
+
+function  IndexPage (){
   return (
     <>
       <Navbar />
@@ -14,3 +17,5 @@ export const IndexPage = () => {
     </>
   )
 }
+
+export default IndexPage
