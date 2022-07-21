@@ -1,11 +1,10 @@
 import { Button } from 'primereact/button';
 import { Calendar } from 'primereact/calendar';
 import { InputText } from 'primereact/inputtext';
-import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 export const Reservation = () => {
-    const [date, setDate] = useState<Date | Date[] | undefined>(undefined)
-    const { register, handleSubmit, watch, formState: { errors }, control } = useForm({
+    
+    const {  handleSubmit,  formState: { errors }, control } = useForm({
         defaultValues: {
             location: '',
             startDate:undefined,

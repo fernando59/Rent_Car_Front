@@ -6,27 +6,27 @@ import { onCloseDateModal, onOpenDateModal } from '../store/ui/uiSlice';
 export const useUiStore = () => {
 
     const dispatch = useDispatch();
-    const { isDateModalOpen } = useSelector((state: RootState) => state.ui);
+    const { isModalOpen } = useSelector((state: RootState) => state.ui);
 
 
-    const openDateModal = () => { dispatch(onOpenDateModal()) }
+    const openModal = () => { dispatch(onOpenDateModal()) }
 
-    const closeDateModal = () => { dispatch(onCloseDateModal()) }
+    const closeModal = () => { dispatch(onCloseDateModal()) }
 
-    const toggleDateModal = () => {
-        (isDateModalOpen)
-            ? closeDateModal()
-            : openDateModal();
+    const toggleModal = () => {
+        (isModalOpen)
+            ? closeModal()
+            : openModal();
     }
 
     return {
         //* Propiedades
-        isDateModalOpen,
+        isModalOpen,
 
         //* Métodos
-        closeDateModal,
-        openDateModal,
-        toggleDateModal,
+        closeModal,
+        openModal,
+        toggleModal,
     }
 
 }
