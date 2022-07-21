@@ -112,12 +112,13 @@ const SubMenu: FC<PropsSubMenu> = ({ items, root, onMenuItemClick, className }) 
 
     return itemsIterate ? <ul className={className} role="menu">{itemsIterate}</ul> : null;
 }
-export const Menu = (model: any) => {
+export const Menu = (model: any,onMenuItemClick:any) => {
 
     return (
         <>
 
-            <SubMenu items={model.model}  root={true}/>
+            {/* <SubMenu items={model.model}  root={true} onMenuItemClick={onMenuItemClick}/> */}
+            <SubMenu items={model.model}  root={true} />
         </>
     )
 }
