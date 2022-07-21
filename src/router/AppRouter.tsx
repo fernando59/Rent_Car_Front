@@ -1,5 +1,9 @@
 import { lazy, Suspense } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import { BrandPage } from '../backoffice/pages/BrandPage';
+import { DashBoardPage } from '../backoffice/pages/DashBoardPage';
+import { ModelPage } from '../backoffice/pages/ModelPage';
+import { TypeVehiclePage } from '../backoffice/pages/TypeVehiclePage';
 import { useAuthStore } from '../hooks/useAuthStore';
 // import { IndexPage } from '../rentcarapp/pages/IndexPage';
 
@@ -26,18 +30,21 @@ export const AppRouter = () => {
                     </>
             } */}
 
+            {/* ROUTE APP */}
             <Route path="/" element={
                 <Suspense fallback={<h1>Loading ...</h1>}>
                     <IndexPage />
                 </Suspense>}
             />
-            <Route path="/backoffice" element={
-                <Suspense fallback={<h1>Loading ...</h1>}>
-                    <IndexBackOfficePage />
-                </Suspense>}
-            />
-
-            {/* <Route path="/*" element={<Navigate to="/auth/login" />} /> */}
+            {/* ROUTE BACKOFFICE */}
+            <Route path="/backoffice/*" element={ <Suspense fallback={<h1>Loading ...</h1>}> <IndexBackOfficePage /> </Suspense>} >
+                <Route path="" element={<DashBoardPage />} />
+                <Route path="brands" element={<BrandPage />} />
+                <Route path="typeVehicle" element={<TypeVehiclePage />} />
+                <Route path="models" element={<ModelPage />} />
+            </Route>
+            
+            <Route path="/*" element={<Navigate to="/" />} />
         </Routes>
     )
 }

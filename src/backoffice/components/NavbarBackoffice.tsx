@@ -11,8 +11,8 @@ export const NavbarBackoffice = (props: any) => {
                     <Button className="p-button-rounded p-button-text p-button-plain " aria-label="Bar" icon="pi pi-bars" onClick={props.onMobileTopbarMenuClick} />
                 </div>
                 <Link to="/backoffice" className="flex justify-center items-center grow md:grow-0 font-medium rounded-3xl text-2xl md:w-[300px] w-full">
-                    <img src={props.layoutColorMode === 'light' ? 'assets/layout/images/logo-dark.svg' : 'assets/layout/images/logo-white.svg'} alt="logo" />
-                    <span>Rent</span>
+                    <img className='w-[150px] object-cover' src={ 'assets/images/logo_car.png'} alt="logo" />
+                    {/* <span>Rent</span> */}
                 </Link>
 
                 <div className='hidden md:block'>

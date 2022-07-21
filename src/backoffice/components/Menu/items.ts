@@ -4,8 +4,9 @@ export const menuItems = [
         items: [
             { label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/backoffice' } ,
             { label: 'Vehicles', icon: 'pi pi-fw pi-car', to: '/backoffice', items:[
-                { label: 'Brands', icon: 'pi pi-fw pi-bookmark', to: '/backoffice' } ,
-                { label: 'Models', icon: 'pi pi-fw pi-book', to: '/backoffice' } ,
+                { label: 'Brands', icon: 'pi pi-fw pi-bookmark', to: '/backoffice/brands' } ,
+                { label: 'Models', icon: 'pi pi-fw pi-book', to: '/backoffice/models' } ,
+                { label: 'TypeVehicle', icon: 'pi pi-fw pi-book', to: '/backoffice/typeVehicle' } ,
             ]} ,
             { label: 'Orders', icon: 'pi pi-fw pi-wallet', to: '/backoffice' } ,
         ],
