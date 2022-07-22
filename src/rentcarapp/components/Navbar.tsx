@@ -1,12 +1,31 @@
 import { Button } from "primereact/button";
 import { Dialog } from 'primereact/dialog';
-import { useUiStore } from "../../hooks/useUiStore";
+import { useModal } from "../../hooks/useModal";
+import { FormLogin } from "./FormLogin";
 import { FormRegister } from "./FormRegister";
 export const Navbar = () => {
 
-    const { isModalOpen, openModal, closeModal } = useUiStore()
+    const {
+        closeModalState: closeModalRegisterState,
+        modalState: modalRegister,
+        openModalState: openModalRegisterState
+    } = useModal()
+
+    const {
+        closeModalState: closeModalLoginState,
+        modalState: modalLogin,
+        openModalState: openModalLoginState
+    } = useModal()
 
 
+
+    //open
+    const openModalLogin = () => openModalLoginState()
+    const openModalRegister = () => openModalRegisterState()
+
+    //close
+    const closeModalLogin = () => { closeModalLoginState() }
+    const closeModalRegister = () => { closeModalRegisterState() }
     return (
         <>
             <header className="w-full h-20">
@@ -19,15 +38,20 @@ export const Navbar = () => {
                         <li><a href="#">About Us</a></li>
                     </ul>
                     <div className="flex gap-2">
-                        <Button label="Login" onClick={openModal} />
-                        <Button label="Register" onClick={openModal} className="p-button-outlined" />
+                        <Button label="Login" onClick={openModalLogin} />
+                        <Button label="Register" onClick={openModalRegister} className="p-button-outlined" />
                     </div>
                 </div>
             </header>
 
-            <Dialog  visible={isModalOpen} onHide={closeModal} breakpoints={{ '960px': '75vw', '640px': '100vw' }} style={{ width: '50vw' }} >
-                {/* <FormLogin /> */}
-                <FormRegister/>
+            <Dialog visible={modalLogin} onHide={closeModalLogin} breakpoints={{ '960px': '75vw', '640px': '100vw' }} style={{ width: '50vw' }} >
+                <h1 className="text-center font-bold text-4xl">Login</h1>
+                <FormLogin />
+            </Dialog>
+
+            <Dialog visible={modalRegister} onHide={closeModalRegister} breakpoints={{ '960px': '75vw', '640px': '100vw' }} style={{ width: '50vw' }} >
+                <h1 className="text-center font-bold text-4xl">Register</h1>
+                <FormRegister />
             </Dialog>
         </>
     )
