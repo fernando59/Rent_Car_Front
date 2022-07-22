@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
-import { activeMobileMenu, desactiveMobileMenu, onCloseDateModal, onOpenDateModal } from '../store/ui/uiSlice';
+import { activeMobileMenu, desactiveMobileMenu, onCloseDateModal, onOpenDateModal } from '../store/slices/ui/uiSlice';
 
 
 export const useUiStore = () => {
