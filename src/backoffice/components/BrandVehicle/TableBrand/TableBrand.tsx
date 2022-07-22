@@ -4,11 +4,11 @@ import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
-import { useState } from 'react';
+import { Toast } from 'primereact/toast';
+import { useRef, useState } from 'react';
 import { useModal } from '../../../../hooks/useModal';
-import { useGetBrandsQuery } from '../../../../store/apis';
-
-
+import { useCreateBrandMutation, useGetBrandsQuery } from '../../../../store/apis';
+import { FormBrand } from './FormBrand';
 interface BrandVehicle {
     id: number
     name: string
@@ -22,6 +22,8 @@ export const TableBrand = () => {
     const { data } = useGetBrandsQuery()
     const [globalFilter, setGlobalFilter] = useState<string>('');
     const [brand, setBrand] = useState<BrandVehicle>(defaultBrand)
+    const [createBrand, { isSuccess, error }] = useCreateBrandMutation()
+    const toast = useRef<any>(null);
     //ModalDelete
     const {
         openModalState: openModalStateDelete,
@@ -29,7 +31,7 @@ export const TableBrand = () => {
         modalState: modalDelete
     } = useModal()
 
-    //ModalUpdate
+    //Modal Save
     const {
         openModalState: openModalStateUpdate,
         closeModalState: closeModalStateUpdate,
@@ -81,32 +83,46 @@ export const TableBrand = () => {
         );
     }
 
-    const closeModalUpdate =() =>{
+    const closeModalUpdate = () => {
         closeModalStateUpdate()
         setBrand(defaultBrand)
     }
-    const closeModalDelete=() =>{
+    const closeModalDelete = () => {
         closeModalStateDelete()
         setBrand(defaultBrand)
     }
 
 
-    const productDialogFooter = (
-        <>
-            <Button label="Cancel" icon="pi pi-times" className="p-button-text" onClick={closeModalUpdate} />
-            <Button label="Save" icon="pi pi-check" className="p-button-text" onClick={() => { }} />
-        </>
-    );
+  
     const deleteBrandDialogFooter = (
         <>
             <Button label="No" icon="pi pi-times" className="p-button-text" onClick={closeModalDelete} />
             <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={() => { }} />
         </>
     );
+
+
+
+    const onHandleSubmitSaveBrand = async (data: any) => {
+        await createBrand(data)
+        if (isSuccess) {
+            closeModalStateUpdate()
+            toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Save Updated', life: 3000 });
+        } else {
+            toast.current.show({ severity: 'error', summary: 'Error', detail: 'Error', life: 3000 });
+        }
+
+    }
+    const openModalSave =()=>{
+        openModalStateUpdate()
+    }
     return (
         <>
 
             <div className="card">
+                <div className='py-5'>
+                    <Button className='p-button-success' icon='pi pi-plus' onClick={openModalSave} />
+                </div>
                 <DataTable value={data}
                     responsiveLayout="scroll"
                     showGridlines
@@ -134,28 +150,21 @@ export const TableBrand = () => {
                     footer={deleteBrandDialogFooter}
                     onHide={() => closeModalStateDelete()}
                 >
-                    <div className="confirmation-content">
+                    <div className="confirmation-content flex items-center">
                         <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
                         {brand.id != 0 && <span>Are you sure you want to delete <b className='capitalize'>{brand.name}</b>?</span>}
                     </div>
                 </Dialog>
 
-                {/* UPDATE */}
-                <Dialog visible={modalUpdate} style={{ width: '450px' }} header="Product Details" modal className="p-fluid" footer={productDialogFooter} onHide={closeModalUpdate}>
-                <div className="field">
-                    <label htmlFor="name">Name</label>
-                    {/* <InputText id="name" value={brand.name} onChange={(e) => onInputChange(e, 'name')} required autoFocus className={classNames({ 'p-invalid': submitted && !product.name })} /> */}
-                    <InputText/>
+                {/* SABE */}
+                <Dialog visible={modalUpdate} style={{ width: '450px' }} header={brand.id==0?'New Brand':'Update Brand'} modal className="p-fluid" onHide={closeModalUpdate}>
+                    <FormBrand onHandleSubmitSaveBrand={onHandleSubmitSaveBrand} closeModalUpdate={closeModalUpdate} />
                     {/* {submitted && !product.name && <small className="p-error">Name is required.</small>} */}
-                </div>
-             
+
+                </Dialog>
 
 
-         
-            </Dialog>
-
-
-
+                <Toast ref={toast} />
 
             </div>
         </>
