@@ -6,6 +6,7 @@ import { ModelPage } from '../backoffice/pages/ModelPage';
 import { TypeVehiclePage } from '../backoffice/pages/TypeVehiclePage';
 import { VehiclePage } from '../backoffice/pages/VehiclePage';
 import { useAuthStore } from '../hooks/useAuthStore';
+import { HistoryPage } from '../rentcarapp/pages/HistoryPage';
 import { VehicleDetailPage } from '../rentcarapp/pages/VehicleDetailPage';
 import { VehicleModelsPage } from '../rentcarapp/pages/VehicleModelsPage';
 import { WelcomePage } from '../rentcarapp/pages/WelcomePage';
@@ -43,6 +44,7 @@ export const AppRouter = () => {
                 <Route path="" element={<WelcomePage/>} />
                 <Route path="vehicleDetail" element={<VehicleDetailPage/>} />
                 <Route path="vehicleModel" element={<VehicleModelsPage/>} />
+                <Route path="history" element={<HistoryPage/>} />
 
             </Route>
             {/* ROUTE BACKOFFICE */}

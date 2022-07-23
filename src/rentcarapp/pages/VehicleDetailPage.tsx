@@ -1,8 +1,9 @@
+import { Button } from 'primereact/button';
+import { Card } from 'primereact/card';
 import { Galleria } from 'primereact/galleria';
 import { Image } from 'primereact/image';
 import { useRef } from 'react';
 import { Navbar } from "../components/Navbar";
-
 
 export const VehicleDetailPage = () => {
   const images = [
@@ -43,11 +44,41 @@ export const VehicleDetailPage = () => {
       <Navbar />
 
       <div className="mx-auto container">
-        <div className='rounded-md'>
+        <h1 className='py-10 font-bold text-5xl'>Detail Vehicle</h1>
+        <div className='grid grid-cols-1 md:grid-cols-2'>
 
-        <Galleria  ref={galleria1} value={images} responsiveOptions={responsiveOptions} numVisible={3} style={{ maxWidth: '640px' }}
-          item={itemTemplate} thumbnail={thumbnailTemplate} />
+          <div className='rounded-md'>
+
+            <Galleria ref={galleria1} value={images} responsiveOptions={responsiveOptions} numVisible={3} style={{ maxWidth: '640px' }}
+              item={itemTemplate} thumbnail={thumbnailTemplate} />
           </div>
+          <div>
+
+            <Card title="Detail Vehicle Price">
+              <hr />
+              <div className='py-4 flex flex-col'>
+                <div className='flex justify-between py-2'>
+                  <span className='font-bold'>Price by Day</span>
+                  <span>10$</span>
+                </div>
+                <div className='flex justify-between py-2'>
+                  <span className='font-bold'>Others</span>
+                  <span>20$</span>
+                </div>
+              </div>
+              <hr />
+              <div className='flex justify-between py-2'>
+                  <span className='font-bold'>Total</span>
+                  <span>30$</span>
+                </div>
+              <div className='pt-3'>
+
+                <Button label='Rent' className='w-full' />
+              </div>
+            </Card>
+
+          </div>
+        </div>
       </div>
     </>
   )
