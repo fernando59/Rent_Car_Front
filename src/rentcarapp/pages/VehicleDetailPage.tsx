@@ -68,9 +68,9 @@ export const VehicleDetailPage = () => {
               </div>
               <hr />
               <div className='flex justify-between py-2'>
-                  <span className='font-bold'>Total</span>
-                  <span>30$</span>
-                </div>
+                <span className='font-bold'>Total</span>
+                <span>30$</span>
+              </div>
               <div className='pt-3'>
 
                 <Button label='Rent' className='w-full' />

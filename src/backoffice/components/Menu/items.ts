@@ -10,6 +10,7 @@ export const menuItems = [
                 { label: 'TypeVehicle', icon: 'pi pi-fw pi-book', to: '/backoffice/typeVehicle' } ,
             ]} ,
             { label: 'Orders', icon: 'pi pi-fw pi-wallet', to: '/backoffice' } ,
+            { label: 'Clients', icon: 'pi pi-fw pi-users', to: '/backoffice' } ,
         ],
         
     },

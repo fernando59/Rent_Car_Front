@@ -1,11 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-*{
+
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+
 body {
 
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -35,6 +37,7 @@ ul {
   border-radius: 4px;
   background-color: var(--primary-color) !important;
 }
+
 .custom-scrolltop:hover {
   background-color: var(--primary-color) !important;
 }
@@ -42,4 +45,37 @@ ul {
 .custom-scrolltop .p-scrolltop-icon {
   font-size: 1rem;
   color: var(--primary-color-text);
+}
+
+
+
+/* Grid Vehicleso.css */
+.gridPageVehicles {
+  display: grid;
+  grid-template: "a b b"
+    "a b b";
+    gap: 10px;
+}
+
+
+.grid__part_a {
+  grid-area: a;
+}
+
+.grid__part_b {
+  grid-area: b;
+}
+.grid__cards{
+  display: grid;
+  gap: 5px;
+  grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
+}
+
+@media screen and (max-width: 950px) {
+  .gridPageVehicles {
+    grid-template: "a a a"
+      "b b b";
+  }
+
+
 }
