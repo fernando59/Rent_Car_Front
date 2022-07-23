@@ -3,7 +3,7 @@ import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { FC } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { IBrand } from "../../../models/Brand";
+import { IBrand } from "../../../../models/Brand";
 
 
 interface Props {

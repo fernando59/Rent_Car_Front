@@ -1,9 +1,14 @@
 
 import { Card } from 'primereact/card';
 import { Paginator } from 'primereact/paginator';
+import { useGetVehiclesQuery } from '../../store/apis/vehicleApi';
 import { CardVehicle } from '../components/CardVehicle';
 import { Navbar } from '../components/Navbar';
 export const VehicleModelsPage = () => {
+
+
+  const {data}=useGetVehiclesQuery()
+  console.log(data)
   return (
     <>
 
@@ -23,11 +28,16 @@ export const VehicleModelsPage = () => {
           <div className='grid__part_b'>
 
             <div className='grid__cards'>
+              {
+                data?.map(item=><CardVehicle 
+                  key={item.id} 
+                  brand={item.modelVehicle.name}
+                  model={item.modelVehicle.name}
+                  price={item.price}
+                  
+                  />)
+              }
 
-              <CardVehicle />
-              <CardVehicle />
-              <CardVehicle />
-              <CardVehicle />
             </div>
             <Paginator first={0} rows={10} onPageChange={() => { }}></Paginator>
           </div>

@@ -1,7 +1,16 @@
 import { Button } from 'primereact/button';
 import { Image } from 'primereact/image';
+import { FC } from 'react';
 import { Link } from 'react-router-dom';
-export const CardVehicle = () => {
+
+
+
+interface Props{
+    price:number
+    model:string
+    brand:string
+}
+export const CardVehicle:FC<Props> = ({price,model,brand}) => {
     return (
         <>
 
@@ -11,8 +20,8 @@ export const CardVehicle = () => {
 
                     <div className='flex justify-between items-center py-2 '>
 
-                        <span className='font-bold text-3xl '>Audi A3</span>
-                        <p className=" font-bold text-3xl "> 20$  </p>
+                        <span className='font-bold text-3xl '>{model} {brand} </span>
+                        <p className=" font-bold text-3xl "> {price} $  </p>
                     </div>
                     <div className='flex justify-between items-center '>
 

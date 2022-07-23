@@ -7,8 +7,8 @@ import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
 import { useRef, useState } from 'react';
 import { useModal } from '../../../../hooks/useModal';
+import { IBrand } from '../../../../models/Brand';
 import { useCreateBrandMutation, useDeleteBrandMutation, useGetBrandsQuery, useUpdateBrandMutation } from '../../../../store/apis';
-import { IBrand } from '../../../models/Brand';
 import { FormBrand } from './FormBrand';
 
 
@@ -21,15 +21,15 @@ const defaultBrand: IBrand = {
 
 
 export const TableBrand = () => {
-    const { data } = useGetBrandsQuery()
     const [globalFilter, setGlobalFilter] = useState<string>('');
     const [brand, setBrand] = useState<IBrand>(defaultBrand)
     const [filters1, setFilters1] = useState({
         'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
         'name': { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
     });
-
+    
     //RTK Query
+    const { data } = useGetBrandsQuery()
     const [createBrand, { isSuccess }] = useCreateBrandMutation()
     const [updateBrand, { isSuccess: isSuccessUpdate }] = useUpdateBrandMutation()
     const [deleteBrand, { isSuccess: isSucessDelete }] = useDeleteBrandMutation()

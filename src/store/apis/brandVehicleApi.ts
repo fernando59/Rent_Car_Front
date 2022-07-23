@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { IBrand } from '../../backoffice/models/Brand';
+import { IBrand } from '../../models/Brand';
 
 
 

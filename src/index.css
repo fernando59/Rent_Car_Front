@@ -67,7 +67,7 @@ ul {
 }
 .grid__cards{
   display: grid;
-  gap: 5px;
+  gap: 15px;
   grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
 }
 
