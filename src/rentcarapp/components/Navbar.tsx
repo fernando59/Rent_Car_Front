@@ -1,5 +1,6 @@
 import { Button } from "primereact/button";
 import { Dialog } from 'primereact/dialog';
+import { Link } from "react-router-dom";
 import { useModal } from "../../hooks/useModal";
 import { FormLogin } from "./FormLogin";
 import { FormRegister } from "./FormRegister";
@@ -30,12 +31,30 @@ export const Navbar = () => {
         <>
             <header className="w-full h-20">
 
-                <div className="mx-auto container flex justify-between items-center h-full">
+                <div className="w-full px-6 mx-auto container flex justify-between items-center h-full">
 
                     <h1 className="font-bold uppercase">FernandoRent</h1>
                     <ul className="hidden md:flex gap-2 font-bold text-gray-400">
-                        <li><a href="#">Reservation</a></li>
-                        <li><a href="#">About Us</a></li>
+
+                        <li className="hover:text-purple-600 px-4"> <Link to='/'>
+                            <span>Home</span>
+                        </Link>
+                        </li>
+
+                        <li className="hover:text-purple-600 px-4"> <Link to='/vehicleModel'>
+                            <span>Vehicle Models</span>
+                        </Link>
+                        </li>
+                        <li className="hover:text-purple-600 px-4">
+                        <Link to='/vehicleDetail'> 
+                            <span>Contact</span>
+                            </Link>
+                            </li>
+                     
+                        <li className="hover:text-purple-600 px-4"> <Link to='/'>
+                            <span>About Us</span>
+                        </Link>
+                        </li>
                     </ul>
                     <div className="flex gap-2">
                         <Button label="Login" onClick={openModalLogin} />

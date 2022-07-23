@@ -3,28 +3,19 @@ import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { FC } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { IBrand } from "../../../models/Brand";
 
-
-interface IBrand {
-    id: number
-    name: string
-}
-
-
-const defaultValues: IBrand = {
-    id: 0,
-    name: ''
-}
 
 interface Props {
     onHandleSubmitSaveBrand: (data: IBrand) => void
     closeModalUpdate: () => void
+    defaultValues:IBrand
 }
 
 
-export const FormBrand: FC<Props> = ({ onHandleSubmitSaveBrand, closeModalUpdate }) => {
+export const FormBrand: FC<Props> = ({ onHandleSubmitSaveBrand, closeModalUpdate,defaultValues }) => {
 
-    const { control, formState: { errors }, handleSubmit, reset } = useForm({ defaultValues });
+    const { control, formState: { errors }, handleSubmit} = useForm({ defaultValues });
 
     const getFormErrorMessage = (name: any) => {
         const key = name as keyof IBrand

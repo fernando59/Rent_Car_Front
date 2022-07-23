@@ -7,41 +7,51 @@ import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
 import { useRef, useState } from 'react';
 import { useModal } from '../../../../hooks/useModal';
-import { useCreateBrandMutation, useGetBrandsQuery } from '../../../../store/apis';
+import { useCreateBrandMutation, useDeleteBrandMutation, useGetBrandsQuery, useUpdateBrandMutation } from '../../../../store/apis';
+import { IBrand } from '../../../models/Brand';
 import { FormBrand } from './FormBrand';
-interface BrandVehicle {
-    id: number
-    name: string
-}
 
-const defaultBrand: BrandVehicle = {
+
+
+
+const defaultBrand: IBrand = {
     id: 0,
     name: ''
 }
+
+
 export const TableBrand = () => {
     const { data } = useGetBrandsQuery()
     const [globalFilter, setGlobalFilter] = useState<string>('');
-    const [brand, setBrand] = useState<BrandVehicle>(defaultBrand)
-    const [createBrand, { isSuccess, error }] = useCreateBrandMutation()
-    const toast = useRef<any>(null);
+    const [brand, setBrand] = useState<IBrand>(defaultBrand)
+    const [filters1, setFilters1] = useState({
+        'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
+        'name': { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
+    });
+
+    //RTK Query
+    const [createBrand, { isSuccess }] = useCreateBrandMutation()
+    const [updateBrand, { isSuccess: isSuccessUpdate }] = useUpdateBrandMutation()
+    const [deleteBrand, { isSuccess: isSucessDelete }] = useDeleteBrandMutation()
+
+    //UI
+
     //ModalDelete
     const {
         openModalState: openModalStateDelete,
         closeModalState: closeModalStateDelete,
         modalState: modalDelete
     } = useModal()
-
+    
     //Modal Save
     const {
-        openModalState: openModalStateUpdate,
-        closeModalState: closeModalStateUpdate,
+        openModalState: openModalStateSave,
+        closeModalState: closeModalStateSave,
         modalState: modalUpdate
     } = useModal()
+    const toast = useRef<any>(null);
 
-    const [filters1, setFilters1] = useState({
-        'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
-        'name': { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
-    });
+
     // FILTER
     const filterTable = (e: any) => {
         const value = e.target.value
@@ -65,11 +75,11 @@ export const TableBrand = () => {
 
     // CRUD
 
-    const editBrand = (data: BrandVehicle) => {
-        openModalStateUpdate()
+    const openModalEdit = (data: IBrand) => {
+        openModalStateSave()
         setBrand(data)
     }
-    const deleteBrand = (data: BrandVehicle) => {
+    const opendeleteBrandModal = (data: IBrand) => {
         openModalStateDelete()
         setBrand(data)
 
@@ -77,14 +87,14 @@ export const TableBrand = () => {
     const actionBodyTemplate = (rowData: any) => {
         return (
             <div className='flex justify-end pr-10 gap-2'>
-                <Button icon="pi pi-pencil" className="p-button-rounded p-button-info mr-2" onClick={() => editBrand(rowData)} />
-                <Button icon="pi pi-trash" className="p-button-rounded p-button-danger" onClick={() => deleteBrand(rowData)} />
+                <Button icon="pi pi-pencil" className="p-button-rounded p-button-info mr-2" onClick={() => openModalEdit(rowData)} />
+                <Button icon="pi pi-trash" className="p-button-rounded p-button-danger" onClick={() => opendeleteBrandModal(rowData)} />
             </div>
         );
     }
 
     const closeModalUpdate = () => {
-        closeModalStateUpdate()
+        closeModalStateSave()
         setBrand(defaultBrand)
     }
     const closeModalDelete = () => {
@@ -92,30 +102,51 @@ export const TableBrand = () => {
         setBrand(defaultBrand)
     }
 
+    const deleteBrandExecute = async () => {
+        await deleteBrand(brand.id)
+        console.log(isSucessDelete)
+        if (isSucessDelete) {
+            closeModalDelete()
+            toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Delete successfully', life: 3000 });
+        }
+    }
 
-  
+
     const deleteBrandDialogFooter = (
         <>
             <Button label="No" icon="pi pi-times" className="p-button-text" onClick={closeModalDelete} />
-            <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={() => { }} />
+            <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={deleteBrandExecute} />
         </>
     );
 
 
 
     const onHandleSubmitSaveBrand = async (data: any) => {
-        await createBrand(data)
+        if (brand.id == 0)
+            await createBrand(data)
+        else {
+            data.id = brand.id
+            await updateBrand(data)
+        }
+
+        console.log(isSuccess)
+        console.log(isSuccessUpdate)
         if (isSuccess) {
-            closeModalStateUpdate()
+            closeModalStateSave()
             toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Save Updated', life: 3000 });
-        } else {
+        } else if (isSuccessUpdate) {
+            closeModalStateSave()
+            toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Save Updated', life: 3000 });
+        } else{
+
             toast.current.show({ severity: 'error', summary: 'Error', detail: 'Error', life: 3000 });
         }
 
     }
-    const openModalSave =()=>{
-        openModalStateUpdate()
+    const openModalSave = () => {
+        openModalStateSave()
     }
+
     return (
         <>
 
@@ -156,10 +187,9 @@ export const TableBrand = () => {
                     </div>
                 </Dialog>
 
-                {/* SABE */}
-                <Dialog visible={modalUpdate} style={{ width: '450px' }} header={brand.id==0?'New Brand':'Update Brand'} modal className="p-fluid" onHide={closeModalUpdate}>
-                    <FormBrand onHandleSubmitSaveBrand={onHandleSubmitSaveBrand} closeModalUpdate={closeModalUpdate} />
-                    {/* {submitted && !product.name && <small className="p-error">Name is required.</small>} */}
+                {/* SAVE */}
+                <Dialog visible={modalUpdate} style={{ width: '450px' }} header={brand.id == 0 ? 'New Brand' : 'Update Brand'} modal className="p-fluid" onHide={closeModalUpdate}>
+                    <FormBrand onHandleSubmitSaveBrand={onHandleSubmitSaveBrand} closeModalUpdate={closeModalUpdate} defaultValues={brand} />
 
                 </Dialog>
 

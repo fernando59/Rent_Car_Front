@@ -1,10 +1,14 @@
 import { lazy, Suspense } from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { BrandPage } from '../backoffice/pages/BrandPage';
 import { DashBoardPage } from '../backoffice/pages/DashBoardPage';
 import { ModelPage } from '../backoffice/pages/ModelPage';
 import { TypeVehiclePage } from '../backoffice/pages/TypeVehiclePage';
+import { VehiclePage } from '../backoffice/pages/VehiclePage';
 import { useAuthStore } from '../hooks/useAuthStore';
+import { VehicleDetailPage } from '../rentcarapp/pages/VehicleDetailPage';
+import { VehicleModelsPage } from '../rentcarapp/pages/VehicleModelsPage';
+import { WelcomePage } from '../rentcarapp/pages/WelcomePage';
 // import { IndexPage } from '../rentcarapp/pages/IndexPage';
 
 // import { LoginPage } from '../auth';
@@ -31,20 +35,26 @@ export const AppRouter = () => {
             } */}
 
             {/* ROUTE APP */}
-            <Route path="/" element={
+            <Route path="/*" element={
                 <Suspense fallback={<h1>Loading ...</h1>}>
                     <IndexPage />
                 </Suspense>}
-            />
+            >
+                <Route path="" element={<WelcomePage/>} />
+                <Route path="vehicleDetail" element={<VehicleDetailPage/>} />
+                <Route path="vehicleModel" element={<VehicleModelsPage/>} />
+
+            </Route>
             {/* ROUTE BACKOFFICE */}
             <Route path="/backoffice/*" element={ <Suspense fallback={<h1>Loading ...</h1>}> <IndexBackOfficePage /> </Suspense>} >
                 <Route path="" element={<DashBoardPage />} />
                 <Route path="brands" element={<BrandPage />} />
+                <Route path="vehicles" element={<VehiclePage/>} />
                 <Route path="typeVehicle" element={<TypeVehiclePage />} />
                 <Route path="models" element={<ModelPage />} />
             </Route>
             
-            <Route path="/*" element={<Navigate to="/" />} />
+            {/* <Route path="/*" element={<Navigate to="/" />} /> */}
         </Routes>
     )
 }

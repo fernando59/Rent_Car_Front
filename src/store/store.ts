@@ -1,5 +1,4 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { setupListeners } from '@reduxjs/toolkit/query'
 import { brandsVehicleApi } from './apis'
 import { authApi } from './apis/authApi'
 import { authSlice, uiSlice } from './slices'
@@ -23,6 +22,6 @@ export const store = configureStore({
 })
 
 //  for refetchOnFocus/refetchOnReconnect behaviors
-setupListeners(store.dispatch)
+// setupListeners(store.dispatch)
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
