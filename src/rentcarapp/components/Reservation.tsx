@@ -1,16 +1,20 @@
 import { Button } from 'primereact/button';
 import { Calendar } from 'primereact/calendar';
-import { InputText } from 'primereact/inputtext';
+import { Dropdown } from 'primereact/dropdown';
 import { Controller, useForm } from 'react-hook-form';
+import { useGetBrandsQuery } from '../../store/apis';
+
+
 export const Reservation = () => {
     
     const {  handleSubmit,  formState: { errors }, control } = useForm({
         defaultValues: {
-            location: '',
+            brand: null,
             startDate:undefined,
             endDate:undefined,
         }
     });
+    const {data} = useGetBrandsQuery()
 
     const onHandleSubmit = (data: any) => {
         console.log(data)
@@ -24,14 +28,14 @@ export const Reservation = () => {
             <form onSubmit={handleSubmit(onHandleSubmit)} autoComplete="off" className='flex items-end flex-col md:flex-row gap-2 h-full'>
 
                 <label>
-                    <span> Vehicle delivery location </span>
+                    <span className='block'>Select your brand</span>
                     <Controller
                         control={control}
-                        name="location"
+                        name="brand"
                         rules={{ required: true, min: 0, max: 400 }}
                         render={({ field }
                         ) => (
-                            <InputText className='block '{...field} placeholder="Select your Location" />
+                            <Dropdown  filter showClear filterBy="name" className='w-full min-w-[250px] capitalize' id={field.name} value={field.value} onChange={(e) => field.onChange(e.value)} options={data} optionLabel="name" />
                         )}
                     />
 
