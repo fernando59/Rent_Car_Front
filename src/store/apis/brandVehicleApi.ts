@@ -6,6 +6,11 @@ import { IBrand } from '../../models/Brand';
 const BASE_URL = process.env.REACT_APP_API_URL
 
 
+interface ResponseData{
+    success:boolean
+    message:string
+    data?:[]
+}
 
 export const brandsVehicleApi = createApi({
     reducerPath: 'brandApi',
@@ -23,7 +28,7 @@ export const brandsVehicleApi = createApi({
                 : // an error occurred, but we still want to refetch this query when `{ type: 'Posts', id: 'LIST' }` is invalidated
                 [{ type: 'BrandsVehicle', id: 'LIST' }],
         }),
-        createBrand: builder.mutation<IBrand, Partial<IBrand>>({
+        createBrand: builder.mutation<ResponseData, Partial<IBrand>>({
             query: (body: IBrand) => {
                 return {
                     url: 'brandVehicle',
@@ -33,7 +38,7 @@ export const brandsVehicleApi = createApi({
             }
             , invalidatesTags: [{ type: 'BrandsVehicle', id: 'LIST' }],
         }),
-        updateBrand: builder.mutation<IBrand, Partial<IBrand>>({
+        updateBrand: builder.mutation<ResponseData, Partial<IBrand>>({
             query(data: IBrand) {
                 const { id, ...body } = data
                 return {
@@ -45,7 +50,7 @@ export const brandsVehicleApi = createApi({
             // Invalidates all queries that subscribe to this Post `id` only.
             invalidatesTags: (result, error, { id }) => [{ type: 'BrandsVehicle', id }],
         }),
-        deleteBrand: builder.mutation<{ success: boolean; id: number }, number>({
+        deleteBrand: builder.mutation<ResponseData, number>({
             query(id) {
                 return {
                     url: `brandVehicle/${id}`,

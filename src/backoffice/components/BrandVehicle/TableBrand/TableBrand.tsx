@@ -27,7 +27,7 @@ export const TableBrand = () => {
         'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
         'name': { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
     });
-    
+
     //RTK Query
     const { data } = useGetBrandsQuery()
     const [createBrand, { isSuccess }] = useCreateBrandMutation()
@@ -42,7 +42,7 @@ export const TableBrand = () => {
         closeModalState: closeModalStateDelete,
         modalState: modalDelete
     } = useModal()
-    
+
     //Modal Save
     const {
         openModalState: openModalStateSave,
@@ -103,11 +103,11 @@ export const TableBrand = () => {
     }
 
     const deleteBrandExecute = async () => {
-        await deleteBrand(brand.id)
-        console.log(isSucessDelete)
-        if (isSucessDelete) {
+        const  res = await deleteBrand(brand.id).unwrap()
+        const {success,message}= res
+        if (success) {
             closeModalDelete()
-            toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Delete successfully', life: 3000 });
+            toast.current.show({ severity: 'success', summary: 'Successful', detail: message, life: 3000 });
         }
     }
 
@@ -122,22 +122,26 @@ export const TableBrand = () => {
 
 
     const onHandleSubmitSaveBrand = async (data: any) => {
-        if (brand.id == 0)
-            await createBrand(data)
-        else {
-            data.id = brand.id
-            await updateBrand(data)
-        }
+        try {
 
-        console.log(isSuccess)
-        console.log(isSuccessUpdate)
-        if (isSuccess) {
-            closeModalStateSave()
-            toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Save Updated', life: 3000 });
-        } else if (isSuccessUpdate) {
-            closeModalStateSave()
-            toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Save Updated', life: 3000 });
-        } else{
+            let res
+            if (brand.id == 0)
+                res = await createBrand(data).unwrap()
+            else {
+                data.id = brand.id
+                res = await updateBrand(data).unwrap()
+            }
+            const { success, message } = res
+            if (success) {
+                closeModalStateSave()
+                toast.current.show({ severity: 'success', summary: 'Successful', detail: message, life: 3000 });
+            } else if (isSuccessUpdate) {
+                closeModalStateSave()
+                toast.current.show({ severity: 'success', summary: 'Successful', detail: message, life: 3000 });
+            }
+
+
+        } catch (e) {
 
             toast.current.show({ severity: 'error', summary: 'Error', detail: 'Error', life: 3000 });
         }
