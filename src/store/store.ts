@@ -1,6 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { brandsVehicleApi } from './apis'
 import { authApi } from './apis/authApi'
+import { modelVehicleApi } from './apis/modelVehicleApi'
+import { typeVehicleApi } from './apis/typeVehicleApi'
 import { vehicleApi } from './apis/vehicleApi'
 import { authSlice, uiSlice } from './slices'
 
@@ -14,6 +16,8 @@ export const store = configureStore({
     [brandsVehicleApi.reducerPath]: brandsVehicleApi.reducer,
     [authApi.reducerPath]: authApi.reducer,
     [vehicleApi.reducerPath]: vehicleApi.reducer,
+    [modelVehicleApi.reducerPath]: modelVehicleApi.reducer,
+    [typeVehicleApi.reducerPath]: typeVehicleApi.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware()
     .concat(
@@ -21,6 +25,9 @@ export const store = configureStore({
         brandsVehicleApi.middleware,
         authApi.middleware,
         vehicleApi.middleware,
+        modelVehicleApi.middleware,
+        typeVehicleApi.middleware,
+        
       ])
 })
 

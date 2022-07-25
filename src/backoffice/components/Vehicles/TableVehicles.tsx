@@ -6,12 +6,24 @@ import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { useState } from 'react';
 import { useModal } from '../../../hooks/useModal';
+import { IVehicleForm } from '../../../models/Vehicle';
 import { useGetVehiclesQuery } from '../../../store/apis/vehicleApi';
 import { ChipTable } from './ChipTable';
 import { FormVehicles } from './FormVehicles';
 
+
+const vehicleDefaultValues: IVehicleForm = {
+    capacity: undefined,
+    hasAir: false,
+    plate: '',
+    price: undefined,
+    state: 1,
+    year: undefined 
+}
+
 export const TableVehicles = () => {
     const [globalFilter, setGlobalFilter] = useState<string>('');
+    const [vehicle, setVehicle] = useState<IVehicleForm>(vehicleDefaultValues)
     const { data } = useGetVehiclesQuery()
     const [filters1, setFilters1] = useState({
         'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -79,6 +91,11 @@ export const TableVehicles = () => {
         // setBrand(defaultBrand)
     }
 
+    const onHandleSubmitSaveVehicle = async (data: IVehicleForm) => {
+        // const vehicle:IVehicle = data
+        console.log(data)
+    }
+
     return (
         <>
 
@@ -109,7 +126,7 @@ export const TableVehicles = () => {
                 <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '8rem' }}></Column>
             </DataTable>
             <Dialog visible={modalUpdate} modal onHide={closeModalUpdate}>
-                <FormVehicles />
+                <FormVehicles defaultValues={vehicle} onHandleSubmitSaveVehicle={onHandleSubmitSaveVehicle} closeModalUpdate={closeModalUpdate} />
             </Dialog>
         </>
     )
