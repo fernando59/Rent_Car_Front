@@ -30,12 +30,11 @@ export const TableBrand = () => {
 
     //RTK Query
     const { data } = useGetBrandsQuery()
-    const [createBrand, { isSuccess }] = useCreateBrandMutation()
-    const [updateBrand, { isSuccess: isSuccessUpdate }] = useUpdateBrandMutation()
-    const [deleteBrand, { isSuccess: isSucessDelete }] = useDeleteBrandMutation()
+    const [createBrand] = useCreateBrandMutation()
+    const [updateBrand] = useUpdateBrandMutation()
+    const [deleteBrand] = useDeleteBrandMutation()
 
     //UI
-
     //ModalDelete
     const {
         openModalState: openModalStateDelete,
@@ -103,8 +102,8 @@ export const TableBrand = () => {
     }
 
     const deleteBrandExecute = async () => {
-        const  res = await deleteBrand(brand.id).unwrap()
-        const {success,message}= res
+        const res = await deleteBrand(brand.id).unwrap()
+        const { success, message } = res
         if (success) {
             closeModalDelete()
             toast.current.show({ severity: 'success', summary: 'Successful', detail: message, life: 3000 });
@@ -133,9 +132,6 @@ export const TableBrand = () => {
             }
             const { success, message } = res
             if (success) {
-                closeModalStateSave()
-                toast.current.show({ severity: 'success', summary: 'Successful', detail: message, life: 3000 });
-            } else if (isSuccessUpdate) {
                 closeModalStateSave()
                 toast.current.show({ severity: 'success', summary: 'Successful', detail: message, life: 3000 });
             }
@@ -178,6 +174,8 @@ export const TableBrand = () => {
                     <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '8rem' }}></Column>
                 </DataTable>
 
+                {/* DELETE */}
+
                 <Dialog
                     visible={modalDelete}
                     style={{ width: '450px' }}
@@ -192,6 +190,7 @@ export const TableBrand = () => {
                 </Dialog>
 
                 {/* SAVE */}
+
                 <Dialog visible={modalUpdate} style={{ width: '450px' }} header={brand.id == 0 ? 'New Brand' : 'Update Brand'} modal className="p-fluid" onHide={closeModalUpdate}>
                     <FormBrand onHandleSubmitSaveBrand={onHandleSubmitSaveBrand} closeModalUpdate={closeModalUpdate} defaultValues={brand} />
 

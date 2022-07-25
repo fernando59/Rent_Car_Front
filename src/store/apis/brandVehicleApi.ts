@@ -15,6 +15,7 @@ export const brandsVehicleApi = createApi({
     endpoints: (builder) => ({
         getBrands: builder.query<IBrand[], void>({
             query: () => 'brandVehicle',
+            transformResponse: (response: { data: IBrand[] }, meta, arg) => response.data,
             providesTags: (result) => result
                 ? // successful query
                 [

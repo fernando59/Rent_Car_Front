@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import { Button } from "primereact/button";
+import { Dropdown } from "primereact/dropdown";
 import { InputNumber } from 'primereact/inputnumber';
 import { InputText } from "primereact/inputtext";
 import { FC } from "react";
@@ -18,14 +19,12 @@ interface Props {
 
 
 export const FormVehicles: FC<Props> = ({ onHandleSubmitSaveVehicle, defaultValues, closeModalUpdate }) => {
+    console.log(defaultValues)
     const { control, formState: { errors }, handleSubmit } = useForm({ defaultValues });
     //RTK Query
     const { data: models } = useGetModelVehiclesQuery()
     const { data: typeVehicles } = useGetTypeVehiclesQuery()
     const { data: brands } = useGetBrandsQuery()
-    console.log({ models })
-    console.log({ typeVehicles })
-    console.log({ brands })
 
 
     const getFormErrorMessage = (name: any) => {
@@ -52,7 +51,7 @@ export const FormVehicles: FC<Props> = ({ onHandleSubmitSaveVehicle, defaultValu
                         <Controller name="capacity" control={control}
                             rules={{ required: 'Capacity is required.', max: { value: 10, message: 'The value max is 10' } }}
                             render={({ field, fieldState }) => (
-                                <InputNumber min={0} id={field.name} onChange={(e) => field.onChange(e.value)} value={field.value} style={{ width: '100%' }} className={classNames({ 'p-invalid': fieldState.error })} />
+                                <InputText keyfilter="int" style={{ width: '100%' }} id={field.name} {...field} className={classNames({ 'p-invalid': fieldState.error })} />
                             )} />
                         <label htmlFor="capacity" className={classNames({ 'p-error': !!errors.capacity })}>Capacity</label>
                     </span>
@@ -63,8 +62,7 @@ export const FormVehicles: FC<Props> = ({ onHandleSubmitSaveVehicle, defaultValu
                         <Controller name="year" control={control}
                             rules={{ required: 'Year is required.', maxLength: { value: 4, message: 'The max Length is 4' } }}
                             render={({ field, fieldState }) => (
-                                <InputText style={{ width: '100%' }} id={field.name} {...field} className={classNames({ 'p-invalid': fieldState.error })} />
-                                // <InputNumber maxFractionDigits={4} useGrouping={false} id={field.name} min={0}  onChange={(e) => field.onChange(e.value)} value={field.value} style={{ width: '100%' }} className={classNames({ 'p-invalid': fieldState.error })} />
+                                <InputText keyfilter="int" style={{ width: '100%' }} id={field.name} {...field} className={classNames({ 'p-invalid': fieldState.error })} />
                             )} />
                         <label htmlFor="year" className={classNames({ 'p-error': !!errors.capacity })}>Year</label>
                     </span>
@@ -75,12 +73,56 @@ export const FormVehicles: FC<Props> = ({ onHandleSubmitSaveVehicle, defaultValu
                         <Controller name="price" control={control}
                             rules={{ required: 'Price is required.' }}
                             render={({ field, fieldState }) => (
-                                // <InputText id={field.name} {...field} className={classNames({ 'p-invalid': fieldState.error })} />
                                 <InputNumber id={field.name} onChange={(e) => field.onChange(e.value)} value={field.value} style={{ width: '100%' }} className={classNames({ 'p-invalid': fieldState.error })} mode="currency" currency="BOB" locale="es-EN" />
                             )} />
                         <label htmlFor="name" className={classNames({ 'p-error': !!errors.price })}>Price</label>
                     </span>
                     {getFormErrorMessage('price')}
+                </div>
+                <div className="field my-10">
+                    <span className="p-float-label">
+                        <Controller
+                            control={control}
+                            name="brand"
+                            rules={{ required: true }}
+                            render={({ field }
+                            ) => (
+                                <Dropdown filter showClear filterBy="name" className='w-full min-w-[250px] capitalize' id={field.name} value={field.value} onChange={(e) => field.onChange(e.value)} options={brands} optionLabel="name" optionValue="id" />
+                            )}
+                        />
+                        <label>Brand </label>
+                    </span>
+                    {getFormErrorMessage('brand')}
+                </div>
+
+                <div className="field my-10">
+                    <span className="p-float-label">
+                        <Controller
+                            control={control}
+                            name="model"
+                            rules={{ required: true}}
+                            render={({ field }
+                            ) => (
+                                <Dropdown filter showClear filterBy="name" className='w-full min-w-[250px] capitalize' id={field.name} value={field.value} onChange={(e) => field.onChange(e.value)} options={models} optionLabel="name" optionValue="id"/>
+                            )}
+                        />
+                        <label>Model</label>
+                    </span>
+                </div>
+                <div className="field my-10">
+                    <span className="p-float-label">
+                        <Controller
+                            control={control}
+                            name="typeVehicle"
+                            rules={{ required: true }}
+                            render={({ field }
+                            ) => {
+                                console.log(field.value.valueOf)
+                               return  <Dropdown filter showClear filterBy="name" className='w-full min-w-[250px] capitalize' id={field.name} value={field.value} onChange={(e) => field.onChange(e.value)} options={typeVehicles} optionLabel="name" optionValue="id" />
+                            }}
+                        />
+                        <label>Type Vehicle</label>
+                    </span>
                 </div>
 
                 <div className="flex gap-4 w-full justify-end ">

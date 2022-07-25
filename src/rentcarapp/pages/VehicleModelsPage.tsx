@@ -31,7 +31,7 @@ export const VehicleModelsPage = () => {
               {
                 data?.map(item=><CardVehicle 
                   key={item.id} 
-                  brand={item.modelVehicle.name}
+                  brand={item.brandVehicle.name}
                   model={item.modelVehicle.name}
                   price={item.price}
                   
