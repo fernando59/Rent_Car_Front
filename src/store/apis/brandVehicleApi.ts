@@ -1,16 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { IBrand } from '../../models/Brand';
+import { ResponseData } from '../../models/ResponseData';
 
 
 
 const BASE_URL = process.env.REACT_APP_API_URL
 
 
-interface ResponseData{
-    success:boolean
-    message:string
-    data?:[]
-}
 
 export const brandsVehicleApi = createApi({
     reducerPath: 'brandApi',
