@@ -5,6 +5,9 @@ import { InputNumber } from 'primereact/inputnumber';
 import { InputText } from "primereact/inputtext";
 import { FC } from "react";
 import { Controller, useForm } from 'react-hook-form';
+import { IBrand } from "../../../models/Brand";
+import { IModelVehicle } from "../../../models/ModelVehice";
+import { ITypeVehice } from "../../../models/TypeVehicle";
 import { IVehicleForm } from "../../../models/Vehicle";
 import { useGetBrandsQuery } from "../../../store/apis";
 import { useGetModelVehiclesQuery } from "../../../store/apis/modelVehicleApi";
@@ -19,7 +22,6 @@ interface Props {
 
 
 export const FormVehicles: FC<Props> = ({ onHandleSubmitSaveVehicle, defaultValues, closeModalUpdate }) => {
-    console.log(defaultValues)
     const { control, formState: { errors }, handleSubmit } = useForm({ defaultValues });
     //RTK Query
     const { data: models } = useGetModelVehiclesQuery()
@@ -83,12 +85,21 @@ export const FormVehicles: FC<Props> = ({ onHandleSubmitSaveVehicle, defaultValu
                     <span className="p-float-label">
                         <Controller
                             control={control}
-                            name="brand"
+                            name="brandVehicle"
                             rules={{ required: true }}
                             render={({ field }
-                            ) => (
-                                <Dropdown filter showClear filterBy="name" className='w-full min-w-[250px] capitalize' id={field.name} value={field.value} onChange={(e) => field.onChange(e.value)} options={brands} optionLabel="name" optionValue="id" />
-                            )}
+                            ) => {
+                                let value = 0
+                                if (typeof (field.value) == "number") {
+                                    value = field.value
+
+                                } else {
+                                    const data = field.value as unknown as IBrand
+                                    value = data.id
+
+                                }
+                                return <Dropdown filter showClear filterBy="name" className='w-full min-w-[250px] capitalize' id={field.name} value={value} onChange={(e) => field.onChange(e.value)} options={brands} optionLabel="name" optionValue="id" />
+                            }}
                         />
                         <label>Brand </label>
                     </span>
@@ -99,12 +110,21 @@ export const FormVehicles: FC<Props> = ({ onHandleSubmitSaveVehicle, defaultValu
                     <span className="p-float-label">
                         <Controller
                             control={control}
-                            name="model"
-                            rules={{ required: true}}
+                            name="modelVehicle"
+                            rules={{ required: true }}
                             render={({ field }
-                            ) => (
-                                <Dropdown filter showClear filterBy="name" className='w-full min-w-[250px] capitalize' id={field.name} value={field.value} onChange={(e) => field.onChange(e.value)} options={models} optionLabel="name" optionValue="id"/>
-                            )}
+                            ) => {
+                                let value = 0
+                                if (typeof (field.value) == "number") {
+                                    value = field.value
+
+                                } else {
+                                    const data = field.value as unknown as IModelVehicle
+                                    value = data.id
+
+                                }
+                                return <Dropdown filter showClear filterBy="name" className='w-full min-w-[250px] capitalize' id={field.name} value={value} onChange={(e) => field.onChange(e.value)} options={models} optionLabel="name" optionValue="id" />
+                            }}
                         />
                         <label>Model</label>
                     </span>
@@ -117,8 +137,16 @@ export const FormVehicles: FC<Props> = ({ onHandleSubmitSaveVehicle, defaultValu
                             rules={{ required: true }}
                             render={({ field }
                             ) => {
-                                console.log(field.value.valueOf)
-                               return  <Dropdown filter showClear filterBy="name" className='w-full min-w-[250px] capitalize' id={field.name} value={field.value} onChange={(e) => field.onChange(e.value)} options={typeVehicles} optionLabel="name" optionValue="id" />
+                                let value = 0
+                                if (typeof (field.value) == "number") {
+                                    value = field.value
+
+                                } else {
+                                    const data = field.value as unknown as ITypeVehice
+                                    value = data.id
+
+                                }
+                                return <Dropdown filter showClear filterBy="name" className='w-full min-w-[250px] capitalize' id={field.name} value={value} onChange={(e) => field.onChange(e.value)} options={typeVehicles} optionLabel="name" optionValue="id" />
                             }}
                         />
                         <label>Type Vehicle</label>

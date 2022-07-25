@@ -35,7 +35,7 @@ export const vehicleApi = createApi({
                 :
                 [{ type: 'Vehicles', id: 'LIST' }],
         }),
-        createVehicle: builder.mutation<ResponseData, Partial<IVehicle>>({
+        createVehicle: builder.mutation<ResponseData, Partial<IVehicleForm>>({
             query: (body: IVehicleForm) => {
                 return {
                     url: 'vehicle',
@@ -45,7 +45,7 @@ export const vehicleApi = createApi({
             }
             , invalidatesTags: [{ type: 'Vehicles', id: 'LIST' }],
         }),
-        updateVehicle: builder.mutation<ResponseData, Partial<IBrand>>({
+        updateVehicle: builder.mutation<ResponseData, Partial<IVehicleForm>>({
             query(data: IVehicleForm) {
                 const { id, ...body } = data
                 return {

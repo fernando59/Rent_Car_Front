@@ -7,7 +7,7 @@ import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
 import { useRef, useState } from 'react';
 import { useModal } from '../../../hooks/useModal';
-import { IVehicle, IVehicleForm } from '../../../models/Vehicle';
+import { IVehicleForm } from '../../../models/Vehicle';
 import { useCreateVehicleMutation, useDeleteVehicleMutation, useGetVehiclesQuery, useUpdateVehicleMutation } from '../../../store/apis/vehicleApi';
 import { ChipTable } from './ChipTable';
 import { FormVehicles } from './FormVehicles';
@@ -21,8 +21,8 @@ const vehicleDefaultValues: IVehicleForm = {
     price: undefined,
     state: 1,
     year: undefined,
-    brand: 0,
-    model: 0,
+    brandVehicle: 0,
+    modelVehicle: 0,
     typeVehicle: 0
 }
 
@@ -75,8 +75,8 @@ export const TableVehicles = () => {
     const openModalSave = () => {
         openModalStateSave()
     }
-    const openModalUpdateSave =(data:IVehicle)=>{
-        // setVehicle(data)
+    const openModalUpdateSave =(data:IVehicleForm)=>{
+        setVehicle(data)
         openModalStateSave()
     }
 
@@ -88,13 +88,21 @@ export const TableVehicles = () => {
 
 
     const onHandleSubmitSaveVehicle = async (data: IVehicleForm) => {
-        const res = await createVehicle(data).unwrap()
+        let res 
+        if(vehicle.id ===0){
+            res = await createVehicle(data).unwrap()
+        }else{
+            data.id =vehicle.id
+            res = await updateVehicle(data).unwrap()
+        }
+        
         const { success, message } = res
         if (success) {
             closeModalUpdate()
             toast.current.show({ severity: 'success', summary: 'Successful', detail: message, life: 3000 });
+        }else{
+            toast.current.show({ severity: 'error', summary: 'Error', detail: message, life: 3000 });
         }
-        console.log(res)
     }
     const closeModalDelete = () => {
         closeModalStateDelete()
@@ -122,7 +130,7 @@ export const TableVehicles = () => {
         </>
     );
 
-    const actionBodyTemplate = (rowData: IVehicle) => {
+    const actionBodyTemplate = (rowData: IVehicleForm) => {
         return (
             <div className='flex justify-end pr-10 gap-2'>
                 <Button icon="pi pi-eye" className="p-button-rounded p-button-secondary mr-2" onClick={() => { }} />
