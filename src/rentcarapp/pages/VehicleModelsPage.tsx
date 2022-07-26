@@ -3,6 +3,7 @@ import { Card } from 'primereact/card';
 import { Paginator } from 'primereact/paginator';
 import { useGetVehiclesQuery } from '../../store/apis/vehicleApi';
 import { CardVehicle } from '../components/CardVehicle';
+import { FormFilter } from '../components/FormFilter';
 import { Navbar } from '../components/Navbar';
 export const VehicleModelsPage = () => {
 
@@ -20,7 +21,7 @@ export const VehicleModelsPage = () => {
           <div className='grid__part_a'>
             <Card>
 
-              filter
+            <FormFilter/>
             </Card>
           </div>
 

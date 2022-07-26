@@ -52,8 +52,8 @@ ul {
 /* Grid Vehicleso.css */
 .gridPageVehicles {
   display: grid;
-  grid-template: "a b b"
-    "a b b";
+  grid-template: "a b b b"
+    "a b b b";
     gap: 10px;
 }
 
@@ -73,8 +73,8 @@ ul {
 
 @media screen and (max-width: 950px) {
   .gridPageVehicles {
-    grid-template: "a a a"
-      "b b b";
+    grid-template: "a a a a"
+      "b b b b";
   }
 
 
