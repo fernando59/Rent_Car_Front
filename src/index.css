@@ -68,6 +68,7 @@ ul {
 .grid__cards{
   display: grid;
   gap: 15px;
+  padding: 10px;
   grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
 }
 

@@ -3,9 +3,13 @@ import { Card } from 'primereact/card';
 import { Galleria } from 'primereact/galleria';
 import { Image } from 'primereact/image';
 import { useRef } from 'react';
+import { useParams } from 'react-router-dom';
 import { Navbar } from "../components/Navbar";
 
 export const VehicleDetailPage = () => {
+  let { id } = useParams();
+  console.log(id)
+
   const images = [
     { "itemImageSrc": "https://images.pexels.com/photos/164634/pexels-photo-164634.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", "thumbnailImageSrc": "https://images.pexels.com/photos/164634/pexels-photo-164634.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", "alt": "Description for Image 1", "title": "Title 1" },
     { "itemImageSrc": "https://images.pexels.com/photos/120049/pexels-photo-120049.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", "thumbnailImageSrc": "https://images.pexels.com/photos/120049/pexels-photo-120049.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", "alt": "Description for Image 2", "title": "Title 2" },

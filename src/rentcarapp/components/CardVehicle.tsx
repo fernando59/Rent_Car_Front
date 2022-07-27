@@ -6,11 +6,12 @@ import { Link } from 'react-router-dom';
 
 
 interface Props{
+    id:number
     price:number
     model:string
     brand:string
 }
-export const CardVehicle:FC<Props> = ({price,model,brand}) => {
+export const CardVehicle:FC<Props> = ({price,model,brand,id}) => {
     return (
         <>
 
@@ -29,7 +30,7 @@ export const CardVehicle:FC<Props> = ({price,model,brand}) => {
                         <p className=" font-semibold text-sm text-gray-400 "> Per Days  </p>
                     </div>
                 </div>
-                <Link to='/vehicleDetail'>
+                <Link to={`/vehicleDetail/${id}`}>
                     <Button label='Details' className='w-full ' />
                 </Link>
                 <br />

@@ -35,6 +35,24 @@ export const vehicleApi = createApi({
                 :
                 [{ type: 'Vehicles', id: 'LIST' }],
         }),
+        getVehiclesFilter: builder.query<IVehicle[], {page:number,quantity:number,brandId:number,modelId:number}>({
+            query: (args) => {
+                const {page,quantity,brandId,modelId} = args
+                return {
+                    url:'vehicle/getvehiclesfilter',
+                    params:{page,quantity,brandId,modelId}
+                }
+            },
+            transformResponse: (response: { data: IVehicle[] }, meta, arg) => response.data,
+            providesTags: (result) => result
+                ?
+                [
+                    ...result.map(({ id }) => ({ type: 'Vehicles', id } as const)),
+                    { type: 'Vehicles', id: 'LIST' },
+                ]
+                :
+                [{ type: 'Vehicles', id: 'LIST' }],
+        }),
         createVehicle: builder.mutation<ResponseData, Partial<IVehicleForm>>({
             query: (body: IVehicleForm) => {
                 return {
@@ -71,4 +89,4 @@ export const vehicleApi = createApi({
 })
 
 
-export const { useGetVehiclesQuery,useUpdateVehicleMutation, useCreateVehicleMutation,useDeleteVehicleMutation } = vehicleApi
+export const { useGetVehiclesQuery,useUpdateVehicleMutation, useCreateVehicleMutation,useDeleteVehicleMutation,useGetVehiclesFilterQuery } = vehicleApi

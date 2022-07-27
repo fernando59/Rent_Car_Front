@@ -1,14 +1,14 @@
 
 import { Card } from 'primereact/card';
 import { Paginator } from 'primereact/paginator';
-import { useGetVehiclesQuery } from '../../store/apis/vehicleApi';
+import { useGetVehiclesFilterQuery } from '../../store/apis/vehicleApi';
 import { CardVehicle } from '../components/CardVehicle';
 import { FormFilter } from '../components/FormFilter';
 import { Navbar } from '../components/Navbar';
 export const VehicleModelsPage = () => {
 
 
-  const {data}=useGetVehiclesQuery()
+  const {data }=useGetVehiclesFilterQuery({page:1,quantity:10,brandId:1,modelId:0})
   console.log(data)
   return (
     <>
@@ -32,6 +32,7 @@ export const VehicleModelsPage = () => {
               {
                 data?.map(item=><CardVehicle 
                   key={item.id} 
+                  id={item.id}
                   brand={item.brandVehicle.name}
                   model={item.modelVehicle.name}
                   price={item.price}
