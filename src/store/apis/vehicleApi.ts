@@ -15,7 +15,7 @@ interface IVehicle {
     plate: string
     hasAir: boolean
     modelVehicle: IModelVehicle
-    brandVehicle:IBrand
+    brandVehicle: IBrand
 
 }
 export const vehicleApi = createApi({
@@ -35,12 +35,16 @@ export const vehicleApi = createApi({
                 :
                 [{ type: 'Vehicles', id: 'LIST' }],
         }),
-        getVehiclesFilter: builder.query<IVehicle[], {page:number,quantity:number,brandId:number,modelId:number}>({
+        getVehicleById: builder.query<IVehicle, string>({
+            query: (id:string) => `vehicle/${id}`,
+            transformResponse: (response: { data: IVehicle[] }, meta, arg) => response.data[0],
+        }),
+        getVehiclesFilter: builder.query<IVehicle[], { page: number, quantity: number, brandId: number, modelId: number, typeVehicleId: number }>({
             query: (args) => {
-                const {page,quantity,brandId,modelId} = args
+                const { page, quantity, brandId, modelId, typeVehicleId } = args
                 return {
-                    url:'vehicle/getvehiclesfilter',
-                    params:{page,quantity,brandId,modelId}
+                    url: 'vehicle/getvehiclesfilter',
+                    params: { page, quantity, brandId, modelId, typeVehicleId }
                 }
             },
             transformResponse: (response: { data: IVehicle[] }, meta, arg) => response.data,
@@ -89,4 +93,10 @@ export const vehicleApi = createApi({
 })
 
 
-export const { useGetVehiclesQuery,useUpdateVehicleMutation, useCreateVehicleMutation,useDeleteVehicleMutation,useGetVehiclesFilterQuery } = vehicleApi
+export const { 
+      useGetVehiclesQuery
+    , useUpdateVehicleMutation
+    , useCreateVehicleMutation
+    , useDeleteVehicleMutation
+    , useGetVehiclesFilterQuery
+    , useGetVehicleByIdQuery } = vehicleApi

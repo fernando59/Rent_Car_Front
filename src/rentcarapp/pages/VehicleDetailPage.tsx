@@ -1,14 +1,23 @@
+import { skipToken } from '@reduxjs/toolkit/dist/query';
 import { Button } from 'primereact/button';
 import { Card } from 'primereact/card';
 import { Galleria } from 'primereact/galleria';
 import { Image } from 'primereact/image';
 import { useRef } from 'react';
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
+import { useGetVehicleByIdQuery } from '../../store/apis/vehicleApi';
 import { Navbar } from "../components/Navbar";
 
+type Params = {
+  id: string
+
+}
 export const VehicleDetailPage = () => {
-  let { id } = useParams();
-  console.log(id)
+  let { id } = useParams<Params>();
+
+  const { data:vehicle,isSuccess } = useGetVehicleByIdQuery(id ===undefined?skipToken:id)
+  
+  console.log(vehicle)
 
   const images = [
     { "itemImageSrc": "https://images.pexels.com/photos/164634/pexels-photo-164634.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", "thumbnailImageSrc": "https://images.pexels.com/photos/164634/pexels-photo-164634.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", "alt": "Description for Image 1", "title": "Title 1" },
@@ -43,8 +52,13 @@ export const VehicleDetailPage = () => {
     // return <Image src={item.thumbnailImageSrc} preview alt="Image Text" style={{ width: '100%',height:400,objectFit:'cover' }} />
   }
 
+
+
   return (
     <>
+    {
+      !isSuccess && <Navigate to="/vehicleModel" />
+    }
       <Navbar />
 
       <div className="mx-auto container">
@@ -63,7 +77,7 @@ export const VehicleDetailPage = () => {
               <div className='py-4 flex flex-col'>
                 <div className='flex justify-between py-2'>
                   <span className='font-bold'>Price by Day</span>
-                  <span>10$</span>
+                  <span>{vehicle?.price} $</span>
                 </div>
                 <div className='flex justify-between py-2'>
                   <span className='font-bold'>Others</span>

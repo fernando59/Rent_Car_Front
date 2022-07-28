@@ -1,6 +1,7 @@
 
 import { Card } from 'primereact/card';
 import { Paginator } from 'primereact/paginator';
+import { useState } from 'react';
 import { useGetVehiclesFilterQuery } from '../../store/apis/vehicleApi';
 import { CardVehicle } from '../components/CardVehicle';
 import { FormFilter } from '../components/FormFilter';
@@ -8,7 +9,29 @@ import { Navbar } from '../components/Navbar';
 export const VehicleModelsPage = () => {
 
 
-  const {data }=useGetVehiclesFilterQuery({page:1,quantity:10,brandId:1,modelId:0})
+  const [state, setState] = useState({
+    brandId: 0,
+    modelId: 0,
+    typeVehicleId: 0
+  })
+  const { data } = useGetVehiclesFilterQuery({ page: 1, quantity: 10, brandId: state.brandId, modelId: state.modelId, typeVehicleId: state.typeVehicleId })
+  const onChangeBrand = (e: any) => {
+    const value = e.target.value
+    setState({ ...state, brandId: value })
+
+  }
+
+  const onChangeModel = (e: any) => {
+    const value = e.target.value
+    setState({ ...state, modelId: value })
+
+  }
+
+  const onChangeTypeVehicle = (e: any) => {
+    const value = e.target.value
+    setState({ ...state, typeVehicleId: value })
+
+  }
   console.log(data)
   return (
     <>
@@ -21,7 +44,12 @@ export const VehicleModelsPage = () => {
           <div className='grid__part_a'>
             <Card>
 
-            <FormFilter/>
+              <FormFilter
+                state={state}
+                onChangeBrand={onChangeBrand}
+                onChangeModel={onChangeModel}
+                onChangeTypeVehicle={onChangeTypeVehicle}
+              />
             </Card>
           </div>
 
@@ -30,14 +58,14 @@ export const VehicleModelsPage = () => {
 
             <div className='grid__cards'>
               {
-                data?.map(item=><CardVehicle 
-                  key={item.id} 
+                data?.map(item => <CardVehicle
+                  key={item.id}
                   id={item.id}
                   brand={item.brandVehicle.name}
                   model={item.modelVehicle.name}
                   price={item.price}
-                  
-                  />)
+
+                />)
               }
 
             </div>
