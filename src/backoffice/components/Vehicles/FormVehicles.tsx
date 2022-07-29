@@ -6,7 +6,7 @@ import { InputText } from "primereact/inputtext";
 import { FC } from "react";
 import { Controller, useForm } from 'react-hook-form';
 import { IBrand } from "../../../models/Brand";
-import { IModelVehicle } from "../../../models/ModelVehice";
+import { IModelVehicle } from "../../../models/ModelVehicle";
 import { ITypeVehice } from "../../../models/TypeVehicle";
 import { IVehicleForm } from "../../../models/Vehicle";
 import { useGetBrandsQuery } from "../../../store/apis";

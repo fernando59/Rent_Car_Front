@@ -4,7 +4,6 @@ import { FC } from 'react';
 import { Link } from 'react-router-dom';
 
 
-
 interface Props{
     id:number
     price:number
@@ -12,6 +11,7 @@ interface Props{
     brand:string
 }
 export const CardVehicle:FC<Props> = ({price,model,brand,id}) => {
+
     return (
         <>
 

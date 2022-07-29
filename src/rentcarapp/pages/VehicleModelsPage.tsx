@@ -2,9 +2,8 @@
 import { Card } from 'primereact/card';
 import { Paginator } from 'primereact/paginator';
 import { useState } from 'react';
-import { useGetVehiclesFilterQuery } from '../../store/apis/vehicleApi';
-import { CardVehicle } from '../components/CardVehicle';
 import { FormFilter } from '../components/FormFilter';
+import { ListCardVehicle } from '../components/ListCardVehicle';
 import { Navbar } from '../components/Navbar';
 export const VehicleModelsPage = () => {
 
@@ -14,7 +13,6 @@ export const VehicleModelsPage = () => {
     modelId: 0,
     typeVehicleId: 0
   })
-  const { data } = useGetVehiclesFilterQuery({ page: 1, quantity: 10, brandId: state.brandId, modelId: state.modelId, typeVehicleId: state.typeVehicleId })
   const onChangeBrand = (e: any) => {
     const value = e.target.value
     setState({ ...state, brandId: value })
@@ -32,7 +30,6 @@ export const VehicleModelsPage = () => {
     setState({ ...state, typeVehicleId: value })
 
   }
-  console.log(data)
   return (
     <>
 
@@ -57,16 +54,8 @@ export const VehicleModelsPage = () => {
           <div className='grid__part_b'>
 
             <div className='grid__cards'>
-              {
-                data?.map(item => <CardVehicle
-                  key={item.id}
-                  id={item.id}
-                  brand={item.brandVehicle.name}
-                  model={item.modelVehicle.name}
-                  price={item.price}
 
-                />)
-              }
+              <ListCardVehicle brandId={state.brandId} modelId={state.modelId} typeVehicleId={state.typeVehicleId} />
 
             </div>
             <Paginator first={0} rows={10} onPageChange={() => { }}></Paginator>

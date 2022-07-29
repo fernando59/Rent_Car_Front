@@ -15,18 +15,11 @@ type Params = {
 export const VehicleDetailPage = () => {
   let { id } = useParams<Params>();
 
-  const { data:vehicle,isSuccess } = useGetVehicleByIdQuery(id ===undefined?skipToken:id)
+  const { data:vehicle,isSuccess,isLoading } = useGetVehicleByIdQuery(id ===undefined?skipToken:id)
   
   console.log(vehicle)
 
-  const images = [
-    { "itemImageSrc": "https://images.pexels.com/photos/164634/pexels-photo-164634.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", "thumbnailImageSrc": "https://images.pexels.com/photos/164634/pexels-photo-164634.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", "alt": "Description for Image 1", "title": "Title 1" },
-    { "itemImageSrc": "https://images.pexels.com/photos/120049/pexels-photo-120049.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", "thumbnailImageSrc": "https://images.pexels.com/photos/120049/pexels-photo-120049.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", "alt": "Description for Image 2", "title": "Title 2" },
-    { "itemImageSrc": "https://images.pexels.com/photos/337909/pexels-photo-337909.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", "thumbnailImageSrc": "https://images.pexels.com/photos/337909/pexels-photo-337909.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", "alt": "Description for Image 3", "title": "Title 3" },
-    { "itemImageSrc": "https://images.pexels.com/photos/70912/pexels-photo-70912.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", "thumbnailImageSrc": "https://images.pexels.com/photos/70912/pexels-photo-70912.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", "alt": "Description for Image 4", "title": "Title 4" },
 
-
-  ]
 
   const galleria1 = useRef<any>(null);
   const responsiveOptions = [
@@ -44,14 +37,13 @@ export const VehicleDetailPage = () => {
     }
   ];
   const itemTemplate = (item: any) => {
-    return <Image src={item.itemImageSrc} preview alt="Image Text" style={{ width: '100%', height: 450, objectFit: 'cover' }} />
+  return <Image src={ `https://res.cloudinary.com/testapicloudinaryfernando/image/upload/${item.path}`} height="200px" preview alt="Image Text" width='200px' />
   }
 
   const thumbnailTemplate = (item: any) => {
-    return <img src={`${item.thumbnailImageSrc}`} onError={(e: any) => e.target.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} alt={item.alt} />
+    return <img src={ `https://res.cloudinary.com/testapicloudinaryfernando/image/upload/${item.path}`} onError={(e: any) => e.target.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} style={{height:'150px',objectFit:'cover',width:"150px"}} alt={item.alt} />
     // return <Image src={item.thumbnailImageSrc} preview alt="Image Text" style={{ width: '100%',height:400,objectFit:'cover' }} />
   }
-
 
 
   return (
@@ -67,7 +59,7 @@ export const VehicleDetailPage = () => {
 
           <div className='rounded-md'>
 
-            <Galleria ref={galleria1} value={images} responsiveOptions={responsiveOptions} numVisible={3} style={{ maxWidth: '640px' }}
+            <Galleria ref={galleria1} value={vehicle?.photosVehicles} responsiveOptions={responsiveOptions} numVisible={3} style={{ maxWidth: '640px' }}
               item={itemTemplate} thumbnail={thumbnailTemplate} />
           </div>
           <div>

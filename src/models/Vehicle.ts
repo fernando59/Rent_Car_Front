@@ -1,5 +1,5 @@
 import { IBrand } from "./Brand"
-import { IModelVehicle } from "./ModelVehice"
+import { IModelVehicle } from "./ModelVehicle"
 import { ITypeVehice } from "./TypeVehicle"
 
 

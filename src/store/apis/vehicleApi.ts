@@ -1,10 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { IModelVehicle, IPhotosVehicle, IVehicleForm, ResponseData } from '../../models';
 import { IBrand } from '../../models/Brand';
-import { IModelVehicle } from '../../models/ModelVehice';
-import { ResponseData } from '../../models/ResponseData';
-import { IVehicleForm } from '../../models/Vehicle';
-
-
 
 const BASE_URL = process.env.REACT_APP_API_URL
 
@@ -16,6 +12,7 @@ interface IVehicle {
     hasAir: boolean
     modelVehicle: IModelVehicle
     brandVehicle: IBrand
+    photosVehicles:IPhotosVehicle[]
 
 }
 export const vehicleApi = createApi({
