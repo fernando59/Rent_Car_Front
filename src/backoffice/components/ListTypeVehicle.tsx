@@ -13,7 +13,7 @@ export const ListTypeVehicle = () => {
             const res = await fetch(`https://localhost:7077/api/typevehicle`)
             const data = await res.json()
             console.log(data)
-            setProducts(data)
+            setProducts(data.data)
         }catch(e){
 
         }

@@ -2,11 +2,11 @@ import { Button } from 'primereact/button';
 import { Calendar } from 'primereact/calendar';
 import { Dropdown } from 'primereact/dropdown';
 import { Controller, useForm } from 'react-hook-form';
+import { useNavigate } from "react-router-dom";
 import { useGetBrandsQuery } from '../../store/apis';
 
-
 export const Reservation = () => {
-    
+    const navigate = useNavigate();
     const {  handleSubmit,  formState: { errors }, control } = useForm({
         defaultValues: {
             brand: null,
@@ -14,10 +14,13 @@ export const Reservation = () => {
             endDate:undefined,
         }
     });
+    //const {data:vehicles} = useGetVehiclesFilterQuery({brandId:get,modelId:0,page:1,quantity:10,typeVehicleId:0})
     const {data} = useGetBrandsQuery()
 
-    const onHandleSubmit = (data: any) => {
-        console.log(data)
+    const onHandleSubmit =(data: any) => {
+        // console.log(vehicles)
+        //searchBrandVehicle(data)
+        navigate("/vehicleModel", { replace: true });
     }
     return <>
 

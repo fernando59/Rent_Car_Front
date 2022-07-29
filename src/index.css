@@ -54,7 +54,7 @@ ul {
   display: grid;
   grid-template: "a b b b"
     "a b b b";
-    gap: 10px;
+  gap: 10px;
 }
 
 
@@ -65,11 +65,12 @@ ul {
 .grid__part_b {
   grid-area: b;
 }
-.grid__cards{
+
+.grid__cards {
   display: grid;
   gap: 15px;
   padding: 10px;
-  grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 400px));
 }
 
 @media screen and (max-width: 950px) {

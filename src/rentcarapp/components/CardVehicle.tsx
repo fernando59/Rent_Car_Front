@@ -9,8 +9,9 @@ interface Props{
     price:number
     model:string
     brand:string
+    year:number
 }
-export const CardVehicle:FC<Props> = ({price,model,brand,id}) => {
+export const CardVehicle:FC<Props> = ({price,model,brand,id,year}) => {
 
     return (
         <>
@@ -21,7 +22,7 @@ export const CardVehicle:FC<Props> = ({price,model,brand,id}) => {
 
                     <div className='flex justify-between items-center py-2 '>
 
-                        <span className='font-bold text-3xl '>{model} {brand} </span>
+                        <span className='font-bold text-3xl '>{model} {brand} {year} </span>
                         <p className=" font-bold text-3xl "> {price} $  </p>
                     </div>
                     <div className='flex justify-between items-center '>

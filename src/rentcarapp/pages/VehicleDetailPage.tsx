@@ -15,7 +15,7 @@ type Params = {
 export const VehicleDetailPage = () => {
   let { id } = useParams<Params>();
 
-  const { data:vehicle,isSuccess,isLoading } = useGetVehicleByIdQuery(id ===undefined?skipToken:id)
+  const { data:vehicle,isSuccess,isLoading,isError } = useGetVehicleByIdQuery(id ===undefined?skipToken:id)
   
   console.log(vehicle)
 
@@ -49,7 +49,7 @@ export const VehicleDetailPage = () => {
   return (
     <>
     {
-      !isSuccess && <Navigate to="/vehicleModel" />
+      isError && <Navigate to="/vehicleModel" />
     }
       <Navbar />
 
@@ -70,6 +70,10 @@ export const VehicleDetailPage = () => {
                 <div className='flex justify-between py-2'>
                   <span className='font-bold'>Price by Day</span>
                   <span>{vehicle?.price} $</span>
+                </div>
+                <div className='flex justify-between py-2'>
+                  <span className='font-bold'>N° Days</span>
+                  <span>5</span>
                 </div>
                 <div className='flex justify-between py-2'>
                   <span className='font-bold'>Others</span>

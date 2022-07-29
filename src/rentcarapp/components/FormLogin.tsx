@@ -24,8 +24,8 @@ export const FormLogin = () => {
     };
 
     const onHandleSubmit = async (data: any) => {
-        await login(data)
-        console.log(result)
+        const res =await login(data).unwrap()
+        console.log(res)
 
     }
     return (

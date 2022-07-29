@@ -9,6 +9,7 @@ interface IVehicle {
     price: number
     state: number
     plate: string
+    year:number
     hasAir: boolean
     modelVehicle: IModelVehicle
     brandVehicle: IBrand

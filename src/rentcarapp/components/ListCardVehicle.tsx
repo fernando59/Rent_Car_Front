@@ -32,6 +32,7 @@ export const ListCardVehicle: FC<Props> = ({ brandId, modelId, typeVehicleId }) 
                 data?.map(item => <CardVehicle
                     key={item.id}
                     id={item.id}
+                    year={item.year}
                     brand={item.brandVehicle.name}
                     model={item.modelVehicle.name}
                     price={item.price}
