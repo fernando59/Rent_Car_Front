@@ -30,6 +30,9 @@ export const brandsVehicleApi = createApi({
                 return {
                     url: 'brandVehicle',
                     method: 'POST',
+                    headers:{
+                        'Authorization':localStorage.getItem('token')!
+                    },
                     body
                 }
             }

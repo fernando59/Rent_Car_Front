@@ -35,7 +35,7 @@ export const VehicleModelsPage = () => {
 
       <Navbar />
 
-      <div className='mx-auto container'>
+      <div className='mx-auto container px-6'>
         <h1 className='py-10 font-bold text-5xl'>Vehicle Models</h1>
         <div className='gridPageVehicles'>
           <div className='grid__part_a'>

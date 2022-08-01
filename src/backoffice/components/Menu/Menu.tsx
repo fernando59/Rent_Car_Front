@@ -24,7 +24,7 @@ const SubMenu: FC<PropsSubMenu> = ({ items, root, onMenuItemClick, className }) 
         return (
             <>
                 <i className={item.icon}></i>
-                <span className='pl-2 py-3'>{item.label}</span>
+                <span className='pl-2 py-8'>{item.label}</span>
                 {submenuIcon}
                 {badge}
                 <Ripple />

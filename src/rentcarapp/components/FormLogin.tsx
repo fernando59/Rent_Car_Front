@@ -3,9 +3,11 @@ import { InputText } from 'primereact/inputtext';
 import { Password } from 'primereact/password';
 import { classNames } from 'primereact/utils';
 import { Controller, useForm } from "react-hook-form";
+import { useDispatch } from 'react-redux';
 import { useLoginMutation } from '../../store/apis/authApi';
+import { checkingCredentials } from '../../store/slices';
 export const FormLogin = () => {
-
+    const dispatch = useDispatch();
     const [login,result] = useLoginMutation()
     interface ILogin {
         email: string
@@ -26,6 +28,11 @@ export const FormLogin = () => {
     const onHandleSubmit = async (data: any) => {
         const res =await login(data).unwrap()
         console.log(res)
+        if(res.token){
+
+            dispatch(checkingCredentials(res.token))
+
+        }
 
     }
     return (

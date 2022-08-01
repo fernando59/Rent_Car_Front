@@ -11,8 +11,6 @@ export const ListCardVehicle: FC<Props> = ({ brandId, modelId, typeVehicleId }) 
 
     const { data, isLoading,isFetching } = useGetVehiclesFilterQuery({ page: 1, quantity: 10, brandId: brandId, modelId: modelId, typeVehicleId: typeVehicleId })
 
-    console.log(isLoading)
-    console.log(isFetching)
     if(isLoading) return <>
         <Skeleton width="10rem" height='10rem'></Skeleton>
         <Skeleton width="10rem" height='10rem'></Skeleton>
@@ -36,6 +34,8 @@ export const ListCardVehicle: FC<Props> = ({ brandId, modelId, typeVehicleId }) 
                     brand={item.brandVehicle.name}
                     model={item.modelVehicle.name}
                     price={item.price}
+                    capacity={item.capacity}
+                    hasAir={item.hasAir}
 
                 />)
             }

@@ -11,6 +11,7 @@ interface IVehicle {
     plate: string
     year:number
     hasAir: boolean
+    capacity:number
     modelVehicle: IModelVehicle
     brandVehicle: IBrand
     photosVehicles:IPhotosVehicle[]

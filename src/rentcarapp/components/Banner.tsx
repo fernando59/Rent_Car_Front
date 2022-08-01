@@ -1,5 +1,11 @@
 import { Button } from 'primereact/button';
+import { useNavigate } from 'react-router-dom';
 export const Banner = () => {
+    const navigation = useNavigate()
+    const onRentNow =()=>{
+        navigation('/vehicleModel')
+
+    }
     return (
         <>
             <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 w-full">
@@ -12,7 +18,7 @@ export const Banner = () => {
                         <div className='flex w-full justify-center items-center md:justify-start gap-1 py-6'>
 
                         <Button label="Learn More" type="button" className="p-button-raised" />
-                        <Button label="Rent Now" type="button" className="p-button-outlined" />
+                        <Button label="Rent Now" type="button" className="p-button-outlined" onClick={onRentNow} />
                         </div>
                     </section>
                 </div>

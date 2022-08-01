@@ -40,20 +40,21 @@ export const Navbar = () => {
                             <span>Home</span>
                         </Link>
                         </li>
-
+{/* 
                         <li className="hover:text-purple-600 px-4"> <Link to='/vehicleModel'>
                             <span>Vehicle Models</span>
                         </Link>
-                        </li>
+                        </li> */}
                         <li className="hover:text-purple-600 px-4">
                         <Link to='/vehicleDetail'> 
                             <span>Contact</span>
                             </Link>
                             </li>
                      
-                        <li className="hover:text-purple-600 px-4"> <Link to='/'>
+                        <li className="hover:text-purple-600 px-4"> 
+                        <a href='#contact'>
                             <span>About Us</span>
-                        </Link>
+                        </a>
                         </li>
                     </ul>
                     <div className="flex gap-2">
@@ -63,12 +64,12 @@ export const Navbar = () => {
                 </div>
             </header>
 
-            <Dialog visible={modalLogin} onHide={closeModalLogin} breakpoints={{ '960px': '75vw', '640px': '100vw' }} style={{ width: '50vw' }} >
+            <Dialog visible={modalLogin} onHide={closeModalLogin} breakpoints={{ '960px': '25vw', '640px': '100vw' }} style={{ width: '30vw' }} >
                 <h1 className="text-center font-bold text-4xl">Login</h1>
                 <FormLogin />
             </Dialog>
 
-            <Dialog visible={modalRegister} onHide={closeModalRegister} breakpoints={{ '960px': '75vw', '640px': '100vw' }} style={{ width: '50vw' }} >
+            <Dialog visible={modalRegister} onHide={closeModalRegister} breakpoints={{ '960px': '75vw', '640px': '100vw' }} style={{ width: '30vw' }} >
                 <h1 className="text-center font-bold text-4xl">Register</h1>
                 <FormRegister />
             </Dialog>

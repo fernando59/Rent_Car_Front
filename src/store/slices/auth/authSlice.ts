@@ -8,13 +8,15 @@ export interface AuthState {
     status: string
     user:IUser | {}
     errorMessage: string | null
+    token:string |null
 
 }
 
 const initialState: AuthState = {
     status: 'cheking',
     errorMessage: null,
-    user:{}
+    user:{},
+    token:null
 
 
 }
@@ -39,11 +41,16 @@ export const authSlice = createSlice({
             // state.photoURL = null;
             // state.errorMessage = payload?.errorMessage;
         },
-        checkingCredentials: (state) => {
-            // state.status = 'checking';
-        }
+        checkingCredentials: (state,{payload}) => {
+            if(localStorage.getItem('token')){
+                state.user ={'name':'ff'}
+                state.token = payload
+            }else{
+                localStorage.setItem('token',payload)
+            }
+        },
     }
 })
 
 // Action creators are generated for each case reducer function
-export const { } = authSlice.actions
+export const {checkingCredentials } = authSlice.actions
