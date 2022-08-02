@@ -48,6 +48,8 @@ export const TableBrand = () => {
         closeModalState: closeModalStateSave,
         modalState: modalUpdate
     } = useModal()
+
+    
     const toast = useRef<any>(null);
 
 
@@ -144,6 +146,7 @@ export const TableBrand = () => {
 
     }
     const openModalSave = () => {
+        setBrand(defaultBrand)
         openModalStateSave()
     }
 
