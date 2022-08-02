@@ -72,9 +72,9 @@ ul {
 
 .grid__cards {
   display: grid;
-  gap: 15px;
+  gap: 25px;
   padding: 10px;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 400px));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 300px));
 }
 
 @media screen and (max-width: 950px) {

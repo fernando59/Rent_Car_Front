@@ -38,6 +38,10 @@ export const vehicleApi = createApi({
             query: (id:string) => `vehicle/${id}`,
             transformResponse: (response: { data: IVehicle[] }, meta, arg) => response.data[0],
         }),
+        getVehiclePrice: builder.query<any, void>({
+            query: () => `vehicle/getPricesRange`,
+            transformResponse: (response: { data: number[] }, meta, arg) => response.data,
+        }),
         getVehiclesFilter: builder.query<IVehicle[], { page: number, quantity: number, brandId: number, modelId: number, typeVehicleId: number }>({
             query: (args) => {
                 const { page, quantity, brandId, modelId, typeVehicleId } = args
@@ -98,4 +102,5 @@ export const {
     , useCreateVehicleMutation
     , useDeleteVehicleMutation
     , useGetVehiclesFilterQuery
+    , useGetVehiclePriceQuery
     , useGetVehicleByIdQuery } = vehicleApi

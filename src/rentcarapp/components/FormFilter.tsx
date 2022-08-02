@@ -9,15 +9,15 @@ interface Props {
     onChangeBrand: (e: any) => void
     onChangeModel: (e: any) => void
     onChangeTypeVehicle: (e: any) => void
+    onChangePrice: (e: any) => void
     state: any
 }
-export const FormFilter: FC<Props> = ({ onChangeBrand, onChangeModel, onChangeTypeVehicle, state }) => {
+export const FormFilter: FC<Props> = ({ onChangeBrand, onChangeModel, onChangeTypeVehicle, onChangePrice, state }) => {
 
     //RTK Query
     const { data: models } = useGetModelVehiclesQuery()
     const { data: typeVehicles } = useGetTypeVehiclesQuery()
     const { data: brands } = useGetBrandsQuery()
-
 
 
 
@@ -45,11 +45,11 @@ export const FormFilter: FC<Props> = ({ onChangeBrand, onChangeModel, onChangeTy
                     <label>Type Vehicle</label>
                 </span>
             </div>
-            <div className="field my-10">
-                <label className="py-3">Range Price</label>
-                    <Slider />
+              <div className="field my-10">
+                    <label className="py-2">Range Price {state.price[0]} - {state.price[1]} </label>
+                    <Slider value={state.price} onChange={onChangePrice}  range />
 
-            </div>
+                </div>
 
 
         </>

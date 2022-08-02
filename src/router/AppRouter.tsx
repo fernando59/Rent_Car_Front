@@ -47,6 +47,9 @@ export const AppRouter = () => {
                 <Route path="history" element={<HistoryPage/>} />
 
             </Route>
+
+
+            
             {/* ROUTE BACKOFFICE */}
             <Route path="/backoffice/*" element={ <Suspense fallback={<h1>Loading ...</h1>}> <IndexBackOfficePage /> </Suspense>} >
                 <Route path="" element={<DashBoardPage />} />

@@ -2,13 +2,20 @@ import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { Password } from 'primereact/password';
 import { classNames } from 'primereact/utils';
+import { FC } from 'react';
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch } from 'react-redux';
 import { useLoginMutation } from '../../store/apis/authApi';
 import { checkingCredentials } from '../../store/slices';
-export const FormLogin = () => {
+
+
+interface Props{
+    closeModal:()=>void
+}
+export const FormLogin:FC<Props> = ({closeModal}) => {
     const dispatch = useDispatch();
-    const [login,result] = useLoginMutation()
+    const [login, result] = useLoginMutation()
+
     interface ILogin {
         email: string
         password: string
@@ -26,18 +33,17 @@ export const FormLogin = () => {
     };
 
     const onHandleSubmit = async (data: any) => {
-        const res =await login(data).unwrap()
-        console.log(res)
-        if(res.token){
+        const res = await login(data).unwrap()
+        if (res.token) {
 
             dispatch(checkingCredentials(res.token))
-
+            closeModal()
         }
 
     }
     return (
         <>
-            <form onSubmit={handleSubmit(onHandleSubmit)} autoComplete='off' className="p-fluid">
+            <form onSubmit={handleSubmit(onHandleSubmit)} autoComplete='off' className="p-fluid w-full">
 
 
                 <div className="field my-10">

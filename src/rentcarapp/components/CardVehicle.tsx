@@ -30,7 +30,7 @@ export const CardVehicle: FC<Props> = ({ price, model, brand, id, year,capacity,
                     <div className='flex justify-between items-start'>
 
                         <span className='font-bold text-1xl px-3'></span>
-                        <p className=" font-semibold text-sm text-gray-400 px-3"> Per Days  </p>
+                        <p className=" font-semibold text-sm text-gray-400 px-3"> Per Day  </p>
                     </div>
                     <div className='flex justify-between items-center '>
 

@@ -1,10 +1,13 @@
 import { Button } from "primereact/button";
 import { Dialog } from 'primereact/dialog';
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useModal } from "../../hooks/useModal";
 import { FormLogin } from "./FormLogin";
 import { FormRegister } from "./FormRegister";
 export const Navbar = () => {
+
+    const { user, token } = useSelector((state: any) => state.auth)
 
     const {
         closeModalState: closeModalRegisterState,
@@ -40,33 +43,36 @@ export const Navbar = () => {
                             <span>Home</span>
                         </Link>
                         </li>
-{/* 
+                        {/* 
                         <li className="hover:text-purple-600 px-4"> <Link to='/vehicleModel'>
                             <span>Vehicle Models</span>
                         </Link>
                         </li> */}
                         <li className="hover:text-purple-600 px-4">
-                        <Link to='/vehicleDetail'> 
-                            <span>Contact</span>
+                            <Link to='/vehicleDetail'>
+                                <span>Contact</span>
                             </Link>
-                            </li>
-                     
-                        <li className="hover:text-purple-600 px-4"> 
-                        <a href='#contact'>
-                            <span>About Us</span>
-                        </a>
+                        </li>
+
+                        <li className="hover:text-purple-600 px-4">
+                            <a href='#contact'>
+                                <span>About Us</span>
+                            </a>
                         </li>
                     </ul>
-                    <div className="flex gap-2">
-                        <Button label="Login" onClick={openModalLogin} />
-                        <Button label="Register" onClick={openModalRegister} className="p-button-outlined" />
-                    </div>
+                    {
+                        token === null && <div className="flex gap-2">
+                            <Button label="Login" onClick={openModalLogin} />
+                            <Button label="Register" onClick={openModalRegister} className="p-button-outlined" />
+
+                        </div>
+                    }
                 </div>
             </header>
 
             <Dialog visible={modalLogin} onHide={closeModalLogin} breakpoints={{ '960px': '25vw', '640px': '100vw' }} style={{ width: '30vw' }} >
                 <h1 className="text-center font-bold text-4xl">Login</h1>
-                <FormLogin />
+                <FormLogin closeModal={closeModalLogin} />
             </Dialog>
 
             <Dialog visible={modalRegister} onHide={closeModalRegister} breakpoints={{ '960px': '75vw', '640px': '100vw' }} style={{ width: '30vw' }} >

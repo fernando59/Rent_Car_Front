@@ -1,23 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit"
 
 interface Values {
-    valueSearch:any
+    valueSearch: any
 }
 
-const initialState:Values ={
-    valueSearch:{}
+const initialState: Values = {
+    valueSearch: null
 }
 export const vehicleSlice = createSlice({
     name: 'vehicle',
     initialState,
     reducers: {
         searchBrandVehicle: (state, { payload }) => {
-            console.log(payload)
+            const data = JSON.stringify(payload)
             state.valueSearch = payload
-            
+            localStorage.setItem('searchVehicle', data)
         }
-    
-    
+
+
     }
 
 
