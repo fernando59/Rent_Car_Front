@@ -1,6 +1,6 @@
 import { IBrand } from "./Brand"
 import { IModelVehicle } from "./ModelVehicle"
-import { ITypeVehice } from "./TypeVehicle"
+import { ITypeVehicle } from "./TypeVehicle"
 
 
 export interface IVehicleForm{
@@ -26,5 +26,5 @@ export interface IVehicle{
     hasAir:boolean | null
     modelVehicle:IModelVehicle
     brandVehicle:IBrand
-    typeVehicle:ITypeVehice
+    typeVehicle:ITypeVehicle
 }

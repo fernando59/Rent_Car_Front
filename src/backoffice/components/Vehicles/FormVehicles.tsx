@@ -5,9 +5,9 @@ import { InputNumber } from 'primereact/inputnumber';
 import { InputText } from "primereact/inputtext";
 import { FC } from "react";
 import { Controller, useForm } from 'react-hook-form';
+import { ITypeVehicle } from "../../../models";
 import { IBrand } from "../../../models/Brand";
 import { IModelVehicle } from "../../../models/ModelVehicle";
-import { ITypeVehice } from "../../../models/TypeVehicle";
 import { IVehicleForm } from "../../../models/Vehicle";
 import { useGetBrandsQuery } from "../../../store/apis";
 import { useGetModelVehiclesQuery } from "../../../store/apis/modelVehicleApi";
@@ -142,7 +142,7 @@ export const FormVehicles: FC<Props> = ({ onHandleSubmitSaveVehicle, defaultValu
                                     value = field.value
 
                                 } else {
-                                    const data = field.value as unknown as ITypeVehice
+                                    const data = field.value as unknown as ITypeVehicle
                                     value = data.id
 
                                 }
