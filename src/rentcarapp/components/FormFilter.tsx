@@ -1,5 +1,4 @@
 import { Dropdown } from "primereact/dropdown";
-import { Slider } from 'primereact/slider';
 import { FC } from "react";
 import { useGetBrandsQuery } from "../../store/apis";
 import { useGetModelVehiclesQuery } from "../../store/apis/modelVehicleApi";
@@ -18,7 +17,7 @@ export const FormFilter: FC<Props> = ({ onChangeBrand, onChangeModel, onChangeTy
     const { data: models } = useGetModelVehiclesQuery()
     const { data: typeVehicles } = useGetTypeVehiclesQuery()
     const { data: brands } = useGetBrandsQuery()
-
+    // const { data: prices=[0,100] } = useGetVehiclePriceQuery()
 
 
 
@@ -45,11 +44,11 @@ export const FormFilter: FC<Props> = ({ onChangeBrand, onChangeModel, onChangeTy
                     <label>Type Vehicle</label>
                 </span>
             </div>
-              <div className="field my-10">
-                    <label className="py-2">Range Price {state.price[0]} - {state.price[1]} </label>
-                    <Slider value={state.price} onChange={onChangePrice}  range />
+              {/* <div className="field my-10">
+                    <label className="py-2">Range Price {state?.price[0]} - {state?.price[1]} </label>
+                    <Slider value={prices} onChange={onChangePrice}  range />
 
-                </div>
+                </div> */}
 
 
         </>

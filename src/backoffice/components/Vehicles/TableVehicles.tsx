@@ -155,9 +155,9 @@ export const TableVehicles: FC<Props> = ({ openSideBar }) => {
         return (
             <div className='flex justify-end pr-10 gap-2'>
                 {/* <SplitButton label="Show" icon="pi pi-eye" onClick={() => openSideBar(rowData)} model={itemsButton}></SplitButton> */}
-                <Button icon="pi pi-eye" className="p-button-rounded p-button-secondary mr-2" onClick={() => openSideBar(rowData)} />
-                <Button icon="pi pi-pencil" className="p-button-rounded p-button-info mr-2" onClick={() => openModalUpdateSave(rowData)} />
-                <Button icon="pi pi-trash" className="p-button-rounded p-button-danger" onClick={() => { openModalDelete(rowData) }} />
+                <Button  icon="pi pi-eye" className="p-button-rounded p-button-secondary mr-2" onClick={() => openSideBar(rowData)} />
+                <Button disabled={rowData.state !==1} icon="pi pi-pencil" className="p-button-rounded p-button-info mr-2" onClick={() => openModalUpdateSave(rowData)} />
+                <Button disabled={rowData.state !==1} icon="pi pi-trash" className="p-button-rounded p-button-danger" onClick={() => { openModalDelete(rowData) }} />
             </div>
         );
     }

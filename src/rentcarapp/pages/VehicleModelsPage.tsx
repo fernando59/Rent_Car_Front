@@ -2,19 +2,21 @@
 import { Card } from 'primereact/card';
 import { Paginator } from 'primereact/paginator';
 import { useState } from 'react';
-import { useGetVehiclePriceQuery } from '../../store/apis/vehicleApi';
 import { FormFilter } from '../components/FormFilter';
 import { ListCardVehicle } from '../components/ListCardVehicle';
 import { Navbar } from '../components/Navbar';
 export const VehicleModelsPage = () => {
 
-  const { data: prices=[0,100] } = useGetVehiclePriceQuery()
   const [state, setState] = useState({
     brandId: 0,
     modelId: 0,
     typeVehicleId: 0,
-    price:prices 
+    price:[0,100]
   })
+
+
+
+  console.log(state.price)
   const onChangeBrand = (e: any) => {
     const value = e.target.value
     setState({ ...state, brandId: value })

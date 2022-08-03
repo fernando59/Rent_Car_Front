@@ -38,7 +38,7 @@ export const vehicleApi = createApi({
             query: (id:string) => `vehicle/${id}`,
             transformResponse: (response: { data: IVehicle[] }, meta, arg) => response.data[0],
         }),
-        getVehiclePrice: builder.query<any, void>({
+        getVehiclePrice: builder.query<number[], void>({
             query: () => `vehicle/getPricesRange`,
             transformResponse: (response: { data: number[] }, meta, arg) => response.data,
         }),
