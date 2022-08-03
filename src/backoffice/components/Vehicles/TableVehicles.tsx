@@ -21,9 +21,9 @@ const vehicleDefaultValues: IVehicleForm = {
     price: undefined,
     state: 1,
     year: undefined,
-    brandVehicle: 0,
-    modelVehicle: 0,
-    typeVehicle: 0
+    brandVehicleId: 0,
+    modelVehicleId: 0,
+    typeVehicleId: 0
 }
 
 export const TableVehicles = () => {

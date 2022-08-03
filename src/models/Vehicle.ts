@@ -11,9 +11,9 @@ export interface IVehicleForm{
     state:number 
     year?:number  
     hasAir:boolean  
-    brandVehicle:number
-    modelVehicle:number
-    typeVehicle:number
+    brandVehicleId:number
+    modelVehicleId:number
+    typeVehicleId:number
 }
 
 

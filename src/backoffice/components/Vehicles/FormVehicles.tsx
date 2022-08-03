@@ -85,7 +85,7 @@ export const FormVehicles: FC<Props> = ({ onHandleSubmitSaveVehicle, defaultValu
                     <span className="p-float-label">
                         <Controller
                             control={control}
-                            name="brandVehicle"
+                            name="brandVehicleId"
                             rules={{ required: true }}
                             render={({ field }
                             ) => {
@@ -110,7 +110,7 @@ export const FormVehicles: FC<Props> = ({ onHandleSubmitSaveVehicle, defaultValu
                     <span className="p-float-label">
                         <Controller
                             control={control}
-                            name="modelVehicle"
+                            name="modelVehicleId"
                             rules={{ required: true }}
                             render={({ field }
                             ) => {
@@ -133,7 +133,7 @@ export const FormVehicles: FC<Props> = ({ onHandleSubmitSaveVehicle, defaultValu
                     <span className="p-float-label">
                         <Controller
                             control={control}
-                            name="typeVehicle"
+                            name="typeVehicleId"
                             rules={{ required: true }}
                             render={({ field }
                             ) => {
