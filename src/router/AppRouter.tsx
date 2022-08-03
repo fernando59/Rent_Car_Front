@@ -1,8 +1,10 @@
 import { lazy, Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { BrandPage } from '../backoffice/pages/BrandPage';
+import { ClientsPage } from '../backoffice/pages/ClientsPage';
 import { DashBoardPage } from '../backoffice/pages/DashBoardPage';
 import { ModelPage } from '../backoffice/pages/ModelPage';
+import { OrderPage } from '../backoffice/pages/OrderPage';
 import { TypeVehiclePage } from '../backoffice/pages/TypeVehiclePage';
 import { VehiclePage } from '../backoffice/pages/VehiclePage';
 import { useAuthStore } from '../hooks/useAuthStore';
@@ -55,6 +57,8 @@ export const AppRouter = () => {
                 <Route path="" element={<DashBoardPage />} />
                 <Route path="brands" element={<BrandPage />} />
                 <Route path="vehicles" element={<VehiclePage/>} />
+                <Route path="orders" element={<OrderPage/>} />
+                <Route path="clients" element={<ClientsPage/>} />
                 <Route path="typeVehicle" element={<TypeVehiclePage />} />
                 <Route path="models" element={<ModelPage />} />
             </Route>

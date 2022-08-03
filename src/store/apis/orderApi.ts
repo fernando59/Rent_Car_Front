@@ -1,5 +1,4 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { IBrand } from '../../models/Brand';
 import { Order } from '../../models/Order';
 import { ResponseData } from '../../models/ResponseData';
 
@@ -10,12 +9,12 @@ const BASE_URL = process.env.REACT_APP_API_URL
 
 
 export const orderApi = createApi({
-    reducerPath: 'brandApi',
+    reducerPath: 'orderApi',
     tagTypes: ['Orders'],
     baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
     endpoints: (builder) => ({
-        getBrands: builder.query<Order[], void>({
-            query: () => 'brandVehicle',
+        getOrders: builder.query<Order[], void>({
+            query: () => 'order',
             transformResponse: (response: { data: Order[] }, meta, arg) => response.data,
             providesTags: (result) => result
                 ? // successful query
@@ -25,10 +24,10 @@ export const orderApi = createApi({
                 : // an error occurred, but we still want to refetch this query when `{ type: 'Posts', id: 'LIST' }` is invalidated
                 [{ type: 'Orders', id: 'LIST' }],
         }),
-        createBrand: builder.mutation<ResponseData, Partial<IBrand>>({
-            query: (body: IBrand) => {
+        createOrder: builder.mutation<ResponseData, Partial<Order>>({
+            query: (body: Order) => {
                 return {
-                    url: 'brandVehicle',
+                    url: 'order',
                     method: 'POST',
                     headers: {
                         'Authorization': localStorage.getItem('token')!
@@ -44,4 +43,4 @@ export const orderApi = createApi({
 })
 
 
-export const { } = orderApi
+export const { useGetOrdersQuery,useCreateOrderMutation} = orderApi

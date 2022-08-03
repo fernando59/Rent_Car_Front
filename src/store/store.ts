@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { brandsVehicleApi } from './apis'
+import { brandsVehicleApi, orderApi } from './apis'
 import { authApi } from './apis/authApi'
 import { modelVehicleApi } from './apis/modelVehicleApi'
 import { typeVehicleApi } from './apis/typeVehicleApi'
@@ -19,6 +19,7 @@ export const store = configureStore({
     [vehicleApi.reducerPath]: vehicleApi.reducer,
     [modelVehicleApi.reducerPath]: modelVehicleApi.reducer,
     [typeVehicleApi.reducerPath]: typeVehicleApi.reducer,
+    [orderApi.reducerPath]: orderApi.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware()
     .concat(
