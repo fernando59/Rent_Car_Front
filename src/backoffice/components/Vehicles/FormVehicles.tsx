@@ -37,29 +37,33 @@ export const FormVehicles: FC<Props> = ({ onHandleSubmitSaveVehicle, defaultValu
         <>
 
             <form autoComplete="off" onSubmit={handleSubmit(onHandleSubmitSaveVehicle)}>
-                <div className="field my-10">
-                    <span className="p-float-label">
-                        <Controller name="plate" control={control}
-                            rules={{ required: 'Plate is required.' }}
-                            render={({ field, fieldState }) => (
-                                <InputText style={{ width: '100%' }} id={field.name} {...field} className={classNames({ 'p-invalid': fieldState.error })} />
-                            )} />
-                        <label htmlFor="plate" className={classNames({ 'p-error': !!errors.plate })}>Plate</label>
-                    </span>
-                    {getFormErrorMessage('plate')}
+                <div className="flex gap-4">
+
+                    <div className="field pt-10 mb-2">
+                        <span className="p-float-label">
+                            <Controller name="plate" control={control}
+                                rules={{ required: 'Plate is required.' }}
+                                render={({ field, fieldState }) => (
+                                    <InputText style={{ width: '100%' }} id={field.name} {...field} className={classNames({ 'p-invalid': fieldState.error })} />
+                                )} />
+                            <label htmlFor="plate" className={classNames({ 'p-error': !!errors.plate })}>Plate</label>
+                        </span>
+                        {getFormErrorMessage('plate')}
+                    </div>
+                    <div className="field pt-10 mb-2">
+                        <span className="p-float-label">
+                            <Controller name="capacity" control={control}
+                                rules={{ required: 'Capacity is required.', max: { value: 10, message: 'The value max is 10' } }}
+                                render={({ field, fieldState }) => (
+                                    <InputText keyfilter="int" style={{ width: '100%' }} id={field.name} {...field} className={classNames({ 'p-invalid': fieldState.error })} />
+                                )} />
+                            <label htmlFor="capacity" className={classNames({ 'p-error': !!errors.capacity })}>Capacity</label>
+                        </span>
+                        {getFormErrorMessage('capacity')}
+                    </div>
+
                 </div>
-                <div className="field my-10">
-                    <span className="p-float-label">
-                        <Controller name="capacity" control={control}
-                            rules={{ required: 'Capacity is required.', max: { value: 10, message: 'The value max is 10' } }}
-                            render={({ field, fieldState }) => (
-                                <InputText keyfilter="int" style={{ width: '100%' }} id={field.name} {...field} className={classNames({ 'p-invalid': fieldState.error })} />
-                            )} />
-                        <label htmlFor="capacity" className={classNames({ 'p-error': !!errors.capacity })}>Capacity</label>
-                    </span>
-                    {getFormErrorMessage('capacity')}
-                </div>
-                <div className="field my-10">
+                <div className="field mt-5 mb-5 ">
                     <span className="p-float-label">
                         <Controller name="year" control={control}
                             rules={{ required: 'Year is required.', maxLength: { value: 4, message: 'The max Length is 4' } }}
@@ -76,6 +80,7 @@ export const FormVehicles: FC<Props> = ({ onHandleSubmitSaveVehicle, defaultValu
                             rules={{ required: 'Price is required.' }}
                             render={({ field, fieldState }) => (
                                 <InputNumber id={field.name} onChange={(e) => field.onChange(e.value)} value={field.value} style={{ width: '100%' }} className={classNames({ 'p-invalid': fieldState.error })} mode="currency" currency="BOB" locale="es-EN" />
+                                // <InputText/>
                             )} />
                         <label htmlFor="name" className={classNames({ 'p-error': !!errors.price })}>Price</label>
                     </span>

@@ -5,7 +5,7 @@ import { DataTable } from 'primereact/datatable';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
-import { useRef, useState } from 'react';
+import { FC, useRef, useState } from 'react';
 import { useModal } from '../../../hooks/useModal';
 import { IVehicleForm } from '../../../models/Vehicle';
 import { useCreateVehicleMutation, useDeleteVehicleMutation, useGetVehiclesQuery, useUpdateVehicleMutation } from '../../../store/apis/vehicleApi';
@@ -26,7 +26,10 @@ const vehicleDefaultValues: IVehicleForm = {
     typeVehicleId: 0
 }
 
-export const TableVehicles = () => {
+interface Props {
+    openSideBar: (data: any) => void
+}
+export const TableVehicles: FC<Props> = ({ openSideBar }) => {
     const [globalFilter, setGlobalFilter] = useState<string>('');
     const [vehicle, setVehicle] = useState<IVehicleForm>(vehicleDefaultValues)
     const toast = useRef<any>(null);
@@ -75,7 +78,7 @@ export const TableVehicles = () => {
     const openModalSave = () => {
         openModalStateSave()
     }
-    const openModalUpdateSave =(data:IVehicleForm)=>{
+    const openModalUpdateSave = (data: IVehicleForm) => {
         setVehicle(data)
         openModalStateSave()
     }
@@ -88,19 +91,19 @@ export const TableVehicles = () => {
 
 
     const onHandleSubmitSaveVehicle = async (data: IVehicleForm) => {
-        let res 
-        if(vehicle.id ===0){
+        let res
+        if (vehicle.id === 0) {
             res = await createVehicle(data).unwrap()
-        }else{
-            data.id =vehicle.id
+        } else {
+            data.id = vehicle.id
             res = await updateVehicle(data).unwrap()
         }
-        
+
         const { success, message } = res
         if (success) {
             closeModalUpdate()
             toast.current.show({ severity: 'success', summary: 'Successful', detail: message, life: 3000 });
-        }else{
+        } else {
             toast.current.show({ severity: 'error', summary: 'Error', detail: message, life: 3000 });
         }
     }
@@ -110,12 +113,12 @@ export const TableVehicles = () => {
     }
     const deleteVehicleExecute = async () => {
         const res = await deleteVehicle(vehicle.id!).unwrap()
-        const {success,message}= res
+        const { success, message } = res
 
-        if(success){
+        if (success) {
             closeModalDelete()
             toast.current.show({ severity: 'success', summary: 'Successful', detail: message, life: 3000 });
-        }else{
+        } else {
             toast.current.show({ severity: 'error', summary: 'Error', detail: message, life: 3000 });
         }
 
@@ -130,10 +133,29 @@ export const TableVehicles = () => {
         </>
     );
 
+    const itemsButton = [
+        {
+            label: 'Update',
+            icon: 'pi pi-pencil',
+            command: (rowData: any) => {
+                console.log(rowData)
+                openModalUpdateSave(rowData)
+            }
+        },
+        {
+            label: 'Delete',
+            icon: 'pi pi-trash',
+            command: (rowData: any) => {
+                console.log(data)
+                openModalDelete(rowData)
+            }
+        },
+    ]
     const actionBodyTemplate = (rowData: IVehicleForm) => {
         return (
             <div className='flex justify-end pr-10 gap-2'>
-                <Button icon="pi pi-eye" className="p-button-rounded p-button-secondary mr-2" onClick={() => { }} />
+                {/* <SplitButton label="Show" icon="pi pi-eye" onClick={() => openSideBar(rowData)} model={itemsButton}></SplitButton> */}
+                <Button icon="pi pi-eye" className="p-button-rounded p-button-secondary mr-2" onClick={() => openSideBar(rowData)} />
                 <Button icon="pi pi-pencil" className="p-button-rounded p-button-info mr-2" onClick={() => openModalUpdateSave(rowData)} />
                 <Button icon="pi pi-trash" className="p-button-rounded p-button-danger" onClick={() => { openModalDelete(rowData) }} />
             </div>
@@ -153,20 +175,20 @@ export const TableVehicles = () => {
     const statusBodyTemplate = (rowData: any) => {
         const { state } = rowData
         let text = "Open"
-        let background = "#C8E6C9" //green
-        let textColor = "#256029"//green
+        let background = "bg-[#C8E6C9]" //green
+        let textColor = "text-[#256029]"//green
         if (state === 0) {
             text = "Remove"
 
         } else if (state === 2) {
             text = "Busy"
-            background = "#EFA3A7"//red
-            textColor = "#C63737"//red
+            background = "bg-[#EFA3A7]"//red
+            textColor = "text-[#C63737]"//red
 
         } else if (state === 3) {
             text = "Maintenance"
-            background = "#FEEDAF"//yellow
-            textColor = "#8A5340"//yellow
+            background = "bg-[#FEEDAF]"//yellow
+            textColor = "bg-[#8A5340]"//yellow
         }
 
         return <ChipTable text={text} background={background} textColor={textColor} />
@@ -203,7 +225,7 @@ export const TableVehicles = () => {
                 <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '8rem' }}></Column>
             </DataTable>
             {/* SAVE */}
-            <Dialog visible={modalUpdate} modal onHide={closeModalUpdate} style={{ width: '450px' }}>
+            <Dialog visible={modalUpdate} modal onHide={closeModalUpdate} header={vehicle.id == 0 ? 'New Vehicle' : 'Update Vehicle'} style={{ width: '450px' }}>
                 <FormVehicles defaultValues={vehicle} onHandleSubmitSaveVehicle={onHandleSubmitSaveVehicle} closeModalUpdate={closeModalUpdate} />
             </Dialog>
             {/* DELETE */}

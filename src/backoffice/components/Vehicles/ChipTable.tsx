@@ -7,6 +7,6 @@ interface Props{
 }
 export const ChipTable:FC<Props> = ({background="#C8E6C9",text,textColor="#256029"}) => {
   return (
-    <span className={`rounded-md font-bold py-2 px-5 bg-[${background}]  text-[${textColor}] `}>{text}</span>
+    <span className={`rounded-md font-bold py-2 px-5 ${background}  ${textColor} `}>{text}</span>
   )
 }

@@ -24,7 +24,7 @@ export interface IVehicle{
     state:number 
     year:number | null
     hasAir:boolean | null
-    modelVehicle:IModelVehicle
-    brandVehicle:IBrand
-    typeVehicle:ITypeVehicle
+    modelVehicle:IModelVehicle | null
+    brandVehicle:IBrand | null
+    typeVehicle:ITypeVehicle | null
 }
