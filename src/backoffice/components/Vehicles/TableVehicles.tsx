@@ -179,15 +179,15 @@ export const TableVehicles: FC<Props> = ({ openSideBar }) => {
         if (state === 0) {
             text = "Remove"
 
-        } else if (state === 2) {
+        } else if (state === 3) {
             text = "Busy"
             background = "bg-[#EFA3A7]"//red
             textColor = "text-[#C63737]"//red
 
-        } else if (state === 3) {
+        } else if (state === 2) {
             text = "Maintenance"
             background = "bg-[#FEEDAF]"//yellow
-            textColor = "bg-[#8A5340]"//yellow
+            textColor = "text-[#8A5340]"//yellow
         }
 
         return <ChipTable text={text} background={background} textColor={textColor} />
