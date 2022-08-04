@@ -1,14 +1,20 @@
 import { Button } from "primereact/button";
 import { Dialog } from 'primereact/dialog';
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Menu } from "primereact/menu";
+import { useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../hooks/useAuthStore";
 import { useModal } from "../../hooks/useModal";
+import { logoutAuth } from "../../store/slices";
 import { FormLogin } from "./FormLogin";
 import { FormRegister } from "./FormRegister";
 export const Navbar = () => {
 
     const { user, token } = useSelector((state: any) => state.auth)
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const menu = useRef<any>(null);
     const { status } = useAuthStore();
     const {
         closeModalState: closeModalRegisterState,
@@ -31,6 +37,26 @@ export const Navbar = () => {
     //close
     const closeModalLogin = () => { closeModalLoginState() }
     const closeModalRegister = () => { closeModalRegisterState() }
+
+
+    const items = [
+        {
+            label: 'My Orders',
+            icon: 'pi pi-book',
+            command: () => {
+                navigate('/history')
+            }
+        },
+        {
+            label: 'Log out',
+            icon: 'pi pi-power-off',
+            command: () => {
+                dispatch(logoutAuth())
+            }
+        },
+
+
+    ]
     return (
         <>
             <header className="w-full h-20">
@@ -66,11 +92,18 @@ export const Navbar = () => {
                         </li>
                     </ul>
                     {
-                        status === 'not-authenticated' && <div className="flex gap-2">
-                            <Button label="Login" onClick={openModalLogin} />
-                            <Button label="Register" onClick={openModalRegister} className="p-button-outlined" />
 
+                        status === 'authenticated' && user.rols === 'Client' ? <div className="flex items-center justify-center">
+                            {/* USER OPTIONS */}
+                            <Menu model={items} popup ref={menu} id="popup_menu" />
+                            <span className="px-2 font-semibold text-gray-500"> {user.email} </span>
+                            <Button icon="pi pi-user" className="p-button-rounded p-button-info p-button-outlined" aria-label="User" onClick={(event) => menu.current.toggle(event)} />
                         </div>
+
+                            : <div className="flex gap-2">
+                                {/* LOGIN AND REGISTER */}
+                                <Button label="Login" onClick={openModalLogin} />
+                                <Button label="Register" onClick={openModalRegister} className="p-button-outlined" /></div>
                     }
                 </div>
             </header>

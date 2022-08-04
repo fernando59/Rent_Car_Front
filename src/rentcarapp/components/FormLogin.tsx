@@ -1,8 +1,9 @@
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { Password } from 'primereact/password';
+import { Toast } from 'primereact/toast';
 import { classNames } from 'primereact/utils';
-import { FC } from 'react';
+import { FC, useRef } from 'react';
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch } from 'react-redux';
 import { useLoginMutation } from '../../store/apis/authApi';
@@ -10,12 +11,12 @@ import { loginAuth } from '../../store/slices';
 
 
 interface Props{
-    closeModal:()=>void
+    closeModal?:()=>void
 }
 export const FormLogin:FC<Props> = ({closeModal}) => {
     const dispatch = useDispatch();
     const [login, result] = useLoginMutation()
-
+    const toast = useRef<any>(null);
     interface ILogin {
         email: string
         password: string
@@ -33,10 +34,19 @@ export const FormLogin:FC<Props> = ({closeModal}) => {
     };
 
     const onHandleSubmit = async (data: any) => {
+        try{
+
         const res = await login(data).unwrap()
         if (res.token) {
+            toast.current.show({ severity: 'success', summary: 'Successfull', detail: 'Login Successfull', life: 3000 });
             dispatch(loginAuth(res.token))
-            closeModal()
+            if(closeModal)closeModal()
+        }else{
+
+            toast.current.show({ severity: 'error', summary: 'Error', detail: 'User or Password are incorrect', life: 3000 });
+        }
+        }catch(e){
+            toast.current.show({ severity: 'error', summary: 'Error', detail: 'User or Password are incorrect', life: 3000 });
         }
 
     }
@@ -68,6 +78,7 @@ export const FormLogin:FC<Props> = ({closeModal}) => {
                 </div>
                 <Button label='Login' type='submit' />
             </form>
+            <Toast ref={toast} />
         </>
     )
 }

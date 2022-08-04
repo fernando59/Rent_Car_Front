@@ -11,6 +11,7 @@ export const useAuthStore =() =>{
     
 
     return{
-        status
+        status,
+        user
     }
 }
