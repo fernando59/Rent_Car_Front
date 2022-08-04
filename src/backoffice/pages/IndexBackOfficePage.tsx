@@ -10,7 +10,6 @@ function IndexBackOfficePage() {
   const { activeMobile, desactiveMobile } = useUiStore()
 
   const onMenuItemClick = (event: any) => {
-    console.log(event)
     return
     if (!event.item.items) {
       // setOverlayMenuActive(false);

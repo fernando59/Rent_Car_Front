@@ -23,7 +23,6 @@ const IndexBackOfficePage = lazy(() => import('../backoffice/pages/IndexBackOffi
 export const AppRouter = () => {
 
     const { status } = useAuthStore();
-    console.log(status)
 
 
     return (
@@ -44,7 +43,7 @@ export const AppRouter = () => {
                 </Suspense>}
             >
                 <Route path="" element={<WelcomePage/>} />
-                <Route path="vehicleDetail/:id" element={<VehicleDetailPage/>} />
+                <Route path="vehicleDetail/:id" element={<VehicleDetailPage/>}  />
                 <Route path="vehicleModel" element={<VehicleModelsPage/>} />
                 <Route path="history" element={<HistoryPage/>} />
 

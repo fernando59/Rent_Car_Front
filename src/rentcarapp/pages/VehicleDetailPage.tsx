@@ -1,11 +1,14 @@
 import { skipToken } from '@reduxjs/toolkit/dist/query';
 import { Button } from 'primereact/button';
 import { Card } from 'primereact/card';
+import { Dialog } from 'primereact/dialog';
 import { Galleria } from 'primereact/galleria';
 import { Image } from 'primereact/image';
 import { useRef } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
+import { useModal } from '../../hooks/useModal';
 import { useGetVehicleByIdQuery } from '../../store/apis/vehicleApi';
+import { FormRentCar } from '../components/FormRentCar';
 import { Navbar } from "../components/Navbar";
 
 type Params = {
@@ -15,9 +18,20 @@ type Params = {
 export const VehicleDetailPage = () => {
   let { id } = useParams<Params>();
 
-  const { data:vehicle,isSuccess,isLoading,isError } = useGetVehicleByIdQuery(id ===undefined?skipToken:id)
-  
-  console.log(vehicle)
+  const { data: vehicle, isSuccess, isLoading, isError } = useGetVehicleByIdQuery(id === undefined ? skipToken : id)
+  const {
+    openModalState,
+    closeModalState,
+    modalState
+  } = useModal()
+
+  const closeModal = () => {
+    closeModalState()
+  }
+  const openModal =()=>{
+    openModalState()
+  }
+
 
 
 
@@ -37,20 +51,20 @@ export const VehicleDetailPage = () => {
     }
   ];
   const itemTemplate = (item: any) => {
-  return <Image src={ `https://res.cloudinary.com/testapicloudinaryfernando/image/upload/${item.path}`} height="200px" preview alt="Image Text" width='200px' />
+    return <Image src={`https://res.cloudinary.com/testapicloudinaryfernando/image/upload/${item.path}`} height="200px" preview alt="Image Text" width='200px' />
   }
 
   const thumbnailTemplate = (item: any) => {
-    return <img src={ `https://res.cloudinary.com/testapicloudinaryfernando/image/upload/${item.path}`} onError={(e: any) => e.target.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} style={{height:'150px',objectFit:'cover',width:"150px"}} alt={item.alt} />
+    return <img src={`https://res.cloudinary.com/testapicloudinaryfernando/image/upload/${item.path}`} onError={(e: any) => e.target.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} style={{ height: '150px', objectFit: 'cover', width: "150px" }} alt={item.alt} />
     // return <Image src={item.thumbnailImageSrc} preview alt="Image Text" style={{ width: '100%',height:400,objectFit:'cover' }} />
   }
 
 
   return (
     <>
-    {
-      isError && <Navigate to="/vehicleModel" />
-    }
+      {
+        isError && <Navigate to="/vehicleModel" />
+      }
       <Navbar />
 
       <div className="mx-auto container">
@@ -87,9 +101,15 @@ export const VehicleDetailPage = () => {
               </div>
               <div className='pt-3'>
 
-                <Button label='Rent' className='w-full' />
+                <Button label='Rent' className='w-full' onClick={openModal} />
               </div>
             </Card>
+
+
+            <Dialog visible={modalState} style={{ width: '450px' }} header={'Rent Car'} modal className="p-fluid" onHide={closeModal}>
+            <FormRentCar dailyRate={vehicle?.price} vehicleId={vehicle?.id}/>
+
+            </Dialog>
 
           </div>
         </div>

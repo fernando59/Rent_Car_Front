@@ -4,3 +4,9 @@ export interface Order{
     status:number
     VehicleId:number
 }
+
+export interface OrderCreate{
+    startDate:Date
+    endDate:Date
+    VehicleId:number
+}

@@ -1,5 +1,6 @@
 import { Dropdown } from "primereact/dropdown";
-import { FC } from "react";
+import { FC, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useGetBrandsQuery } from "../../store/apis";
 import { useGetModelVehiclesQuery } from "../../store/apis/modelVehicleApi";
 import { useGetTypeVehiclesQuery } from "../../store/apis/typeVehicleApi";
@@ -13,6 +14,10 @@ interface Props {
 }
 export const FormFilter: FC<Props> = ({ onChangeBrand, onChangeModel, onChangeTypeVehicle, onChangePrice, state }) => {
 
+    const selector = useSelector((state:any)=>state.vehicle)
+    useEffect(()=>{
+
+    },[])
     //RTK Query
     const { data: models } = useGetModelVehiclesQuery()
     const { data: typeVehicles } = useGetTypeVehiclesQuery()
@@ -23,6 +28,7 @@ export const FormFilter: FC<Props> = ({ onChangeBrand, onChangeModel, onChangeTy
 
     return (
         <>
+        
 
             <div className="field my-10">
                 <span className="p-float-label">

@@ -29,6 +29,7 @@ export const store = configureStore({
         vehicleApi.middleware,
         modelVehicleApi.middleware,
         typeVehicleApi.middleware,
+        orderApi.middleware,
         
       ])
 })

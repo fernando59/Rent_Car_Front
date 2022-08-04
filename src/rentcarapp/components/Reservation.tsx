@@ -2,7 +2,6 @@ import classNames from 'classnames';
 import { Button } from 'primereact/button';
 import { Calendar } from 'primereact/calendar';
 import { Dropdown } from 'primereact/dropdown';
-import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
@@ -12,8 +11,8 @@ import { searchBrandVehicle } from '../../store/slices';
 
 interface IReservation {
     brand: any
-    startDate: any
-    endDate: any
+    startDate: Date
+    endDate: Date
 }
 
 
@@ -41,18 +40,10 @@ export const Reservation = () => {
 
 
 
-    useEffect(() => {
-
-        if (localStorage.getItem('searchVehicle')) {
-            console.log('exist')
-        }
-    }, [])
-
-
-
-
     const onHandleSubmit = (data: any) => {
 
+        data.startDate = data.startDate.toISOString()
+        data.endDate= data.endDate.toISOString()
         dispatch(searchBrandVehicle(data))
 
         navigate("/vehicleModel", { replace: true });

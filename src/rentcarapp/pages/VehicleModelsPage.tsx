@@ -1,7 +1,7 @@
 
 import { Card } from 'primereact/card';
 import { Paginator } from 'primereact/paginator';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FormFilter } from '../components/FormFilter';
 import { ListCardVehicle } from '../components/ListCardVehicle';
 import { Navbar } from '../components/Navbar';
@@ -11,12 +11,17 @@ export const VehicleModelsPage = () => {
     brandId: 0,
     modelId: 0,
     typeVehicleId: 0,
-    price:[0,100]
+    price: [0, 100]
   })
 
 
+  useEffect(() => {
+    const item = localStorage.getItem('brand')
+    const value = item ? JSON.parse(item) : 0
+    setState({ ...state, brandId: value })
 
-  console.log(state.price)
+  }, [setState])
+
   const onChangeBrand = (e: any) => {
     const value = e.target.value
     setState({ ...state, brandId: value })
@@ -35,7 +40,7 @@ export const VehicleModelsPage = () => {
 
   }
 
-  const onChangePrice= (e: any) => {
+  const onChangePrice = (e: any) => {
     const value = e.value
     setState({ ...state, price: value })
 

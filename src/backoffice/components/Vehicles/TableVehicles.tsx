@@ -138,7 +138,6 @@ export const TableVehicles: FC<Props> = ({ openSideBar }) => {
             label: 'Update',
             icon: 'pi pi-pencil',
             command: (rowData: any) => {
-                console.log(rowData)
                 openModalUpdateSave(rowData)
             }
         },

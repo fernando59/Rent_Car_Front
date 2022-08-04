@@ -1,20 +1,35 @@
 import { createSlice } from "@reduxjs/toolkit"
+import { IBrand } from "../../../models"
 
 interface Values {
-    valueSearch: any
+    brand: IBrand | null
+    startDate: Date | null
+    endDate: Date | null
 }
 
 const initialState: Values = {
-    valueSearch: null
+    brand: null,
+    endDate: null,
+    startDate: null
+
 }
 export const vehicleSlice = createSlice({
     name: 'vehicle',
     initialState,
     reducers: {
         searchBrandVehicle: (state, { payload }) => {
-            const data = JSON.stringify(payload)
-            state.valueSearch = payload
-            localStorage.setItem('searchVehicle', data)
+            const starDate = payload.startDate
+            const endDate= payload.endDate
+            state.startDate = starDate
+            state.endDate= endDate
+            state.brand = payload.brand.id
+            localStorage.setItem('brand',JSON.stringify(state.brand))
+            localStorage.setItem('startDate', JSON.stringify(starDate))
+            localStorage.setItem('endDate', JSON.stringify(endDate))
+        },
+        getSearchBrandVehicle:(state)=>{
+            const res = localStorage.getItem('searcVehicle')
+            console.log(res)
         }
 
 

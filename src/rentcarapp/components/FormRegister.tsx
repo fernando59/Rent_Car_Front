@@ -5,18 +5,20 @@ import { Password } from 'primereact/password';
 import { classNames } from 'primereact/utils';
 import { useRef } from 'react';
 import { Controller, useForm } from "react-hook-form";
+import { useRegisterMutation } from '../../store/apis';
 
 
 export const FormRegister = () => {
 
-    interface ILogin {
-        name:string
+    const [regiter] = useRegisterMutation()
+    interface IRegister{
+        username:string
         email: string
         password: string
         confirm_password:string
     }
-    const defaultValues: ILogin = {
-        name:'',
+    const defaultValues: IRegister= {
+        username:'',
         email: '',
         password: '',
         confirm_password:''
@@ -27,7 +29,7 @@ export const FormRegister = () => {
     password.current = watch("password", "");
 
     const getFormErrorMessage = (name: any) => {
-        const key = name as keyof ILogin
+        const key = name as keyof IRegister
         return errors[key] && <small className="p-error">{errors[key]?.message}</small>
     };
 
@@ -44,8 +46,10 @@ export const FormRegister = () => {
         </>
     );
     const passwordHeader = <h6>Pick a password</h6>;
-    const onHandleSubmit = (data: any) => {
+    const onHandleSubmit = async (data: any) => {
         console.log(data)
+        const res = await regiter(data).unwrap()
+        console.log(res)
 
     }
     return (
@@ -54,10 +58,10 @@ export const FormRegister = () => {
 
                 <div className="field mt-10">
                     <span className="p-float-label">
-                        <Controller name="name" control={control} rules={{ required: 'Name is required.' }} render={({ field, fieldState }) => (
+                        <Controller name="username" control={control} rules={{ required: 'Name is required.' }} render={({ field, fieldState }) => (
                             <InputText id={field.name} {...field} autoFocus className={classNames({ 'p-invalid': fieldState.error })} />
                         )} />
-                        <label htmlFor="name" className={classNames({ 'p-error': errors.name })}>Name</label>
+                        <label htmlFor="name" className={classNames({ 'p-error': errors.username})}>Name</label>
                     </span>
                     {getFormErrorMessage('name')}
                 </div>
