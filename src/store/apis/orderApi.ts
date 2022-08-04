@@ -30,7 +30,7 @@ export const orderApi = createApi({
                     url: 'order',
                     method: 'POST',
                     headers: {
-                        'Authorization': localStorage.getItem('token')!
+                        'Authorization': `Bearer ${localStorage.getItem('token')!}`
                     },
                     body
                 }

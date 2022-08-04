@@ -1,8 +1,10 @@
-import { lazy, Suspense } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { lazy, Suspense, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { BrandPage } from '../backoffice/pages/BrandPage';
 import { ClientsPage } from '../backoffice/pages/ClientsPage';
 import { DashBoardPage } from '../backoffice/pages/DashBoardPage';
+import { LoginBackofficePage } from '../backoffice/pages/LoginBackofficePage';
 import { ModelPage } from '../backoffice/pages/ModelPage';
 import { OrderPage } from '../backoffice/pages/OrderPage';
 import { TypeVehiclePage } from '../backoffice/pages/TypeVehiclePage';
@@ -12,6 +14,7 @@ import { HistoryPage } from '../rentcarapp/pages/HistoryPage';
 import { VehicleDetailPage } from '../rentcarapp/pages/VehicleDetailPage';
 import { VehicleModelsPage } from '../rentcarapp/pages/VehicleModelsPage';
 import { WelcomePage } from '../rentcarapp/pages/WelcomePage';
+import { checkingCredentials } from '../store/slices';
 // import { IndexPage } from '../rentcarapp/pages/IndexPage';
 
 // import { LoginPage } from '../auth';
@@ -23,8 +26,12 @@ const IndexBackOfficePage = lazy(() => import('../backoffice/pages/IndexBackOffi
 export const AppRouter = () => {
 
     const { status } = useAuthStore();
+    const dispatch =useDispatch()
 
 
+    useEffect(() => {
+        dispatch( checkingCredentials())
+    })
     return (
         <Routes>
 
@@ -42,26 +49,33 @@ export const AppRouter = () => {
                     <IndexPage />
                 </Suspense>}
             >
-                <Route path="" element={<WelcomePage/>} />
-                <Route path="vehicleDetail/:id" element={<VehicleDetailPage/>}  />
-                <Route path="vehicleModel" element={<VehicleModelsPage/>} />
-                <Route path="history" element={<HistoryPage/>} />
+                <Route path="" element={<WelcomePage />} />
+                <Route path="vehicleDetail/:id" element={<VehicleDetailPage />} />
+                <Route path="vehicleModel" element={<VehicleModelsPage />} />
+                <Route path="history" element={<HistoryPage />} />
 
             </Route>
 
 
-            
+
             {/* ROUTE BACKOFFICE */}
-            <Route path="/backoffice/*" element={ <Suspense fallback={<h1>Loading ...</h1>}> <IndexBackOfficePage /> </Suspense>} >
-                <Route path="" element={<DashBoardPage />} />
-                <Route path="brands" element={<BrandPage />} />
-                <Route path="vehicles" element={<VehiclePage/>} />
-                <Route path="orders" element={<OrderPage/>} />
-                <Route path="clients" element={<ClientsPage/>} />
-                <Route path="typeVehicle" element={<TypeVehiclePage />} />
-                <Route path="models" element={<ModelPage />} />
+            <Route path="/backoffice/*" element={<Suspense fallback={<h1>Loading ...</h1>}> <IndexBackOfficePage /> </Suspense>} >
+                <Route path="" element={<DashBoardPage/>} />
+                <Route path="login" element={<LoginBackofficePage />} />
+                {
+                    status === 'authenticated' ? <>
+                        <Route path="" element={<DashBoardPage />} />
+                        <Route path="brands" element={<BrandPage />} />
+                        <Route path="vehicles" element={<VehiclePage />} />
+                        <Route path="orders" element={<OrderPage />} />
+                        <Route path="clients" element={<ClientsPage />} />
+                        <Route path="typeVehicle" element={<TypeVehiclePage />} />
+                        <Route path="models" element={<ModelPage />} />
+                    </>: <Route path="/backoffice/*" element={ <Navigate to="/backoffice/login" />} />  
+                }
+
             </Route>
-            
+
             {/* <Route path="/*" element={<Navigate to="/" />} /> */}
         </Routes>
     )

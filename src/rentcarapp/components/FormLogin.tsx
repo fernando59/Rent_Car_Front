@@ -6,7 +6,7 @@ import { FC } from 'react';
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch } from 'react-redux';
 import { useLoginMutation } from '../../store/apis/authApi';
-import { checkingCredentials } from '../../store/slices';
+import { loginAuth } from '../../store/slices';
 
 
 interface Props{
@@ -35,8 +35,7 @@ export const FormLogin:FC<Props> = ({closeModal}) => {
     const onHandleSubmit = async (data: any) => {
         const res = await login(data).unwrap()
         if (res.token) {
-
-            dispatch(checkingCredentials(res.token))
+            dispatch(loginAuth(res.token))
             closeModal()
         }
 

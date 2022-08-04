@@ -2,13 +2,14 @@ import { Button } from "primereact/button";
 import { Dialog } from 'primereact/dialog';
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { useAuthStore } from "../../hooks/useAuthStore";
 import { useModal } from "../../hooks/useModal";
 import { FormLogin } from "./FormLogin";
 import { FormRegister } from "./FormRegister";
 export const Navbar = () => {
 
     const { user, token } = useSelector((state: any) => state.auth)
-
+    const { status } = useAuthStore();
     const {
         closeModalState: closeModalRegisterState,
         modalState: modalRegister,
@@ -36,7 +37,11 @@ export const Navbar = () => {
 
                 <div className="w-full px-6 mx-auto container flex justify-between items-center h-full">
 
-                    <h1 className="font-bold uppercase">FernandoRent</h1>
+                    <h1 className="font-bold uppercase">
+                        <Link to='/'>
+                            FernandoRent
+                        </Link>
+                    </h1>
                     <ul className="hidden md:flex gap-2 font-bold text-gray-400">
 
                         <li className="hover:text-purple-600 px-4"> <Link to='/'>
@@ -49,9 +54,9 @@ export const Navbar = () => {
                         </Link>
                         </li> */}
                         <li className="hover:text-purple-600 px-4">
-                            <Link to='/vehicleDetail'>
+                            <a href='#contact'>
                                 <span>Contact</span>
-                            </Link>
+                            </a>
                         </li>
 
                         <li className="hover:text-purple-600 px-4">
@@ -61,7 +66,7 @@ export const Navbar = () => {
                         </li>
                     </ul>
                     {
-                        token === null && <div className="flex gap-2">
+                        status === 'not-authenticated' && <div className="flex gap-2">
                             <Button label="Login" onClick={openModalLogin} />
                             <Button label="Register" onClick={openModalRegister} className="p-button-outlined" />
 

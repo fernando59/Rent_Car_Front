@@ -25,8 +25,9 @@ export const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        login: (state, { payload }) => {
-            // state.status = 'authenticated', // 'checking', 'not-authenticated', 'authenticated'
+        loginAuth: (state, { payload }) => {
+             state.status = 'authenticated' // 'checking', 'not-authenticated', 'authenticated'
+             localStorage.setItem('token',payload)
             // state.uid = payload.uid;
             // state.email = payload.email;
             // state.name = payload.displayName;
@@ -41,16 +42,19 @@ export const authSlice = createSlice({
             // state.photoURL = null;
             // state.errorMessage = payload?.errorMessage;
         },
-        checkingCredentials: (state,{payload}) => {
-            if(localStorage.getItem('token')){
-                state.user ={'name':'ff'}
-                state.token = payload
+        checkingCredentials: (state) => {
+            const token = localStorage.getItem('token');
+            console.log('enter')
+            if ( !token ) {
+                state.status = 'not-authenticated'
             }else{
-                localStorage.setItem('token',payload)
+
+                localStorage.setItem('token',token)
+                state.status ='authenticated'
             }
         },
     }
 })
 
 // Action creators are generated for each case reducer function
-export const {checkingCredentials } = authSlice.actions
+export const {checkingCredentials,loginAuth } = authSlice.actions
