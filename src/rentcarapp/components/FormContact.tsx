@@ -17,18 +17,18 @@ export const FormContact = () => {
 
                     <div className="field mt-10 flex-1">
                         <span className="p-float-label">
-                            <Controller name="username" control={control} rules={{ required: 'Name is required.' }} render={({ field, fieldState }) => (
-                                <InputText id={field.name} {...field} autoFocus className={classNames({ 'p-invalid': fieldState.error })} />
+                            <Controller name="name" control={control} rules={{ required: 'Name is required.' }} render={({ field, fieldState }) => (
+                                <InputText id={field.name} {...field}  className={classNames({ 'p-invalid': fieldState.error })} />
                             )} />
-                            <label htmlFor="name" className={classNames({ 'p-error': errors.username })}>Your Name</label>
+                            <label htmlFor="name" className={classNames({ 'p-error': errors.name })}>Your Name</label>
                         </span>
                     </div>
                     <div className="field mt-10 flex-1">
                         <span className="p-float-label">
-                            <Controller name="username" control={control} rules={{ required: 'Name is required.' }} render={({ field, fieldState }) => (
-                                <InputText id={field.name} {...field} autoFocus className={classNames({ 'p-invalid': fieldState.error })} />
+                            <Controller name="email" control={control} rules={{ required: 'Name is required.' }} render={({ field, fieldState }) => (
+                                <InputText id={field.name} {...field}  className={classNames({ 'p-invalid': fieldState.error })} />
                             )} />
-                            <label htmlFor="name" className={classNames({ 'p-error': errors.username })}>Your Email</label>
+                            <label htmlFor="name" className={classNames({ 'p-error': errors.email })}>Your Email</label>
                         </span>
                     </div>
                 </div>
@@ -37,28 +37,28 @@ export const FormContact = () => {
 
                     <div className="field mt-10 flex-1">
                         <span className="p-float-label">
-                            <Controller name="username" control={control} rules={{ required: 'Name is required.' }} render={({ field, fieldState }) => (
-                                <InputText id={field.name} {...field} autoFocus className={classNames({ 'p-invalid': fieldState.error })} />
+                            <Controller name="subject" control={control} rules={{ required: 'Name is required.' }} render={({ field, fieldState }) => (
+                                <InputText id={field.name} {...field}  className={classNames({ 'p-invalid': fieldState.error })} />
                             )} />
-                            <label htmlFor="name" className={classNames({ 'p-error': errors.username })}>Subject</label>
+                            <label htmlFor="name" className={classNames({ 'p-error': errors.subject })}>Subject</label>
                         </span>
                     </div>
                     <div className="field mt-10 flex-1">
                         <span className="p-float-label">
-                            <Controller name="username" control={control} rules={{ required: 'Name is required.' }} render={({ field, fieldState }) => (
-                                <InputText id={field.name} autoFocus className={classNames({ 'p-invalid': fieldState.error })} />
+                            <Controller name="phone" control={control} rules={{ required: 'Name is required.' }} render={({ field, fieldState }) => (
+                                <InputText id={field.name}  className={classNames({ 'p-invalid': fieldState.error })} />
                             )} />
-                            <label htmlFor="name" className={classNames({ 'p-error': errors.username })}>Phone</label>
+                            <label htmlFor="name" className={classNames({ 'p-error': errors.phone })}>Phone</label>
                         </span>
                     </div>
                 </div>
                 <div className="field my-10 flex-1">
                     <span className="p-float-label">
 
-                        <Controller name="username" control={control} rules={{ required: 'Name is required.' }} render={({ field, fieldState }) => (
-                            <InputTextarea rows={5} cols={30} {...field} />
+                        <Controller name="message" control={control} rules={{ required: 'Name is required.' }} render={({ field, fieldState }) => (
+                            <InputTextarea rows={5} cols={30} {...field} className={classNames({ 'p-invalid': fieldState.error })} />
                         )} />
-                        <label htmlFor="name" className={classNames({ 'p-error': errors.username })}>Your Message</label>
+                        <label htmlFor="name" className={classNames({ 'p-error': errors.message })}>Your Message</label>
                     </span>
                 </div>
                 <Button label="Send Message"/>

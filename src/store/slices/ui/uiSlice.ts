@@ -6,7 +6,8 @@ export const uiSlice = createSlice({
     name: 'ui',
     initialState: {
         isModalOpen: false,
-        mobileMenuActive:false
+        mobileMenuActive:false,
+        isModalLoginOpen:false,
     },
     reducers: {
         onOpenDateModal: (state) => {
@@ -21,10 +22,17 @@ export const uiSlice = createSlice({
         desactiveMobileMenu:(state)=>{
             state.mobileMenuActive =false 
         },
+        openModalLogin:(state)=>{
+            state.isModalLoginOpen = true
+        },
+        closeModalLogin:(state)=>{
+            state.isModalLoginOpen = false
+        },
+
 
     }
 });
 
 
 // Action creators are generated for each case reducer function
-export const { onOpenDateModal, onCloseDateModal,activeMobileMenu,desactiveMobileMenu } = uiSlice.actions;
+export const { onOpenDateModal, onCloseDateModal,activeMobileMenu,desactiveMobileMenu,openModalLogin,closeModalLogin } = uiSlice.actions;

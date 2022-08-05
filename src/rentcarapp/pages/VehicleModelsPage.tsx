@@ -2,11 +2,13 @@
 import { Card } from 'primereact/card';
 import { Paginator } from 'primereact/paginator';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { FormFilter } from '../components/FormFilter';
 import { ListCardVehicle } from '../components/ListCardVehicle';
 import { Navbar } from '../components/Navbar';
 export const VehicleModelsPage = () => {
 
+  const { brand}= useSelector((state:any)=>state.vehicle)
   const [state, setState] = useState({
     brandId: 0,
     modelId: 0,
@@ -16,9 +18,7 @@ export const VehicleModelsPage = () => {
 
 
   useEffect(() => {
-    const item = localStorage.getItem('brand')
-    const value = item ? JSON.parse(item) : 0
-    setState({ ...state, brandId: value })
+    if(brand !==null) setState({ ...state, brandId: brand })
 
   }, [setState])
 

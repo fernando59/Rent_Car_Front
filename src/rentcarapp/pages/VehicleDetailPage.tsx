@@ -5,10 +5,12 @@ import { Dialog } from 'primereact/dialog';
 import { Galleria } from 'primereact/galleria';
 import { Image } from 'primereact/image';
 import { useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import { Navigate, useParams } from 'react-router-dom';
 import { useAuthStore } from '../../hooks/useAuthStore';
 import { useModal } from '../../hooks/useModal';
 import { useGetVehicleByIdQuery } from '../../store/apis/vehicleApi';
+import { openModalLogin } from '../../store/slices';
 import { FormRentCar } from '../components/FormRentCar';
 import { Navbar } from "../components/Navbar";
 
@@ -19,7 +21,8 @@ type Params = {
 export const VehicleDetailPage = () => {
   let { id } = useParams<Params>();
   const { status, user } = useAuthStore();
-  const { data: vehicle, isSuccess, isLoading, isError } = useGetVehicleByIdQuery(id === undefined ? skipToken : id)
+  const dispatch = useDispatch()
+  const { data: vehicle,   isError } = useGetVehicleByIdQuery(id === undefined ? skipToken : id)
   const {
     openModalState,
     closeModalState,
@@ -29,12 +32,13 @@ export const VehicleDetailPage = () => {
   const closeModal = () => {
     closeModalState()
   }
+  const openModalLoginUI = () => dispatch(openModalLogin())
   const openModal = () => {
 
     if (status === 'authenticated') {
       openModalState()
     } else {
-      console.log('debe aunthenticarse')
+      openModalLoginUI()
     }
   }
 

@@ -7,12 +7,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../hooks/useAuthStore";
 import { useModal } from "../../hooks/useModal";
-import { logoutAuth } from "../../store/slices";
+import { closeModalLogin, logoutAuth, openModalLogin } from "../../store/slices";
 import { FormLogin } from "./FormLogin";
 import { FormRegister } from "./FormRegister";
 export const Navbar = () => {
 
     const { user, token } = useSelector((state: any) => state.auth)
+    const {isModalLoginOpen} = useSelector((state: any) => state.ui)
     const dispatch = useDispatch()
     const toast = useRef<any>(null);
     const navigate = useNavigate()
@@ -24,20 +25,14 @@ export const Navbar = () => {
         openModalState: openModalRegisterState
     } = useModal()
 
-    const {
-        closeModalState: closeModalLoginState,
-        modalState: modalLogin,
-        openModalState: openModalLoginState
-    } = useModal()
-
 
 
     //open
-    const openModalLogin = () => openModalLoginState()
+    const openModalLoginUI = () => dispatch(openModalLogin())
     const openModalRegister = () => openModalRegisterState()
 
     //close
-    const closeModalLogin = () => { closeModalLoginState() }
+    const closeModalLoginUi = () => { dispatch(closeModalLogin()) }
     const closeModalRegister = () => { closeModalRegisterState() }
 
 
@@ -104,15 +99,15 @@ export const Navbar = () => {
 
                             : <div className="flex gap-2">
                                 {/* LOGIN AND REGISTER */}
-                                <Button label="Login" onClick={openModalLogin} />
+                                <Button label="Login" onClick={openModalLoginUI} />
                                 <Button label="Register" onClick={openModalRegister} className="p-button-outlined" /></div>
                     }
                 </div>
             </header>
 
-            <Dialog visible={modalLogin} onHide={closeModalLogin} breakpoints={{ '960px': '25vw', '640px': '100vw' }} style={{ width: '30vw' }} >
+            <Dialog visible={isModalLoginOpen} onHide={closeModalLoginUi} breakpoints={{ '960px': '25vw', '640px': '100vw' }} style={{ width: '30vw' }} >
                 <h1 className="text-center font-bold text-4xl">Login</h1>
-                <FormLogin closeModal={closeModalLogin} />
+                <FormLogin closeModal={closeModalLoginUi} />
             </Dialog>
 
             <Dialog visible={modalRegister} onHide={closeModalRegister} breakpoints={{ '960px': '75vw', '640px': '100vw' }} style={{ width: '30vw' }} >

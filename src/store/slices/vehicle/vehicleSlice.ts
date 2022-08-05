@@ -23,7 +23,7 @@ export const vehicleSlice = createSlice({
             state.startDate = starDate
             state.endDate= endDate
             state.brand = payload.brand.id
-            localStorage.setItem('brand',JSON.stringify(state.brand))
+            // localStorage.setItem('brand',JSON.stringify(state.brand))
             localStorage.setItem('startDate', JSON.stringify(starDate))
             localStorage.setItem('endDate', JSON.stringify(endDate))
         },
