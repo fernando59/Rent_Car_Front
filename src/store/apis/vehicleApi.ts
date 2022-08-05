@@ -65,6 +65,9 @@ export const vehicleApi = createApi({
                 return {
                     url: 'vehicle',
                     method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')!}`
+                    },
                     body
                 }
             }
@@ -76,6 +79,9 @@ export const vehicleApi = createApi({
                 return {
                     url: `vehicle/${id}`,
                     method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')!}`
+                    },
                     body,
                 }
             },
@@ -87,6 +93,9 @@ export const vehicleApi = createApi({
                 return {
                     url: `vehicle/${id}`,
                     method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')!}`
+                    },
                 }
             },
             // Invalidates all queries that subscribe to this Post `id` only.

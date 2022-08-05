@@ -3,12 +3,16 @@ import { Divider } from 'primereact/divider';
 import { InputText } from 'primereact/inputtext';
 import { Password } from 'primereact/password';
 import { classNames } from 'primereact/utils';
-import { useRef } from 'react';
+import { FC, useRef } from 'react';
 import { Controller, useForm } from "react-hook-form";
 import { useRegisterMutation } from '../../store/apis';
 
 
-export const FormRegister = () => {
+interface Props{
+    toast:any
+    closeModal?:()=>void
+}
+export const FormRegister:FC<Props> = ({toast,closeModal}) => {
 
     const [regiter] = useRegisterMutation()
     interface IRegister{
@@ -47,9 +51,20 @@ export const FormRegister = () => {
     );
     const passwordHeader = <h6>Pick a password</h6>;
     const onHandleSubmit = async (data: any) => {
-        console.log(data)
+        try{
+
         const res = await regiter(data).unwrap()
-        console.log(res)
+        const {success,message} = res
+        if(success){
+            toast.current.show({ severity: 'success', summary: 'Successfull', detail: 'Login Successfull', life: 3000 });
+            if(closeModal)closeModal()
+        }else{
+
+            toast.current.show({ severity: 'error', summary: 'Error', detail: message, life: 3000 });
+        }
+        }catch(e){
+            toast.current.show({ severity: 'error', summary: 'Error', detail: 'User already exist!', life: 3000 });
+        }
 
     }
     return (

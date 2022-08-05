@@ -43,6 +43,7 @@ export const authSlice = createSlice({
             localStorage.removeItem('token')
 
         },
+
         checkingCredentials: (state) => {
             const token = localStorage.getItem('token');
             if (!token) {

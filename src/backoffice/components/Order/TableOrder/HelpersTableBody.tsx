@@ -39,7 +39,7 @@ export const startDateBodyTemplate = (rowData: any) => {
 }
 
 export const endDateBodyTemplate = (rowData: any) => {
-    const { endDate} = rowData
+    const { endDate } = rowData
     const date = new Date(endDate).toLocaleDateString('en-Us')
     return <p>{date}</p>
 }

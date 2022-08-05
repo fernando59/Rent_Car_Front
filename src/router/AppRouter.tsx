@@ -59,7 +59,7 @@ export const AppRouter = () => {
                         <Route path='/*' element={<Navigate to=""  />} />
 
                 } */}
-                <Route path='*' element={
+                <Route path='' element={
                     <PrivateRouteClient>
                         <Route path="history" element={<HistoryPage />} />
                     </PrivateRouteClient>
@@ -85,7 +85,7 @@ export const AppRouter = () => {
                         <Route path="typeVehicle" element={<TypeVehiclePage />} />
                         <Route path="models" element={<ModelPage />} />
 
-                    </> : <Route path='/backoffice/*' element={<Navigate to="/backoffice/login" replace={true} />} />
+                    </> : <Route path='*' element={<Navigate to="/backoffice/login" replace={true} />} />
                 }
             </Route>
 

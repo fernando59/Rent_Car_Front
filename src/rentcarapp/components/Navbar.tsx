@@ -1,6 +1,7 @@
 import { Button } from "primereact/button";
 import { Dialog } from 'primereact/dialog';
 import { Menu } from "primereact/menu";
+import { Toast } from "primereact/toast";
 import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -13,6 +14,7 @@ export const Navbar = () => {
 
     const { user, token } = useSelector((state: any) => state.auth)
     const dispatch = useDispatch()
+    const toast = useRef<any>(null);
     const navigate = useNavigate()
     const menu = useRef<any>(null);
     const { status } = useAuthStore();
@@ -115,8 +117,9 @@ export const Navbar = () => {
 
             <Dialog visible={modalRegister} onHide={closeModalRegister} breakpoints={{ '960px': '75vw', '640px': '100vw' }} style={{ width: '30vw' }} >
                 <h1 className="text-center font-bold text-4xl">Register</h1>
-                <FormRegister />
+                <FormRegister toast={toast} closeModal={closeModalRegister} />
             </Dialog>
+            <Toast ref={toast} />
         </>
     )
 }

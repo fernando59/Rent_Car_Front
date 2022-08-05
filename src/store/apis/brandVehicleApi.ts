@@ -16,6 +16,7 @@ export const brandsVehicleApi = createApi({
         getBrands: builder.query<IBrand[], void>({
             query: () => 'brandVehicle',
             transformResponse: (response: { data: IBrand[] }, meta, arg) => response.data,
+            
             providesTags: (result) => result
                 ? // successful query
                 [
@@ -31,7 +32,7 @@ export const brandsVehicleApi = createApi({
                     url: 'brandVehicle',
                     method: 'POST',
                     headers:{
-                        'Authorization':localStorage.getItem('token')!
+                        'Authorization': `Bearer ${localStorage.getItem('token')!}`
                     },
                     body
                 }
@@ -44,17 +45,24 @@ export const brandsVehicleApi = createApi({
                 return {
                     url: `brandVehicle/${id}`,
                     method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')!}`
+                    },
                     body,
                 }
             },
             // Invalidates all queries that subscribe to this Post `id` only.
             invalidatesTags: (result, error, { id }) => [{ type: 'BrandsVehicle', id }],
+            
         }),
         deleteBrand: builder.mutation<ResponseData, number>({
             query(id) {
                 return {
                     url: `brandVehicle/${id}`,
                     method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')!}`
+                    },
                 }
             },
             // Invalidates all queries that subscribe to this Post `id` only.
