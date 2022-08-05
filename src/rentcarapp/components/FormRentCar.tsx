@@ -4,6 +4,7 @@ import { Calendar } from "primereact/calendar";
 import { InputText } from "primereact/inputtext";
 import { FC, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { useCreateOrderMutation } from "../../store/apis";
 
 interface Props {
@@ -13,6 +14,7 @@ interface Props {
 export const FormRentCar: FC<Props> = ({ dailyRate = 0,vehicleId=0 }) => {
     const { control, formState: { errors }, handleSubmit, setValue, getValues } = useForm({});
     const [createOrder]=useCreateOrderMutation()
+    const navigate = useNavigate()
     const [state, setState] = useState({
         total: 0,
         days: 0,
@@ -21,7 +23,14 @@ export const FormRentCar: FC<Props> = ({ dailyRate = 0,vehicleId=0 }) => {
     const onHandleSubmitRentCar = async (data: any) => {
         data.VehicleId =vehicleId
         const res =await createOrder(data).unwrap()
+        const {success} = res
         console.log(res)
+        if(success){
+            navigate('/history')
+
+        }else{
+
+        }
         
 
     }

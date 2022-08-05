@@ -1,7 +1,7 @@
-import { ChipTable } from "../../Vehicles/ChipTable"
+import { ChipTable } from "../../../../backoffice/components/Vehicles/ChipTable"
 
 
-export const statusBodyTemplate = (rowData: any) => {
+export const statusBodyClientTemplate = (rowData: any) => {
     const { status } = rowData
     let text = "Open"
     let background = "bg-[#C8E6C9]" //green
@@ -32,15 +32,14 @@ export const statusBodyTemplate = (rowData: any) => {
 
 }
 
-export const startDateBodyTemplate = (rowData: any) => {
+export const startDateBodyClientTemplate = (rowData: any) => {
     const { startDate } = rowData
     const date = new Date(startDate).toLocaleDateString('en-Us')
     return <p>{date}</p>
 }
 
-export const endDateBodyTemplate = (rowData: any) => {
+export const endDateBodyClientTemplate = (rowData: any) => {
     const { endDate } = rowData
     const date = new Date(endDate).toLocaleDateString('en-Us')
     return <p>{date}</p>
 }
-
