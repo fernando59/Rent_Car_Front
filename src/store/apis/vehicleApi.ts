@@ -50,6 +50,7 @@ export const vehicleApi = createApi({
                     params: { page, quantity, brandId, modelId, typeVehicleId }
                 }
             },
+            keepUnusedDataFor: 10,
             transformResponse: (response: { data: IVehicle[] }, meta, arg) => response.data,
             providesTags: (result) => result
                 ?

@@ -6,6 +6,7 @@ import { Galleria } from 'primereact/galleria';
 import { Image } from 'primereact/image';
 import { useRef } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
+import { useAuthStore } from '../../hooks/useAuthStore';
 import { useModal } from '../../hooks/useModal';
 import { useGetVehicleByIdQuery } from '../../store/apis/vehicleApi';
 import { FormRentCar } from '../components/FormRentCar';
@@ -17,7 +18,7 @@ type Params = {
 }
 export const VehicleDetailPage = () => {
   let { id } = useParams<Params>();
-
+  const { status, user } = useAuthStore();
   const { data: vehicle, isSuccess, isLoading, isError } = useGetVehicleByIdQuery(id === undefined ? skipToken : id)
   const {
     openModalState,
@@ -28,8 +29,13 @@ export const VehicleDetailPage = () => {
   const closeModal = () => {
     closeModalState()
   }
-  const openModal =()=>{
-    openModalState()
+  const openModal = () => {
+
+    if (status === 'authenticated') {
+      openModalState()
+    } else {
+      console.log('debe aunthenticarse')
+    }
   }
 
 
@@ -107,7 +113,7 @@ export const VehicleDetailPage = () => {
 
 
             <Dialog visible={modalState} style={{ width: '450px' }} header={'Rent Car'} modal className="p-fluid" onHide={closeModal}>
-            <FormRentCar dailyRate={vehicle?.price} vehicleId={vehicle?.id}/>
+              <FormRentCar dailyRate={vehicle?.price} vehicleId={vehicle?.id} />
 
             </Dialog>
 

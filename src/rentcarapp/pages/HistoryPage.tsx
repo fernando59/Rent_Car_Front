@@ -1,6 +1,9 @@
+import { useGetOrdersByUserQuery } from "../../store/apis"
 import { Navbar } from "../components/Navbar"
 
 export const HistoryPage = () => {
+  const {data} =useGetOrdersByUserQuery()
+  console.log(data)
   return (
     <>
 

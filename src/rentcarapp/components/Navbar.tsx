@@ -88,7 +88,7 @@ export const Navbar = () => {
                         </li>
 
                         <li className="hover:text-purple-600 px-4">
-                            <a href='#contact'>
+                            <a href='#about_us'>
                                 <span>About Us</span>
                             </a>
                         </li>

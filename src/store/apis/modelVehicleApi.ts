@@ -32,7 +32,7 @@ export const modelVehicleApi = createApi({
                     url: 'modelVehicle',
                     method: 'POST',
                     headers:{
-                        'Authorization':localStorage.getItem('token')!
+                        'Authorization':`Bearer ${localStorage.getItem('token')!}`
                     },
                     body
                 }

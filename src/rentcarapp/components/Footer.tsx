@@ -13,9 +13,9 @@ export const Footer = () => {
       <div>
         <input
           type="text"
-          placeholder="Enter Your ph.no"
+          placeholder="Enter Your Phone"
           className="text-gray-800
-         sm:w-72 w-full sm:mr-5 mr-1 lg:mb-0 mb-4 py-2.5 rounded px-2 focus:outline-none"
+         sm:w-72 w-full   sm:mr-5 mr-1 lg:mb-0 mb-4 py-3 rounded px-2 focus:outline-none"
         />
         <Button label="Contact" className="outline"/>
       </div>

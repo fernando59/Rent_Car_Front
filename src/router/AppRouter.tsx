@@ -59,9 +59,9 @@ export const AppRouter = () => {
                         <Route path='/*' element={<Navigate to=""  />} />
 
                 } */}
+                        <Route path="history" element={<HistoryPage />} />
                 <Route path='' element={
                     <PrivateRouteClient>
-                        <Route path="history" element={<HistoryPage />} />
                     </PrivateRouteClient>
                 } />
 

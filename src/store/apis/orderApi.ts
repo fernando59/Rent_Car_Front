@@ -24,6 +24,25 @@ export const orderApi = createApi({
                 : // an error occurred, but we still want to refetch this query when `{ type: 'Posts', id: 'LIST' }` is invalidated
                 [{ type: 'Orders', id: 'LIST' }],
         }),
+        getOrdersByUser: builder.query<Order[], void>({
+            query: () => {
+                return {
+                    url: 'order/getOrdersByUser',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')!}`
+                    },
+                }
+            },
+            keepUnusedDataFor: 10,
+            transformResponse: (response: { data: Order[] }, meta, arg) => response.data,
+            providesTags: (result) => result
+                ? // successful query
+                [
+                    { type: 'Orders', id: 'LIST' },
+                ]
+                : // an error occurred, but we still want to refetch this query when `{ type: 'Posts', id: 'LIST' }` is invalidated
+                [{ type: 'Orders', id: 'LIST' }],
+        }),
         createOrder: builder.mutation<ResponseData, Partial<Order>>({
             query: (body: Order) => {
                 return {
@@ -43,4 +62,4 @@ export const orderApi = createApi({
 })
 
 
-export const { useGetOrdersQuery,useCreateOrderMutation} = orderApi
+export const { useGetOrdersQuery, useCreateOrderMutation, useGetOrdersByUserQuery } = orderApi
