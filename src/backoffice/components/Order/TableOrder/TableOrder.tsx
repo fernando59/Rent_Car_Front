@@ -31,7 +31,6 @@ export const TableOrder = () => {
 
 
     const openSidebarUI = (data: any) => {
-        console.log(data)
         setOrder(data)
         openSidebar()
 
@@ -76,7 +75,7 @@ export const TableOrder = () => {
             </DataTable>
             <Sidebar style={{ width: '40%' }} visible={sidebarState} position="right" onHide={() => closeSideBar()}>
                 <h1 className="capitalize font-bold text-3xl">Order N° {order?.id}</h1>
-                <FormChangeStateOrder status={order.status} />
+                <FormChangeStateOrder status={order.status}  idOrder={order.id}/>
 
                 <h1 className="text-center font-bold text-3xl py-10">Order Detail</h1>
                 <div className="flex justify-around">

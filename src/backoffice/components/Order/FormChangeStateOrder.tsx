@@ -3,20 +3,33 @@ import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";
 import { FC } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { useUpdateOrderMutation } from "../../../store/apis";
 
 interface Props {
     status: number
+    idOrder?:number
 }
-export const FormChangeStateOrder: FC<Props> = ({ status }) => {
+export const FormChangeStateOrder: FC<Props> = ({ status,idOrder=0 }) => {
 
+    const [updateOrder] = useUpdateOrderMutation()
     const { control, formState: { errors }, handleSubmit, reset, watch } = useForm({
-
         defaultValues: {
-            status
+            status,
+            id:idOrder
         }
     });
-    const onHandleSubmit = (data: any) => {
-        console.log(data)
+    const onHandleSubmit = async (data: any) => {
+        try{
+        const res = await updateOrder(data).unwrap()
+        const {success} = res
+        if(success){
+
+        }
+
+        }catch(e){
+            console.error(e)
+        }
+
     }
     const data = [
         {
@@ -49,6 +62,7 @@ export const FormChangeStateOrder: FC<Props> = ({ status }) => {
                         ) => (
                             <Dropdown
                                 className='w-full min-w-[250px] capitalize'
+                                disabled={status !=1 && status !=2}
                                 id={field.name}
                                 value={field.value}
                                 onChange={(e) => field.onChange(e.value)}
@@ -59,7 +73,7 @@ export const FormChangeStateOrder: FC<Props> = ({ status }) => {
                     />
                     <label className={classNames({ "p-error": errors.status})}>Status </label>
                 </span>
-                <Button  label="Save" style={{width:'100%'}}/>
+                <Button  label="Save" style={{width:'100%'}} disabled={status !=1 && status !=2}/>
             </form>
         </>
     )
