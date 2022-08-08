@@ -15,7 +15,7 @@ interface Props{
 }
 export const FormLogin:FC<Props> = ({closeModal}) => {
     const dispatch = useDispatch();
-    const [login, result] = useLoginMutation()
+    const [login, {isLoading}] = useLoginMutation()
     const toast = useRef<any>(null);
     interface ILogin {
         email: string
@@ -76,7 +76,7 @@ export const FormLogin:FC<Props> = ({closeModal}) => {
                     </span>
                     {getFormErrorMessage('password')}
                 </div>
-                <Button label='Login' type='submit' />
+                <Button label='Login' type='submit' loading={isLoading} />
             </form>
             <Toast ref={toast} />
         </>

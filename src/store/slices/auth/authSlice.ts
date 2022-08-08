@@ -40,7 +40,7 @@ export const authSlice = createSlice({
         },
         logoutAuth: (state) => {
             state.status = 'not-authenticated' // 'checking', 'not-authenticated', 'authenticated'
-            localStorage.removeItem('token')
+            localStorage.clear()
 
         },
 

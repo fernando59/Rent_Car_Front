@@ -5,7 +5,9 @@ import { Password } from 'primereact/password';
 import { classNames } from 'primereact/utils';
 import { FC, useRef } from 'react';
 import { Controller, useForm } from "react-hook-form";
+import { useDispatch } from 'react-redux';
 import { useRegisterMutation } from '../../store/apis';
+import { openModalLogin } from '../../store/slices';
 
 
 interface Props{
@@ -14,7 +16,8 @@ interface Props{
 }
 export const FormRegister:FC<Props> = ({toast,closeModal}) => {
 
-    const [regiter] = useRegisterMutation()
+    const [regiter,{isLoading,isSuccess}] = useRegisterMutation()
+    const dispatch = useDispatch()
     interface IRegister{
         username:string
         email: string
@@ -56,7 +59,9 @@ export const FormRegister:FC<Props> = ({toast,closeModal}) => {
         const res = await regiter(data).unwrap()
         const {success,message} = res
         if(success){
-            toast.current.show({ severity: 'success', summary: 'Successfull', detail: 'Login Successfull', life: 3000 });
+            toast.current.show({ severity: 'success', summary: 'Successfull', detail: 'Successful registration', life: 2000 });
+            await new Promise(resolve => setTimeout(resolve, 2000))
+            dispatch(openModalLogin())
             if(closeModal)closeModal()
         }else{
 
@@ -110,7 +115,7 @@ export const FormRegister:FC<Props> = ({toast,closeModal}) => {
                     </span>
                     {getFormErrorMessage('confirm_password')}
                 </div>
-                <Button label='Register' type='submit' />
+                <Button label='Register' type='submit' loading={isLoading} disabled={isSuccess}/>
             </form>
         </>
     )
