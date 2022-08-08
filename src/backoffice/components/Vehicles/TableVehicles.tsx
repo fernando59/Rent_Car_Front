@@ -95,6 +95,8 @@ export const TableVehicles: FC<Props> = ({ openSideBar }) => {
     const onHandleSubmitSaveVehicle = async (data: IVehicleForm) => {
         // debugger
         const formData = new FormData();
+        const image = data.imagePath as any
+        console.log(image?.files[0])
         formData.append('plate',data.plate)
         formData.append('capacity',data?.capacity?.toString()!)
         formData.append('price',data?.price?.toString()!)
@@ -107,6 +109,7 @@ export const TableVehicles: FC<Props> = ({ openSideBar }) => {
         formData.append('hasAir',String(data.hasAir))
         
 
+        return
         let res
         if (vehicle.id === 0) {
             res = await createVehicle(formData).unwrap()
@@ -208,7 +211,10 @@ export const TableVehicles: FC<Props> = ({ openSideBar }) => {
         return <ChipTable text={text} background={background} textColor={textColor} />
 
     }
-
+    const imageBodyTemplate = (rowData:any) => {
+        const image = rowData.photosVehicles[0]?.path
+        return <img src={`https://res.cloudinary.com/testapicloudinaryfernando/image/upload/${image}`} onError={(e:any) => e.target.src='https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} alt={image} className="w-16 h-16 object-cover" />
+    }
     return (
         <>
 
@@ -231,6 +237,8 @@ export const TableVehicles: FC<Props> = ({ openSideBar }) => {
             >
 
                 <Column field="id" header="Id" className='capitalize' sortable style={{ minWidth: '12rem' }}></Column>
+                
+                <Column header="Image" headerStyle={{ width: '400px'}} body={imageBodyTemplate}></Column>
                 <Column field="plate" header="Plate" className='capitalize' sortable style={{ minWidth: '12rem' }}></Column>
                 <Column field="brandVehicle.name" header="Brand" className='capitalize' sortable style={{ minWidth: '12rem' }}></Column>
                 <Column field="modelVehicle.name" header="Model" className='capitalize' sortable style={{ minWidth: '12rem' }}></Column>

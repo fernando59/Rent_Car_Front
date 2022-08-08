@@ -15,7 +15,7 @@ export interface IVehicleForm{
     brandVehicleId:number
     modelVehicleId:number
     typeVehicleId:number
-    imagePath?:string
+    imagePath?:string 
 }
 
 

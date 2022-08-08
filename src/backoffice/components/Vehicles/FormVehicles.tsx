@@ -37,11 +37,10 @@ export const FormVehicles: FC<Props> = ({ onHandleSubmitSaveVehicle, defaultValu
     };
     const fileChange = (e: any) => {
         const file = e.target.files[0];
-        const urlValue = URL.createObjectURL(file);
         setValue("imagePath",file)
         console.log(getValues('imagePath'))
-        console.log(urlValue)
-        setUrl(urlValue)
+        // const urlValue = URL.createObjectURL(file);
+        // setUrl(urlValue)
 
     };
     return (
