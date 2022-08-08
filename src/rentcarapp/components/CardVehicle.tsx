@@ -22,10 +22,10 @@ export const CardVehicle: FC<Props> = ({ price, model, brand, id, year,capacity,
                 <Image src="https://images.pexels.com/photos/909907/pexels-photo-909907.jpeg?auto=compress&cs=tinysrgb&w=1600" imageClassName="w-full h-[300px] object-cover" alt="Image Text" />
                 <div>
 
-                    <div className='flex justify-between items-center pt-2 '>
+                    <div className='inline-flex items-center pt-2 '>
 
-                        <span className='font-bold text-3xl px-3'>{model} {brand} {year} </span>
-                        <p className=" font-bold text-3xl px-3"> {price} $  </p>
+                        <span className='inline font-bold text-2xl px-3 truncate w-[200px]'>{model} {brand} {year} </span>
+                        <p className="inline font-bold text-right text-2xl px-3 w-[100px]"> {price} $  </p>
                     </div>
                     <div className='flex justify-between items-start'>
 

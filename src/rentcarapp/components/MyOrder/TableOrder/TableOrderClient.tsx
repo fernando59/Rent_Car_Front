@@ -1,10 +1,42 @@
+import { Button } from "primereact/button"
 import { Column } from "primereact/column"
 import { DataTable } from "primereact/datatable"
+import { Sidebar } from "primereact/sidebar"
+import { useState } from "react"
+import { useModal } from "../../../../hooks/useModal"
+import { Order } from "../../../../models/Order"
 import { useGetOrdersByUserQuery } from "../../../../store/apis"
 import { endDateBodyClientTemplate, startDateBodyClientTemplate, statusBodyClientTemplate } from "./HelpersTableBodyClient"
 
 export const TableOrderClient = () => {
     const { data } = useGetOrdersByUserQuery()
+    const [order, setOrder] = useState<Order>({
+        days: 0,
+        price: 0,
+        status: 0,
+        VehicleId: 0,
+        id: 0,
+        endDate: undefined,
+        startDate: undefined
+    })
+    const {
+        closeModalState: closeSideBar,
+        modalState: sidebarState,
+        openModalState: openSidebar
+    } = useModal()
+    
+    const openSidebarUI = (data: any) => {
+        setOrder(data)
+        openSidebar()
+
+    }
+    const actionBodyAdminTemplate = (rowData: any) => {
+        return (
+            <div className='flex justify-end pr-10 gap-2'>
+                <Button icon="pi pi-eye" className="p-button-rounded p-button-secondary mr-2" onClick={() => openSidebarUI(rowData)} />
+            </div>
+        );
+    }
     return <>
         <DataTable
             value={data}
@@ -28,7 +60,11 @@ export const TableOrderClient = () => {
             <Column field="vehicle.plate" header="Plate" sortable style={{ minWidth: '12rem' }}></Column>
             <Column field="days" header="Days" className='capitalize' sortable style={{ minWidth: '12rem' }}></Column>
             <Column field="state" header="State" className='capitalize' body={statusBodyClientTemplate} sortable style={{ minWidth: '12rem' }}></Column>
+            <Column body={actionBodyAdminTemplate} exportable={false} style={{ minWidth: '8rem' }}></Column>
         </DataTable>
+        <Sidebar style={{ width: '40%' }} visible={sidebarState} position="right" onHide={() => closeSideBar()}>
+            hello
+            </Sidebar>
     </>
 
 }

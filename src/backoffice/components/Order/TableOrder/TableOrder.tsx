@@ -50,7 +50,6 @@ export const TableOrder = () => {
     const actionBodyAdminTemplate = (rowData: any) => {
         return (
             <div className='flex justify-end pr-10 gap-2'>
-                {/* <SplitButton label="Show" icon="pi pi-eye" onClick={() => openSideBar(rowData)} model={itemsButton}></SplitButton> */}
                 <Button icon="pi pi-eye" className="p-button-rounded p-button-secondary mr-2" onClick={() => openSidebarUI(rowData)} />
             </div>
         );
