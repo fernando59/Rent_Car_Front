@@ -14,7 +14,8 @@ export const VehiclePage = () => {
         plate: '',
         price: 0,
         typeVehicle: null,
-        year: 2000
+        year: 2000,
+        description:null
 
 
     })

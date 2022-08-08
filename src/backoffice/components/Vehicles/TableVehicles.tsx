@@ -23,7 +23,9 @@ const vehicleDefaultValues: IVehicleForm = {
     year: undefined,
     brandVehicleId: 0,
     modelVehicleId: 0,
-    typeVehicleId: 0
+    typeVehicleId: 0,
+    description:undefined,
+    imagePath:undefined
 }
 
 interface Props {
@@ -41,7 +43,7 @@ export const TableVehicles: FC<Props> = ({ openSideBar }) => {
 
     //RKT QUERY
     const { data } = useGetVehiclesQuery()
-    const [createVehicle] = useCreateVehicleMutation()
+    const [createVehicle,{isLoading,isSuccess}] = useCreateVehicleMutation()
     const [updateVehicle] = useUpdateVehicleMutation()
     const [deleteVehicle] = useDeleteVehicleMutation()
 
@@ -91,9 +93,23 @@ export const TableVehicles: FC<Props> = ({ openSideBar }) => {
 
 
     const onHandleSubmitSaveVehicle = async (data: IVehicleForm) => {
+        // debugger
+        const formData = new FormData();
+        formData.append('plate',data.plate)
+        formData.append('capacity',data?.capacity?.toString()!)
+        formData.append('price',data?.price?.toString()!)
+        formData.append('year',data.year?.toString()!)
+        formData.append('description',data.description?.toString()!)
+        formData.append('imagePath',data.imagePath!)
+        formData.append('brandVehicleId',data.brandVehicleId?.toString()!)
+        formData.append('modelVehicleId',data.modelVehicleId?.toString()!)
+        formData.append('typeVehicleId',data.typeVehicleId?.toString()!)
+        formData.append('hasAir',String(data.hasAir))
+        
+
         let res
         if (vehicle.id === 0) {
-            res = await createVehicle(data).unwrap()
+            res = await createVehicle(formData).unwrap()
         } else {
             data.id = vehicle.id
             res = await updateVehicle(data).unwrap()

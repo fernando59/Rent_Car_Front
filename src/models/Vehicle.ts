@@ -10,10 +10,12 @@ export interface IVehicleForm{
     price?:number  
     state:number 
     year?:number  
+    description?:string
     hasAir:boolean  
     brandVehicleId:number
     modelVehicleId:number
     typeVehicleId:number
+    imagePath?:string
 }
 
 
@@ -23,6 +25,7 @@ export interface IVehicle{
     price:number | null
     state:number 
     year:number | null
+    description:string | null
     hasAir:boolean | null
     modelVehicle:IModelVehicle | null
     brandVehicle:IBrand | null

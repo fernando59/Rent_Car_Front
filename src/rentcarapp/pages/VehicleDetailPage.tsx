@@ -68,6 +68,8 @@ export const VehicleDetailPage = () => {
   }
 
   const thumbnailTemplate = (item: any) => {
+    console.log(item.path)
+    // if(item.path)
     return <img src={`https://res.cloudinary.com/testapicloudinaryfernando/image/upload/${item.path}`} onError={(e: any) => e.target.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} style={{ height: '150px', objectFit: 'cover', width: "150px" }} alt={item.alt} />
     // return <Image src={item.thumbnailImageSrc} preview alt="Image Text" style={{ width: '100%',height:400,objectFit:'cover' }} />
   }

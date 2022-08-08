@@ -37,6 +37,7 @@ export const ListCardVehicle: FC<Props> = ({ brandId, modelId, typeVehicleId }) 
                     price={item.price}
                     capacity={item.capacity}
                     hasAir={item.hasAir}
+                    images={item.photosVehicles}
 
                 />)
             }

@@ -4,22 +4,32 @@ import { FC } from 'react';
 import { Link } from 'react-router-dom';
 
 
+interface Images {
+    path: string
+    id: number
+}
 interface Props {
     id: number
     price: number
     model: string
     brand: string
     year: number
-    hasAir:boolean
-    capacity:number
+    hasAir: boolean
+    capacity: number
+    images: Images[]
 }
-export const CardVehicle: FC<Props> = ({ price, model, brand, id, year,capacity,hasAir }) => {
+export const CardVehicle: FC<Props> = ({ price, model, brand, id, year, capacity, hasAir, images }) => {
+
+
 
     return (
         <>
 
             <div className='  drop-shadow-md shadow  rounded-md' >
-                <Image src="https://images.pexels.com/photos/909907/pexels-photo-909907.jpeg?auto=compress&cs=tinysrgb&w=1600" imageClassName="w-full h-[300px] object-cover" alt="Image Text" />
+                {
+                    images[0]?.path != undefined ?
+                        <Image src={`https://res.cloudinary.com/testapicloudinaryfernando/image/upload/${images[0]?.path}`} imageClassName="w-full h-[300px] object-cover" alt="Image Text" /> : <Image src={'https://media.istockphoto.com/vectors/thumbnail-image-vector-graphic-vector-id1147544807?k=20&m=1147544807&s=612x612&w=0&h=pBhz1dkwsCMq37Udtp9sfxbjaMl27JUapoyYpQm0anc='} imageClassName="w-full h-[300px] object-cover" alt="Image Text" />
+                }
                 <div>
 
                     <div className='inline-flex items-center pt-2 '>
@@ -36,7 +46,7 @@ export const CardVehicle: FC<Props> = ({ price, model, brand, id, year,capacity,
 
                         <div className='p-3'>
                             <span><i className="pi pi-cloud"></i> </span>
-                            <span className='font-bold'>{hasAir?'Has':'Not '} Air</span>
+                            <span className='font-bold'>{hasAir ? 'Has' : 'Not '} Air</span>
                         </div>
 
                         <div className='p-3'>

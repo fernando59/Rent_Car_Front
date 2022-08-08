@@ -71,7 +71,7 @@ export const VehicleModelsPage = () => {
 
             <div className='grid__cards'>
 
-              <ListCardVehicle brandId={state.brandId} modelId={state.modelId} typeVehicleId={state.typeVehicleId} />
+              <ListCardVehicle brandId={state.brandId} modelId={state.modelId} typeVehicleId={state.typeVehicleId}  />
 
             </div>
             <Paginator first={0} rows={10} onPageChange={() => { }}></Paginator>

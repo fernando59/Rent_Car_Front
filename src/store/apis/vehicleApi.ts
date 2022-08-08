@@ -61,13 +61,15 @@ export const vehicleApi = createApi({
                 :
                 [{ type: 'Vehicles', id: 'LIST' }],
         }),
-        createVehicle: builder.mutation<ResponseData, Partial<IVehicleForm>>({
-            query: (body: IVehicleForm) => {
+        createVehicle: builder.mutation<ResponseData, Partial<any>>({
+            query: (body: any) => {
+                console.log(body)
                 return {
                     url: 'vehicle',
                     method: 'POST',
                     headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('token')!}`
+                        'Authorization': `Bearer ${localStorage.getItem('token')!}`,
+                        // 'Content-Type': 'multipart/form-data'
                     },
                     body
                 }

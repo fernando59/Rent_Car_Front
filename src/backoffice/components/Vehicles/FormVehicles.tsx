@@ -3,7 +3,8 @@ import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";
 import { InputNumber } from 'primereact/inputnumber';
 import { InputText } from "primereact/inputtext";
-import { FC } from "react";
+import { InputTextarea } from "primereact/inputtextarea";
+import { FC, useState } from "react";
 import { Controller, useForm } from 'react-hook-form';
 import { ITypeVehicle } from "../../../models";
 import { IBrand } from "../../../models/Brand";
@@ -22,21 +23,44 @@ interface Props {
 
 
 export const FormVehicles: FC<Props> = ({ onHandleSubmitSaveVehicle, defaultValues, closeModalUpdate }) => {
-    const { control, formState: { errors }, handleSubmit } = useForm({ defaultValues });
+    const { control,setValue, formState: { errors }, handleSubmit,register,getValues } = useForm({ defaultValues });
+    const [url, setUrl] = useState<any>(null)
     //RTK Query
     const { data: models } = useGetModelVehiclesQuery()
     const { data: typeVehicles } = useGetTypeVehiclesQuery()
     const { data: brands } = useGetBrandsQuery()
-
+    const imagePath = register('imagePath', { required: true })
 
     const getFormErrorMessage = (name: any) => {
         const key = name as keyof IVehicleForm
         return errors[key] && <small className="p-error">{errors[key]?.message}</small>
     };
+    const fileChange = (e: any) => {
+        const file = e.target.files[0];
+        const urlValue = URL.createObjectURL(file);
+        setValue("imagePath",file)
+        console.log(getValues('imagePath'))
+        console.log(urlValue)
+        setUrl(urlValue)
+
+    };
     return (
         <>
 
             <form autoComplete="off" onSubmit={handleSubmit(onHandleSubmitSaveVehicle)}>
+
+                <div className="flex items-center justify-center w-full">
+
+                    {
+                        url != null ? <>
+                            <img src={url} alt="Image" className="w-48 h-48 rounded-lg object-cover" />
+
+                        </> : <img src="https://media.istockphoto.com/vectors/thumbnail-image-vector-graphic-vector-id1147544807?k=20&m=1147544807&s=612x612&w=0&h=pBhz1dkwsCMq37Udtp9sfxbjaMl27JUapoyYpQm0anc=" alt="Image" className="w-48 h-48 rounded-lg" />
+                    }
+
+                </div>
+                <Button type="button" icon="pi pi-camera" className="p-button-rounded p-button-primary" aria-label="Image" onClick={() => document.getElementById("image")?.click()} />
+                <input type="file" id="image" hidden accept="image/*" {...imagePath} onChange={fileChange} />
                 <div className="flex gap-4">
 
                     <div className="field pt-10 mb-2">
@@ -155,6 +179,16 @@ export const FormVehicles: FC<Props> = ({ onHandleSubmitSaveVehicle, defaultValu
                             }}
                         />
                         <label>Type Vehicle</label>
+                    </span>
+                </div>
+                <div className="field mt-5 mb-5 ">
+                    <span className="p-float-label">
+                        <Controller name="description" control={control}
+                            render={({ field, fieldState }) => (
+                                <InputTextarea rows={5} cols={30} {...field} style={{ width: '100%' }} />
+
+                            )} />
+                        <label htmlFor="description" >Description</label>
                     </span>
                 </div>
 
