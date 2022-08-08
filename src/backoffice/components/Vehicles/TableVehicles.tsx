@@ -145,7 +145,6 @@ export const TableVehicles: FC<Props> = ({ openSideBar }) => {
             label: 'Delete',
             icon: 'pi pi-trash',
             command: (rowData: any) => {
-                console.log(data)
                 openModalDelete(rowData)
             }
         },

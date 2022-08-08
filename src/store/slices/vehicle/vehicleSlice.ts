@@ -29,7 +29,6 @@ export const vehicleSlice = createSlice({
         },
         getSearchBrandVehicle:(state)=>{
             const res = localStorage.getItem('searcVehicle')
-            console.log(res)
         }
 
 

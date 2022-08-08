@@ -6,7 +6,6 @@ import { Controller, useForm } from "react-hook-form";
 export const FormContact = () => {
     const { control, formState: { errors }, handleSubmit, reset, watch } = useForm({});
     const onHandleSubmit = (data: any) => {
-        console.log(data)
 
     }
     return (

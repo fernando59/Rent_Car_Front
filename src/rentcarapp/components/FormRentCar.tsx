@@ -14,7 +14,7 @@ interface Props {
 }
 export const FormRentCar: FC<Props> = ({ dailyRate = 0,vehicleId=0,toast }) => {
     const { control, formState: { errors }, handleSubmit, setValue, getValues } = useForm({});
-    const [createOrder,{isLoading}]=useCreateOrderMutation()
+    const [createOrder,{isLoading,isSuccess}]=useCreateOrderMutation()
     const navigate = useNavigate()
     const [state, setState] = useState({
         total: 0,
@@ -25,9 +25,11 @@ export const FormRentCar: FC<Props> = ({ dailyRate = 0,vehicleId=0,toast }) => {
         data.VehicleId =vehicleId
         const res =await createOrder(data).unwrap()
         const {success} = res
-        console.log(res)
         if(success){
             toast.current.show({ severity: 'success', summary: 'Successfull', detail: 'Successful Rent', life: 2000 });
+            localStorage.removeItem('startDate')
+            localStorage.removeItem('endDate')
+            localStorage.removeItem('brand')
             await new Promise(resolve => setTimeout(resolve, 2000))
             navigate('/history')
         }else{
@@ -167,7 +169,7 @@ export const FormRentCar: FC<Props> = ({ dailyRate = 0,vehicleId=0,toast }) => {
                 </div>
                 <div className="grow-0">
 
-                    <Button label="Rent" icon="pi pi-check" className="p-button-text" type='submit' loading={isLoading} />
+                    <Button label="Rent" icon="pi pi-check" className="p-button-text" type='submit' loading={isLoading} disabled={isSuccess} />
                 </div>
             </div>
 

@@ -5,7 +5,6 @@ import { endDateBodyClientTemplate, startDateBodyClientTemplate, statusBodyClien
 
 export const TableOrderClient = () => {
     const { data } = useGetOrdersByUserQuery()
-    console.log(data)
     return <>
         <DataTable
             value={data}
