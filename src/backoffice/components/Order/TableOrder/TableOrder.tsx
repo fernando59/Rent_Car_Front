@@ -102,7 +102,6 @@ export const TableOrder = () => {
                 <Column field="vehicle.plate" header="Vehicle" sortable style={{ minWidth: '12rem' }}></Column>
                 <Column field="state" header="State" className='capitalize' body={statusBodyTemplate} sortable style={{ minWidth: '12rem' }}></Column>
                 <Column body={actionBodyAdminTemplate} exportable={false} style={{ minWidth: '8rem' }}></Column>
-                {/* <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '8rem' }}></Column> */}
             </DataTable>
             <Sidebar style={{ width: '40%' }} visible={sidebarState} position="right" onHide={() => closeSideBar()}>
                 <h1 className="capitalize font-bold text-3xl">Order N° {order?.id}</h1>

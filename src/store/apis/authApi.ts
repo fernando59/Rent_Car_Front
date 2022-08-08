@@ -12,10 +12,15 @@ interface ILogin {
     email: string
     password: string
 }
-interface IRegister{
-    username:string
-    email:string
-    password:string
+interface IRegister {
+    username: string
+    email: string
+    password: string
+}
+interface UsersList {
+    id: string
+    email: string
+    username: string
 }
 export const authApi = createApi({
     reducerPath: 'authApi',
@@ -30,19 +35,31 @@ export const authApi = createApi({
                     body
                 }
             },
-     
+
         }),
-        register:builder.mutation({
+        register: builder.mutation({
             query: (body: IRegister) => {
                 return {
                     url: '/auth/register',
                     method: 'POST',
                     body
                 }
-            }, 
-        })
+            },
+        }),
+        getUsers: builder.query<UsersList[], void>({
+            query: () => {
+                return {
+                    url: '/auth/getUsers',
+                    headers:{
+                        'Authorization': `Bearer ${localStorage.getItem('token')!}`
+                    },
+                }
+            },
+            transformResponse: (response: { data: UsersList[] }, meta, arg) => response.data,
+
+        }),
     })
 })
 
 
-export const { useLoginMutation,useRegisterMutation } = authApi
+export const { useLoginMutation, useRegisterMutation,useGetUsersQuery } = authApi
