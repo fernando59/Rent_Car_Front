@@ -31,7 +31,7 @@ export const FormRegister:FC<Props> = ({toast,closeModal}) => {
         confirm_password:''
     }
 
-    const { control, formState: { errors }, handleSubmit, reset,watch } = useForm({ defaultValues });
+    const { control, formState: { errors }, handleSubmit,watch } = useForm({ defaultValues });
     const password = useRef({});
     password.current = watch("password", "");
 

@@ -4,6 +4,7 @@ import { Card } from 'primereact/card';
 import { Dialog } from 'primereact/dialog';
 import { Galleria } from 'primereact/galleria';
 import { Image } from 'primereact/image';
+import { Toast } from 'primereact/toast';
 import { useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { Navigate, useParams } from 'react-router-dom';
@@ -20,9 +21,11 @@ type Params = {
 }
 export const VehicleDetailPage = () => {
   let { id } = useParams<Params>();
-  const { status, user } = useAuthStore();
+  const { status } = useAuthStore();
   const dispatch = useDispatch()
-  const { data: vehicle,   isError } = useGetVehicleByIdQuery(id === undefined ? skipToken : id)
+  const toast = useRef<any>(null);
+
+  const { data: vehicle, isError } = useGetVehicleByIdQuery(id === undefined ? skipToken : id)
   const {
     openModalState,
     closeModalState,
@@ -77,7 +80,7 @@ export const VehicleDetailPage = () => {
       }
       <Navbar />
 
-      <div className="mx-auto container">
+      <div className="mx-auto container px-6">
         <h1 className='py-10 font-bold text-5xl'>Detail Vehicle</h1>
         <div className='grid grid-cols-1 md:grid-cols-2'>
 
@@ -117,13 +120,14 @@ export const VehicleDetailPage = () => {
 
 
             <Dialog visible={modalState} style={{ width: '450px' }} header={'Rent Car'} modal className="p-fluid" onHide={closeModal}>
-              <FormRentCar dailyRate={vehicle?.price} vehicleId={vehicle?.id} />
+              <FormRentCar dailyRate={vehicle?.price} vehicleId={vehicle?.id} toast={toast} />
 
             </Dialog>
 
           </div>
         </div>
       </div>
+      <Toast ref={toast} />
     </>
   )
 }

@@ -7,7 +7,7 @@ export const HistoryPage = () => {
     <>
 
       <Navbar />
-      <div className="mx-auto container">
+      <div className="mx-auto container px-6">
         <h1 className='py-10 font-bold text-5xl'>My Orders</h1>
         <TableOrderClient/>
 

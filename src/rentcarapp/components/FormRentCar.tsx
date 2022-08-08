@@ -10,10 +10,11 @@ import { useCreateOrderMutation } from "../../store/apis";
 interface Props {
     dailyRate?: number
     vehicleId?:number
+    toast:any
 }
-export const FormRentCar: FC<Props> = ({ dailyRate = 0,vehicleId=0 }) => {
+export const FormRentCar: FC<Props> = ({ dailyRate = 0,vehicleId=0,toast }) => {
     const { control, formState: { errors }, handleSubmit, setValue, getValues } = useForm({});
-    const [createOrder]=useCreateOrderMutation()
+    const [createOrder,{isLoading}]=useCreateOrderMutation()
     const navigate = useNavigate()
     const [state, setState] = useState({
         total: 0,
@@ -26,10 +27,12 @@ export const FormRentCar: FC<Props> = ({ dailyRate = 0,vehicleId=0 }) => {
         const {success} = res
         console.log(res)
         if(success){
+            toast.current.show({ severity: 'success', summary: 'Successfull', detail: 'Successful Rent', life: 2000 });
+            await new Promise(resolve => setTimeout(resolve, 2000))
             navigate('/history')
-
         }else{
 
+            toast.current.show({ severity: 'error', summary: 'Error', detail: 'An error has occured', life: 2000 });
         }
         
 
@@ -62,23 +65,29 @@ export const FormRentCar: FC<Props> = ({ dailyRate = 0,vehicleId=0 }) => {
     const handleStartDate = (e: any) => {
         const value = e.value
         let endDate =getValues('endDate')
-
-        let days = endDate.getDate() - value.getDate()
-        if(days===0) days =1
-        if(days<0) days =0 
+        if(endDate !==undefined){
+            let days = endDate.getDate() - value.getDate()
+            if(days===0) days =1
+            if(days<0) days =0 
+            setState({ ...state, days: days, total: days * state.dailyRate })
+        }else{
+            setState({ ...state, days: 0, total: 0  })
+        }
         setValue('startDate', value)
-        setState({ ...state, days: days, total: days * state.dailyRate })
     }
     const handleEndDate = (e: any) => {
         const value = e.value
         let startDate =getValues('startDate')
-
-        let days = value.getDate() - startDate.getDate()
-        if(days==0) days =1
-        if(days<0) days =0 
+        if(startDate !==undefined){
+            let days = value.getDate() - startDate.getDate()
+            if(days==0) days =1
+            if(days<0) days =0 
+            setState({ ...state, days: days, total: days * state.dailyRate })
+        }else{
+            setState({ ...state, days: 0, total: 0  })
+        }
         
         setValue('endDate', value)
-        setState({ ...state, days: days, total: days * state.dailyRate })
     }
 
     return (
@@ -158,7 +167,7 @@ export const FormRentCar: FC<Props> = ({ dailyRate = 0,vehicleId=0 }) => {
                 </div>
                 <div className="grow-0">
 
-                    <Button label="Rent" icon="pi pi-check" className="p-button-text" type='submit' />
+                    <Button label="Rent" icon="pi pi-check" className="p-button-text" type='submit' loading={isLoading} />
                 </div>
             </div>
 
