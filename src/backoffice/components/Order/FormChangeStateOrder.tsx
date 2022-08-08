@@ -8,8 +8,9 @@ import { useUpdateOrderMutation } from "../../../store/apis";
 interface Props {
     status: number
     idOrder?:number
+    closeSideBar:()=>void
 }
-export const FormChangeStateOrder: FC<Props> = ({ status,idOrder=0 }) => {
+export const FormChangeStateOrder: FC<Props> = ({ status,idOrder=0,closeSideBar }) => {
 
     const [updateOrder] = useUpdateOrderMutation()
     const { control, formState: { errors }, handleSubmit, reset, watch } = useForm({
@@ -23,6 +24,7 @@ export const FormChangeStateOrder: FC<Props> = ({ status,idOrder=0 }) => {
         const res = await updateOrder(data).unwrap()
         const {success} = res
         if(success){
+            closeSideBar()
 
         }
 

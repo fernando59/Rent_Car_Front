@@ -1,8 +1,11 @@
+import { FilterMatchMode, FilterOperator } from "primereact/api"
 import { Button } from "primereact/button"
 import { Column } from "primereact/column"
 import { DataTable } from "primereact/datatable"
+import { InputText } from "primereact/inputtext"
 import { Sidebar } from 'primereact/sidebar'
-import { useState } from "react"
+import { Toast } from "primereact/toast"
+import { useRef, useState } from "react"
 import { useModal } from "../../../../hooks/useModal"
 import { Order } from "../../../../models/Order"
 import { useGetOrdersQuery } from "../../../../store/apis"
@@ -11,18 +14,23 @@ import { endDateBodyTemplate, startDateBodyTemplate, statusBodyTemplate } from "
 export const TableOrder = () => {
     //RTK Query
     const { data } = useGetOrdersQuery()
+
+    const [globalFilter, setGlobalFilter] = useState<string>('');
+    const toast = useRef<any>(null);
+    const [filters1, setFilters1] = useState({
+        'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
+        'name': { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
+    });
+
     const [order, setOrder] = useState<Order>({
         days: 0,
         price: 0,
         status: 0,
         VehicleId: 0,
         id: 0,
-        endDate:undefined,
-        startDate:undefined
+        endDate: undefined,
+        startDate: undefined
     })
-    // const [createModel] = useCreateModelMutation()
-    // const [updateModel] = useUpdateModelMutation()
-    // const [deleteModel] = useDeleteModelMutation()
     const {
         closeModalState: closeSideBar,
         modalState: sidebarState,
@@ -35,6 +43,10 @@ export const TableOrder = () => {
         openSidebar()
 
     }
+    const closeSuccessChangeState = () => {
+        closeSideBar()
+        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Change status successfull', life: 3000 });
+    }
     const actionBodyAdminTemplate = (rowData: any) => {
         return (
             <div className='flex justify-end pr-10 gap-2'>
@@ -43,6 +55,25 @@ export const TableOrder = () => {
             </div>
         );
     }
+        // FILTER
+        const filterTable = (e: any) => {
+            const value = e.target.value
+            let _filters1 = { ...filters1 };
+            _filters1['global'].value = value;
+            setFilters1(_filters1);
+            setGlobalFilter(value)
+        }
+        const header = (
+            <div className="table-header">
+                <span className="p-input-icon-left">
+                    <i className="pi pi-search" />
+                    <InputText value={globalFilter} type="search" onChange={filterTable} placeholder="Search..." />
+                </span>
+            </div>
+        );
+    
+    
+
     return (
         <>
             <div className='py-5'>
@@ -58,9 +89,9 @@ export const TableOrder = () => {
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
                 rows={5}
                 rowsPerPageOptions={[5, 10, 20]}
-                // header={header}
-                globalFilterFields={['id', 'name']}
-            // filters={filters1}
+                header={header}
+                globalFilterFields={['id', 'startDate','days','endDate','vehicle.plate','user.email']}
+                filters={filters1}
             >
 
                 <Column field="id" header="Id" className='capitalize' sortable style={{ minWidth: '12rem' }}></Column>
@@ -75,7 +106,7 @@ export const TableOrder = () => {
             </DataTable>
             <Sidebar style={{ width: '40%' }} visible={sidebarState} position="right" onHide={() => closeSideBar()}>
                 <h1 className="capitalize font-bold text-3xl">Order N° {order?.id}</h1>
-                <FormChangeStateOrder status={order.status}  idOrder={order.id}/>
+                <FormChangeStateOrder status={order.status} idOrder={order.id} closeSideBar={closeSuccessChangeState} />
 
                 <h1 className="text-center font-bold text-3xl py-10">Order Detail</h1>
                 <div className="flex justify-around">
@@ -83,7 +114,7 @@ export const TableOrder = () => {
                         <h2 className="text-gray-500">Start Date</h2>
                         <h2 className="font-bold">{new Date(order.startDate!).toLocaleDateString('en-Us')}</h2>
                     </div>
-                    <div  className="flex flex-col items-start">
+                    <div className="flex flex-col items-start">
                         <h2 className="text-gray-500">End Date</h2>
                         <h2 className="font-bold">{new Date(order.endDate!).toLocaleDateString('en-Us')}</h2>
                     </div>
@@ -93,7 +124,7 @@ export const TableOrder = () => {
                         <h2 className="text-gray-500">Days</h2>
                         <h2 className="font-bold">{order.days}</h2>
                     </div>
-                    <div  className="flex flex-col items-start" >
+                    <div className="flex flex-col items-start" >
                         <h2 className="text-gray-500">Price</h2>
                         <h2 className="font-bold">{order.price} $</h2>
                     </div>
@@ -112,7 +143,7 @@ export const TableOrder = () => {
                     </div>
                 </div>
             </Sidebar>
-
+            <Toast ref={toast} />
 
         </>
     )

@@ -17,8 +17,8 @@ export const statusBodyClientTemplate = (rowData: any) => {
         textColor = "text-[#8A5340]"//yellow
     } else if (status === 2) {
         text = "Confirmed"
-        background = "bg-[#EFA3A7]"//red
-        textColor = "text-[#C63737]"//red
+        background = "bg-[#C8E6C9]"//green
+        textColor = "text-[#548757]"//green
 
 
     } else if (status === 3) {

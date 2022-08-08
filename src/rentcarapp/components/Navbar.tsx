@@ -93,7 +93,8 @@ export const Navbar = () => {
                         status === 'authenticated' && user.rols === 'Client' ? <div className="flex items-center justify-center">
                             {/* USER OPTIONS */}
                             <Menu model={items} popup ref={menu} id="popup_menu" />
-                            <span className="px-2 font-semibold text-gray-500"> {user.email} </span>
+
+                            <span className="px-2 font-semibold text-gray-500" > {user.email} </span>
                             <Button icon="pi pi-user" className="p-button-rounded p-button-info p-button-outlined" aria-label="User" onClick={(event) => menu.current.toggle(event)} />
                         </div>
 
