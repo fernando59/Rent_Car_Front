@@ -60,6 +60,19 @@ export const orderApi = createApi({
             }
             , invalidatesTags: [{ type: 'Orders', id: 'LIST' }],
         }),
+        createOrderAdmin: builder.mutation<ResponseData, Partial<any>>({
+            query: (body: any) => {
+                return {
+                    url: 'order/createOrderAdmin',
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')!}`
+                    },
+                    body
+                }
+            }
+            , invalidatesTags: [{ type: 'Orders', id: 'LIST' }],
+        }),
         updateOrder: builder.mutation<ResponseData, Partial<OrderChange>>({
             query: (data: OrderChange) => {
                 const { id, ...body } = data
@@ -79,4 +92,4 @@ export const orderApi = createApi({
 })
 
 
-export const { useGetOrdersQuery, useCreateOrderMutation, useGetOrdersByUserQuery,useUpdateOrderMutation } = orderApi
+export const { useGetOrdersQuery, useCreateOrderMutation, useGetOrdersByUserQuery,useUpdateOrderMutation,useCreateOrderAdminMutation } = orderApi

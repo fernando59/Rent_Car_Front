@@ -34,6 +34,18 @@ export const vehicleApi = createApi({
                 :
                 [{ type: 'Vehicles', id: 'LIST' }],
         }),
+        getVehiclesOnlyOpen: builder.query<IVehicle[], void>({
+            query: () => 'vehicle/getOnlyOpen',
+            transformResponse: (response: { data: IVehicle[] }, meta, arg) => response.data,
+            providesTags: (result) => result
+                ?
+                [
+                    ...result.map(({ id }) => ({ type: 'Vehicles', id } as const)),
+                    { type: 'Vehicles', id: 'LIST' },
+                ]
+                :
+                [{ type: 'Vehicles', id: 'LIST' }],
+        }),
         getVehicleById: builder.query<IVehicle, string>({
             query: (id:string) => `vehicle/${id}`,
             transformResponse: (response: { data: IVehicle[] }, meta, arg) => response.data[0],
@@ -115,4 +127,5 @@ export const {
     , useDeleteVehicleMutation
     , useGetVehiclesFilterQuery
     , useGetVehiclePriceQuery
-    , useGetVehicleByIdQuery } = vehicleApi
+    , useGetVehicleByIdQuery
+    ,useGetVehiclesOnlyOpenQuery } = vehicleApi

@@ -2,18 +2,27 @@ import { FilterMatchMode, FilterOperator } from "primereact/api"
 import { Button } from "primereact/button"
 import { Column } from "primereact/column"
 import { DataTable } from "primereact/datatable"
+import { Dialog } from "primereact/dialog"
 import { InputText } from "primereact/inputtext"
 import { Sidebar } from 'primereact/sidebar'
 import { Toast } from "primereact/toast"
 import { useRef, useState } from "react"
 import { useModal } from "../../../../hooks/useModal"
 import { Order } from "../../../../models/Order"
-import { useGetOrdersQuery } from "../../../../store/apis"
+import { useCreateOrderAdminMutation, useGetOrdersQuery } from "../../../../store/apis"
 import { FormChangeStateOrder } from "../FormChangeStateOrder"
+import { FormCreateOrderAdmin } from "../FormCreateOrderAdmin"
 import { endDateBodyTemplate, startDateBodyTemplate, statusBodyTemplate } from "./HelpersTableBody"
+
+
+
+const defaultValues = {
+
+}
 export const TableOrder = () => {
     //RTK Query
     const { data } = useGetOrdersQuery()
+    const [createOrderAdmin, { isLoading }] = useCreateOrderAdminMutation()
 
     const [globalFilter, setGlobalFilter] = useState<string>('');
     const toast = useRef<any>(null);
@@ -36,7 +45,11 @@ export const TableOrder = () => {
         modalState: sidebarState,
         openModalState: openSidebar
     } = useModal()
-
+    const {
+        closeModalState,
+        modalState,
+        openModalState
+    } = useModal()
 
     const openSidebarUI = (data: any) => {
         setOrder(data)
@@ -47,6 +60,48 @@ export const TableOrder = () => {
         closeSideBar()
         toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Change status successfull', life: 3000 });
     }
+    const openModalCreateOrder = () => {
+        openModalState()
+    }
+    const closeModalCreateOrder = () => {
+        closeModalState()
+    }
+
+    const onHandleSubmitCreateOrder = async (data: any) => {
+        try {
+
+            const res = await createOrderAdmin(data).unwrap()
+            const { success, message } = res
+            if (success) {
+                closeModalCreateOrder()
+                toast.current.show({ severity: 'success', summary: 'Successful', detail: message, life: 3000 });
+            } else {
+                toast.current.error({ severity: 'error', summary: 'Error', detail: message, life: 3000 });
+            }
+
+        } catch (e) {
+            toast.current.error({ severity: 'error', summary: 'Error', detail: 'Error', life: 3000 });
+        }
+
+    }
+
+    // FILTER
+    const filterTable = (e: any) => {
+        const value = e.target.value
+        let _filters1 = { ...filters1 };
+        _filters1['global'].value = value;
+        setFilters1(_filters1);
+        setGlobalFilter(value)
+    }
+    const header = (
+        <div className="table-header">
+            <span className="p-input-icon-left">
+                <i className="pi pi-search" />
+                <InputText value={globalFilter} type="search" onChange={filterTable} placeholder="Search..." />
+            </span>
+        </div>
+    );
+
     const actionBodyAdminTemplate = (rowData: any) => {
         return (
             <div className='flex justify-end pr-10 gap-2'>
@@ -54,29 +109,12 @@ export const TableOrder = () => {
             </div>
         );
     }
-        // FILTER
-        const filterTable = (e: any) => {
-            const value = e.target.value
-            let _filters1 = { ...filters1 };
-            _filters1['global'].value = value;
-            setFilters1(_filters1);
-            setGlobalFilter(value)
-        }
-        const header = (
-            <div className="table-header">
-                <span className="p-input-icon-left">
-                    <i className="pi pi-search" />
-                    <InputText value={globalFilter} type="search" onChange={filterTable} placeholder="Search..." />
-                </span>
-            </div>
-        );
-    
-    
+
 
     return (
         <>
             <div className='py-5'>
-                {/* <Button className='p-button-success' icon='pi pi-plus' onClick={openModelCreate} /> */}
+                <Button className='p-button-success' icon='pi pi-plus' onClick={openModalCreateOrder} />
             </div>
             <DataTable value={data}
                 responsiveLayout="scroll"
@@ -89,7 +127,7 @@ export const TableOrder = () => {
                 rows={5}
                 rowsPerPageOptions={[5, 10, 20]}
                 header={header}
-                globalFilterFields={['id', 'startDate','days','endDate','vehicle.plate','user.email']}
+                globalFilterFields={['id', 'startDate', 'days', 'endDate', 'vehicle.plate', 'user.email']}
                 filters={filters1}
             >
 
@@ -102,6 +140,7 @@ export const TableOrder = () => {
                 <Column field="state" header="State" className='capitalize' body={statusBodyTemplate} sortable style={{ minWidth: '12rem' }}></Column>
                 <Column body={actionBodyAdminTemplate} exportable={false} style={{ minWidth: '8rem' }}></Column>
             </DataTable>
+            {/* SIDEBAR */}
             <Sidebar style={{ width: '40%' }} visible={sidebarState} position="right" onHide={() => closeSideBar()}>
                 <h1 className="capitalize font-bold text-3xl">Order N° {order?.id}</h1>
                 <FormChangeStateOrder status={order.status} idOrder={order.id} closeSideBar={closeSuccessChangeState} />
@@ -141,6 +180,15 @@ export const TableOrder = () => {
                     </div>
                 </div>
             </Sidebar>
+
+            {/* MODAL */}
+            <Dialog visible={modalState} modal onHide={closeModalCreateOrder} header={'Create Order'} style={{ width: '450px' }}>
+                <FormCreateOrderAdmin
+                    closeModalOrder={closeModalCreateOrder}
+                    onHandleSubmitCreateOrder={onHandleSubmitCreateOrder}
+                    defaultValues={defaultValues}
+                />
+            </Dialog>
             <Toast ref={toast} />
 
         </>
