@@ -36,35 +36,13 @@ export const AppRouter = () => {
     return (
         <Routes>
 
-            {/* {
-                status === 'not-authenticated' ?
-                    <>
-                        <Route path="/auth/*" element={<LoginPage />} />
-                        <Route path="/*" element={<Navigate to="/auth/login" />} />
-                    </>
-            } */}
 
-            {/* ROUTE APP */}
-            <Route path="/*" element={
-                <Suspense fallback={<h1>Loading ...</h1>}>
-                    <IndexPage />
-                </Suspense>}
-            >
-                <Route path="" element={<WelcomePage />} />
-                <Route path="vehicleDetail/:id" element={<VehicleDetailPage />} />
-                <Route path="vehicleModel" element={<VehicleModelsPage />} />
-                {/* {
-                    status === 'authenticated' && user.rols === 'Client' ? <>
-                        <Route path="history" element={<HistoryPage />} /> </> :
-                        <Route path='/*' element={<Navigate to=""  />} />
 
-                } */}
-                        <Route path="history" element={<HistoryPage />} />
-                <Route path='' element={
-                    <PrivateRouteClient>
-                    </PrivateRouteClient>
-                } />
-
+            <Route path="/" element={<WelcomePage />} />
+            <Route path="vehicleDetail/:id" element={<VehicleDetailPage />} />
+            <Route path="vehicleModel" element={<VehicleModelsPage />} />
+            <Route element={ <PrivateRouteClient/> } >
+                    <Route path='history' element={<HistoryPage />} />
             </Route>
 
 

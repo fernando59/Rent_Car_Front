@@ -36,8 +36,8 @@ export const FormVehicles: FC<Props> = ({ onHandleSubmitSaveVehicle, defaultValu
         return errors[key] && <small className="p-error">{errors[key]?.message}</small>
     };
     const fileChange = (e: any) => {
-        const file = e.target.files[0];
-        setValue("imagePath",file)
+        // const file = e.target.files[0];
+        //setValue("imagePath",file)
         console.log(getValues('imagePath'))
         // const urlValue = URL.createObjectURL(file);
         // setUrl(urlValue)
@@ -59,7 +59,7 @@ export const FormVehicles: FC<Props> = ({ onHandleSubmitSaveVehicle, defaultValu
 
                 </div>
                 <Button type="button" icon="pi pi-camera" className="p-button-rounded p-button-primary" aria-label="Image" onClick={() => document.getElementById("image")?.click()} />
-                <input type="file" id="image" hidden accept="image/*" {...imagePath} onChange={fileChange} />
+                <input type="file" id="image" className="hidden" accept="image/*" {...imagePath} onChange={fileChange} />
                 <div className="flex gap-4">
 
                     <div className="field pt-10 mb-2">

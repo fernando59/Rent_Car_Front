@@ -1,14 +1,11 @@
-import { FC } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { useAuthStore } from "../hooks/useAuthStore";
 
-interface Props {
-  children: any
-}
 
-export const PrivateRouteClient: FC<Props> = ({ children }) => {
+export const PrivateRouteClient = () => {
   const { status, user } = useAuthStore();
-  return status === 'authenticated' && user.rols==='Client'
-    ? children :
+  console.log(status === 'authenticated' && user.rols === 'Client')
+  return status === 'authenticated' && user.rols === 'Client'
+    ? <Outlet /> :
     <Navigate to='/' />
 }
