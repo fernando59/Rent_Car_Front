@@ -122,7 +122,7 @@ export const VehicleDetailPage = () => {
 
 
             <Dialog visible={modalState} style={{ width: '450px' }} header={'Rent Car'} modal className="p-fluid" onHide={closeModal}>
-              <FormRentCar dailyRate={vehicle?.price} vehicleId={vehicle?.id} toast={toast} />
+              <FormRentCar closeModal={closeModal} dailyRate={vehicle?.price} vehicleId={vehicle?.id} toast={toast} />
 
             </Dialog>
 

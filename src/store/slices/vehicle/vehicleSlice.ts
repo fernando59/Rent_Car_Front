@@ -29,6 +29,9 @@ export const vehicleSlice = createSlice({
         },
         getSearchBrandVehicle:(state)=>{
             const res = localStorage.getItem('searcVehicle')
+        },
+        clearBrand:(state) =>{
+            state.brand = null
         }
 
 
@@ -38,4 +41,4 @@ export const vehicleSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { searchBrandVehicle } = vehicleSlice.actions
+export const { searchBrandVehicle,clearBrand } = vehicleSlice.actions

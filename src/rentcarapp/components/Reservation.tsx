@@ -2,8 +2,9 @@ import classNames from 'classnames';
 import { Button } from 'primereact/button';
 import { Calendar } from 'primereact/calendar';
 import { Dropdown } from 'primereact/dropdown';
+import { useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { useGetBrandsQuery } from '../../store/apis';
 import { searchBrandVehicle } from '../../store/slices';
@@ -21,21 +22,18 @@ export const Reservation = () => {
 
     const navigate = useNavigate();
 
-    const { valueSearch } = useSelector((state: any) => state.vehicle)
-    const dispatch = useDispatch()
-
-
-    const { handleSubmit, formState: { errors }, control } = useForm({
+    const { handleSubmit, formState: { errors }, control, watch } = useForm({
         defaultValues: {
             brand: null,
             startDate: undefined,
             endDate: undefined,
         }
     });
+    const dispatch = useDispatch()
+    const startDate = useRef<any>({});
+    startDate.current = watch("startDate");
 
 
-
-    //const {data:vehicles} = useGetVehiclesFilterQuery({brandId:get,modelId:0,page:1,quantity:10,typeVehicleId:0})
     const { data } = useGetBrandsQuery()
 
 
@@ -43,7 +41,7 @@ export const Reservation = () => {
     const onHandleSubmit = (data: any) => {
 
         data.startDate = data.startDate.toISOString()
-        data.endDate= data.endDate.toISOString()
+        data.endDate = data.endDate.toISOString()
         dispatch(searchBrandVehicle(data))
 
         navigate("/vehicleModel", { replace: true });
@@ -55,6 +53,18 @@ export const Reservation = () => {
         return errors[key] && <small className="p-error">{errors[key]?.message}</small>
     };
 
+
+    const isMaxDate = (e: any) => {
+        const endDate = e
+        if (startDate.current !== undefined) {
+            const res = endDate.getDate() - startDate.current.getDate()
+            if (res < 0) {
+                return false
+            }
+            return true
+        }
+        return true
+    }
 
     return <>
 
@@ -112,7 +122,7 @@ export const Reservation = () => {
                         <Controller
                             name="endDate"
                             control={control}
-                            rules={{ required: "End Date is required" }}
+                            rules={{ required: "End Date is required", validate: isMaxDate }}
                             render={({ field }
                             ) => (
                                 <Calendar className='block ' readOnlyInput={true} value={field.value} onChange={(e) => field.onChange(e.value)} dateFormat="dd/mm/yy" showIcon />
@@ -121,6 +131,9 @@ export const Reservation = () => {
                         <label className={classNames({ "p-error": errors.endDate })}>End Date
                         </label>
                     </span>
+                    {errors.endDate && errors.endDate.type === "validate" && (
+                        <small className="p-error">Start date must be greater than end date</small>
+                    )}
                     {getFormErrorMessage('endDate')}
                 </div>
                 <div className='h-[85px]'>

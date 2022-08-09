@@ -17,6 +17,8 @@ import { endDateBodyTemplate, startDateBodyTemplate, statusBodyTemplate } from "
 
 
 const defaultValues = {
+    startDate: undefined,
+    endDate: undefined
 
 }
 export const TableOrder = () => {

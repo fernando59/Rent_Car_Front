@@ -3,7 +3,7 @@ import { Button } from "primereact/button";
 import { Calendar } from "primereact/calendar";
 import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
-import { FC, useState } from "react";
+import { FC, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useGetUsersQuery, useGetVehiclesOnlyOpenQuery } from "../../../store/apis";
 
@@ -15,9 +15,17 @@ interface Props {
 }
 
 export const FormCreateOrderAdmin: FC<Props> = ({ defaultValues, onHandleSubmitCreateOrder, closeModalOrder }) => {
-    const { control, setValue, formState: { errors }, handleSubmit,  getValues } = useForm({ defaultValues });
-    const {data:vehicles}=useGetVehiclesOnlyOpenQuery()
-    const {data:users} = useGetUsersQuery()
+    const { control, setValue, formState: { errors }, handleSubmit, getValues, watch } = useForm({
+        defaultValues: {
+            startDate: undefined,
+            endDate: undefined,
+            userId: 0,
+            VehicleId: 0
+
+        }
+    });
+    const { data: vehicles } = useGetVehiclesOnlyOpenQuery()
+    const { data: users } = useGetUsersQuery()
 
     const [state, setState] = useState({
         total: 0,
@@ -25,9 +33,12 @@ export const FormCreateOrderAdmin: FC<Props> = ({ defaultValues, onHandleSubmitC
         dailyRate: 0
     })
 
+    const startDate = useRef<any>({});
+    startDate.current = watch("startDate");
+
     const handleStartDate = (e: any) => {
         const value = e.value
-        let endDate = getValues('endDate')
+        let endDate: any = getValues('endDate')
         if (endDate !== undefined) {
             let days = endDate.getDate() - value.getDate()
             if (days === 0) days = 1
@@ -40,7 +51,7 @@ export const FormCreateOrderAdmin: FC<Props> = ({ defaultValues, onHandleSubmitC
     }
     const handleEndDate = (e: any) => {
         const value = e.value
-        let startDate = getValues('startDate')
+        let startDate: any = getValues('startDate')
         if (startDate !== undefined) {
             let days = value.getDate() - startDate.getDate()
             if (days == 0) days = 1
@@ -53,13 +64,24 @@ export const FormCreateOrderAdmin: FC<Props> = ({ defaultValues, onHandleSubmitC
         setValue('endDate', value)
     }
 
-    const onChangeVehicle =(e:any)=>{
+    const onChangeVehicle = (e: any) => {
         const value = e.value
         setValue('VehicleId', value)
-        const vehicle = vehicles?.find(i=>i.id === value)
-        if(vehicle !=undefined)
-            setState({ ...state, dailyRate:vehicle?.price     })
-        console.log(vehicle)
+        const vehicle = vehicles?.find(i => i.id === value)
+        if (vehicle != undefined)
+            setState({ ...state, dailyRate: vehicle?.price })
+    }
+
+    const isMaxDate = (e: any) => {
+        const endDate = e
+        if (startDate.current !== undefined) {
+            const res = endDate.getDate() - startDate.current.getDate()
+            if (res < 0) {
+                return false
+            }
+            return true
+        }
+        return true
     }
 
     return (
@@ -131,13 +153,13 @@ export const FormCreateOrderAdmin: FC<Props> = ({ defaultValues, onHandleSubmitC
                     {/* {getFormErrorMessage('startDate')} */}
                 </div>
 
-                <div className='h-[85px]'>
+                <div className='h-[95px]'>
 
                     <span className="p-float-label">
                         <Controller
                             name="endDate"
                             control={control}
-                            rules={{ required: "End Date is required" }}
+                            rules={{ required: "End Date is required", validate: isMaxDate }}
                             render={({ field }
                             ) => (
                                 <Calendar className='block ' readOnlyInput={true} value={field.value} onChange={handleEndDate} dateFormat="dd/mm/yy" showIcon />
@@ -146,14 +168,16 @@ export const FormCreateOrderAdmin: FC<Props> = ({ defaultValues, onHandleSubmitC
                         <label className={classNames({ "p-error": errors.endDate })}>End Date
                         </label>
                     </span>
-                    {/* {getFormErrorMessage('endDate')} */}
+                    {errors?.endDate && errors?.endDate?.type === "validate" && (
+                        <small className="p-error">Start date must be greater than end date</small>
+                    )}
                 </div>
                 <div className="field">
 
                     <div className="field h-[85px]">
                         <span className="p-float-label p-input-icon-right">
                             <InputText disabled value={state.days} style={{ background: '#F8F8F8' }} />
-                            <label htmlFor="name" className={classNames({ 'p-error': !!errors.name })}>Days</label>
+                            <label htmlFor="name" >Days</label>
                         </span>
                         {/* {getFormErrorMessage('name')} */}
                     </div>
@@ -163,7 +187,7 @@ export const FormCreateOrderAdmin: FC<Props> = ({ defaultValues, onHandleSubmitC
                     <div className="field h-[85px]">
                         <span className="p-float-label p-input-icon-right">
                             <InputText disabled value={state.dailyRate} style={{ background: '#F8F8F8' }} />
-                            <label htmlFor="name" className={classNames({ 'p-error': !!errors.name })}>Daily Rate</label>
+                            <label htmlFor="name" >Daily Rate</label>
                         </span>
                         {/* {getFormErrorMessage('name')} */}
                     </div>
@@ -173,7 +197,7 @@ export const FormCreateOrderAdmin: FC<Props> = ({ defaultValues, onHandleSubmitC
                     <div className="field h-[85px]">
                         <span className="p-float-label p-input-icon-right">
                             <InputText disabled value={state.total} style={{ background: '#F8F8F8' }} />
-                            <label htmlFor="name" className={classNames({ 'p-error': !!errors.name })}>Total</label>
+                            <label htmlFor="name" >Total</label>
                         </span>
                         {/* {getFormErrorMessage('name')} */}
                     </div>
@@ -182,7 +206,7 @@ export const FormCreateOrderAdmin: FC<Props> = ({ defaultValues, onHandleSubmitC
                 <div className="flex gap-4 w-full justify-end ">
                     <div className="grow-0">
 
-                        <Button label="Cancel" icon="pi pi-times" className="p-button-text" type="button"  onClick={closeModalOrder}/>
+                        <Button label="Cancel" icon="pi pi-times" className="p-button-text" type="button" onClick={closeModalOrder} />
                     </div>
                     <div className="grow-0">
 

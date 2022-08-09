@@ -2,13 +2,15 @@
 import { Card } from 'primereact/card';
 import { Paginator } from 'primereact/paginator';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearBrand } from '../../store/slices';
 import { FormFilter } from '../components/FormFilter';
 import { ListCardVehicle } from '../components/ListCardVehicle';
 import { Navbar } from '../components/Navbar';
 export const VehicleModelsPage = () => {
 
-  const { brand}= useSelector((state:any)=>state.vehicle)
+  const { brand } = useSelector((state: any) => state.vehicle)
+  const dispatch = useDispatch()
   const [state, setState] = useState({
     brandId: 0,
     modelId: 0,
@@ -18,7 +20,11 @@ export const VehicleModelsPage = () => {
 
 
   useEffect(() => {
-    if(brand !==null) setState({ ...state, brandId: brand })
+    if (brand !== null) setState({ ...state, brandId: brand })
+
+    return () => {
+      dispatch(clearBrand())
+    }
 
   }, [setState])
 
@@ -71,7 +77,7 @@ export const VehicleModelsPage = () => {
 
             <div className='grid__cards'>
 
-              <ListCardVehicle brandId={state.brandId} modelId={state.modelId} typeVehicleId={state.typeVehicleId}  />
+              <ListCardVehicle brandId={state.brandId} modelId={state.modelId} typeVehicleId={state.typeVehicleId} />
 
             </div>
             <Paginator first={0} rows={10} onPageChange={() => { }}></Paginator>

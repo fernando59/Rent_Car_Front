@@ -2,41 +2,51 @@ import classNames from "classnames";
 import { Button } from "primereact/button";
 import { Calendar } from "primereact/calendar";
 import { InputText } from "primereact/inputtext";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useCreateOrderMutation } from "../../store/apis";
 
 interface Props {
     dailyRate?: number
-    vehicleId?:number
-    toast:any
+    vehicleId?: number
+    toast: any
+    closeModal:()=>void
 }
-export const FormRentCar: FC<Props> = ({ dailyRate = 0,vehicleId=0,toast }) => {
-    const { control, formState: { errors }, handleSubmit, setValue, getValues } = useForm({});
-    const [createOrder,{isLoading,isSuccess}]=useCreateOrderMutation()
+export const FormRentCar: FC<Props> = ({ dailyRate = 0, vehicleId = 0, toast,closeModal }) => {
+    const { control, watch, formState: { errors }, handleSubmit, setValue, getValues } = useForm({
+        defaultValues: {
+            startDate: undefined,
+            endDate: undefined,
+
+        }
+    });
+    const [createOrder, { isLoading, isSuccess }] = useCreateOrderMutation()
     const navigate = useNavigate()
     const [state, setState] = useState({
         total: 0,
         days: 0,
         dailyRate
     })
+    const startDate = useRef<any>({});
+    startDate.current = watch("startDate");
+
     const onHandleSubmitRentCar = async (data: any) => {
-        data.VehicleId =vehicleId
-        const res =await createOrder(data).unwrap()
-        const {success} = res
-        if(success){
+        data.VehicleId = vehicleId
+        const res = await createOrder(data).unwrap()
+        const { success } = res
+        if (success) {
             toast.current.show({ severity: 'success', summary: 'Successfull', detail: 'Successful Rent', life: 2000 });
             localStorage.removeItem('startDate')
             localStorage.removeItem('endDate')
             localStorage.removeItem('brand')
             await new Promise(resolve => setTimeout(resolve, 2000))
             navigate('/history')
-        }else{
+        } else {
 
             toast.current.show({ severity: 'error', summary: 'Error', detail: 'An error has occured', life: 2000 });
         }
-        
+
 
     }
 
@@ -66,30 +76,43 @@ export const FormRentCar: FC<Props> = ({ dailyRate = 0,vehicleId=0,toast }) => {
 
     const handleStartDate = (e: any) => {
         const value = e.value
-        let endDate =getValues('endDate')
-        if(endDate !==undefined){
+        let endDate: any = getValues('endDate')
+        if (endDate !== undefined) {
             let days = endDate.getDate() - value.getDate()
-            if(days===0) days =1
-            if(days<0) days =0 
+            if (days === 0) days = 1
+            if (days < 0) days = 0
             setState({ ...state, days: days, total: days * state.dailyRate })
-        }else{
-            setState({ ...state, days: 0, total: 0  })
+        } else {
+            setState({ ...state, days: 0, total: 0 })
         }
         setValue('startDate', value)
     }
     const handleEndDate = (e: any) => {
         const value = e.value
-        let startDate =getValues('startDate')
-        if(startDate !==undefined){
+        let startDate: any = getValues('startDate')
+        if (startDate !== undefined) {
             let days = value.getDate() - startDate.getDate()
-            if(days==0) days =1
-            if(days<0) days =0 
+            if (days == 0) days = 1
+            if (days < 0) days = 0
             setState({ ...state, days: days, total: days * state.dailyRate })
-        }else{
-            setState({ ...state, days: 0, total: 0  })
+        } else {
+            setState({ ...state, days: 0, total: 0 })
         }
-        
+
         setValue('endDate', value)
+    }
+
+
+    const isMaxDate = (e: any) => {
+        const endDate = e
+        if (startDate.current !== undefined) {
+            const res = endDate.getDate() - startDate.current.getDate()
+            if (res < 0) {
+                return false
+            }
+            return true
+        }
+        return true
     }
 
     return (
@@ -114,13 +137,13 @@ export const FormRentCar: FC<Props> = ({ dailyRate = 0,vehicleId=0,toast }) => {
                 {/* {getFormErrorMessage('startDate')} */}
             </div>
 
-            <div className='h-[85px]'>
+            <div className='h-[95px]'>
 
                 <span className="p-float-label">
                     <Controller
                         name="endDate"
                         control={control}
-                        rules={{ required: "End Date is required" }}
+                        rules={{ required: "End Date is required", validate: isMaxDate }}
                         render={({ field }
                         ) => (
                             <Calendar className='block ' readOnlyInput={true} value={field.value} onChange={handleEndDate} dateFormat="dd/mm/yy" showIcon />
@@ -129,14 +152,17 @@ export const FormRentCar: FC<Props> = ({ dailyRate = 0,vehicleId=0,toast }) => {
                     <label className={classNames({ "p-error": errors.endDate })}>End Date
                     </label>
                 </span>
+                {errors?.endDate && errors?.endDate?.type === "validate" && (
+                    <small className="p-error">Start date must be greater than end date</small>
+                )}
                 {/* {getFormErrorMessage('endDate')} */}
             </div>
             <div className="field">
 
                 <div className="field h-[85px]">
                     <span className="p-float-label p-input-icon-right">
-                        <InputText disabled value={state.days} style={{background:'#F8F8F8'}} />
-                        <label htmlFor="name" className={classNames({ 'p-error': !!errors.name })}>Days</label>
+                        <InputText disabled value={state.days} style={{ background: '#F8F8F8' }} />
+                        <label htmlFor="name" >Days</label>
                     </span>
                     {/* {getFormErrorMessage('name')} */}
                 </div>
@@ -145,8 +171,8 @@ export const FormRentCar: FC<Props> = ({ dailyRate = 0,vehicleId=0,toast }) => {
 
                 <div className="field h-[85px]">
                     <span className="p-float-label p-input-icon-right">
-                        <InputText disabled value={state.dailyRate} style={{background:'#F8F8F8'}} />
-                        <label htmlFor="name" className={classNames({ 'p-error': !!errors.name })}>Daily Rate</label>
+                        <InputText disabled value={state.dailyRate} style={{ background: '#F8F8F8' }} />
+                        <label htmlFor="name" >Daily Rate</label>
                     </span>
                     {/* {getFormErrorMessage('name')} */}
                 </div>
@@ -155,8 +181,8 @@ export const FormRentCar: FC<Props> = ({ dailyRate = 0,vehicleId=0,toast }) => {
 
                 <div className="field h-[85px]">
                     <span className="p-float-label p-input-icon-right">
-                        <InputText disabled value={state.total} style={{background:'#F8F8F8'}} />
-                        <label htmlFor="name" className={classNames({ 'p-error': !!errors.name })}>Total</label>
+                        <InputText disabled value={state.total} style={{ background: '#F8F8F8' }} />
+                        <label htmlFor="name" >Total</label>
                     </span>
                     {/* {getFormErrorMessage('name')} */}
                 </div>
@@ -165,7 +191,7 @@ export const FormRentCar: FC<Props> = ({ dailyRate = 0,vehicleId=0,toast }) => {
             <div className="flex gap-4 w-full justify-end ">
                 <div className="grow-0">
 
-                    <Button label="Cancel" icon="pi pi-times" className="p-button-text" type="button" />
+                    <Button label="Cancel" icon="pi pi-times" className="p-button-text" type="button" onClick={closeModal} />
                 </div>
                 <div className="grow-0">
 
