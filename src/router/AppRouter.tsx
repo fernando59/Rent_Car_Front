@@ -1,9 +1,10 @@
-import { lazy, Suspense, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { BrandPage } from '../backoffice/pages/BrandPage';
 import { ClientsPage } from '../backoffice/pages/ClientsPage';
 import { DashBoardPage } from '../backoffice/pages/DashBoardPage';
+import IndexBackOfficePage from '../backoffice/pages/IndexBackOfficePage';
 import { LoginBackofficePage } from '../backoffice/pages/LoginBackofficePage';
 import { ModelPage } from '../backoffice/pages/ModelPage';
 import { OrderPage } from '../backoffice/pages/OrderPage';
@@ -15,14 +16,13 @@ import { VehicleDetailPage } from '../rentcarapp/pages/VehicleDetailPage';
 import { VehicleModelsPage } from '../rentcarapp/pages/VehicleModelsPage';
 import { WelcomePage } from '../rentcarapp/pages/WelcomePage';
 import { checkingCredentials } from '../store/slices';
+import { PrivateRouteAdmin } from './PrivateRouteAdmin';
 import { PrivateRouteClient } from './PrivateRouteClient';
 // import { IndexPage } from '../rentcarapp/pages/IndexPage';
 
 // import { LoginPage } from '../auth';
 // import { CalendarPage } from '../calendar';
 
-const IndexPage = lazy(() => import('../rentcarapp/pages/IndexPage'))
-const IndexBackOfficePage = lazy(() => import('../backoffice/pages/IndexBackOfficePage'))
 
 export const AppRouter = () => {
 
@@ -41,33 +41,26 @@ export const AppRouter = () => {
             <Route path="/" element={<WelcomePage />} />
             <Route path="vehicleDetail/:id" element={<VehicleDetailPage />} />
             <Route path="vehicleModel" element={<VehicleModelsPage />} />
-            <Route element={ <PrivateRouteClient/> } >
-                    <Route path='history' element={<HistoryPage />} />
+            <Route element={<PrivateRouteClient />} >
+                <Route path='history' element={<HistoryPage />} />
             </Route>
 
 
 
-            {/* ROUTE BACKOFFICE */}
-            {
-                status === 'not-authenticated' && <Route path="/backoffice/login" element={<LoginBackofficePage />} />
-            }
+            <Route path="/backoffice/login" element={<LoginBackofficePage />} />
+            <Route element={<PrivateRouteAdmin />}>
+                <Route path="/backoffice/*" element={<IndexBackOfficePage />} >
+                    <Route path="" element={<DashBoardPage />} />
+                    <Route path="brands" element={<BrandPage />} />
+                    <Route path="vehicles" element={<VehiclePage />} />
+                    <Route path="orders" element={<OrderPage />} />
+                    <Route path="clients" element={<ClientsPage />} />
+                    <Route path="typeVehicle" element={<TypeVehiclePage />} />
+                    <Route path="models" element={<ModelPage />} />
+                </Route>
 
-            <Route path="/backoffice/*" element={<Suspense fallback={<h1>Loading ...</h1>}> <IndexBackOfficePage /> </Suspense>} >
-                {
-                    status === 'authenticated' && user.rols === 'Admin' ? <>
-                        <Route path="" element={<DashBoardPage />} />
-                        <Route path="brands" element={<BrandPage />} />
-                        <Route path="vehicles" element={<VehiclePage />} />
-                        <Route path="orders" element={<OrderPage />} />
-                        <Route path="clients" element={<ClientsPage />} />
-                        <Route path="typeVehicle" element={<TypeVehiclePage />} />
-                        <Route path="models" element={<ModelPage />} />
-
-                    </> : <Route path='*' element={<Navigate to="/backoffice/login" replace={true} />} />
-                }
             </Route>
 
-            {/* <Route path="/*" element={<Navigate to="/" />} /> */}
         </Routes >
     )
 }
