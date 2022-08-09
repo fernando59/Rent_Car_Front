@@ -28,6 +28,10 @@ export const orderApi = createApi({
                 : // an error occurred, but we still want to refetch this query when `{ type: 'Posts', id: 'LIST' }` is invalidated
                 [{ type: 'Orders', id: 'LIST' }],
         }),
+        getOrdersByDay: builder.query<number, void>({
+            query: () => 'order/GetOrdersByDay',
+            transformResponse: (response: { dataOnly:any }, meta, arg) => response.dataOnly,
+        }),
         getOrdersByUser: builder.query<Order[], void>({
             query: () => {
                 return {
@@ -92,4 +96,4 @@ export const orderApi = createApi({
 })
 
 
-export const { useGetOrdersQuery, useCreateOrderMutation, useGetOrdersByUserQuery,useUpdateOrderMutation,useCreateOrderAdminMutation } = orderApi
+export const { useGetOrdersQuery, useCreateOrderMutation, useGetOrdersByUserQuery,useUpdateOrderMutation,useCreateOrderAdminMutation,useGetOrdersByDayQuery } = orderApi

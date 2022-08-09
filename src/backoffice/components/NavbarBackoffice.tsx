@@ -28,7 +28,7 @@ export const NavbarBackoffice = (props: any) => {
                     <Button className="p-button-rounded p-button-text p-button-plain " aria-label="Bar" icon="pi pi-bars" onClick={props.onMobileTopbarMenuClick} />
                 </div>
                 <Link to="/backoffice" className="flex justify-center items-center grow md:grow-0 font-medium rounded-3xl text-2xl md:w-[300px] w-full">
-                    <img className='w-[150px] object-cover' src={'assets/images/logo_car.png'} alt="logo" />
+                    <img className='w-[150px] object-cover' src={'https://res.cloudinary.com/testapicloudinaryfernando/image/upload/v1660069626/logo_car_oskbvq.png'} alt="logo" />
                     {/* <span>Rent</span> */}
                 </Link>
 

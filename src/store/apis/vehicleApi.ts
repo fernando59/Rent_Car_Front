@@ -34,6 +34,10 @@ export const vehicleApi = createApi({
                 :
                 [{ type: 'Vehicles', id: 'LIST' }],
         }),
+        getVehiclesCount: builder.query<number, void>({
+            query: () => 'vehicle/getVehiclesCount',
+            transformResponse: (response: { dataOnly:any }, meta, arg) => response.dataOnly,
+        }),
         getVehiclesOnlyOpen: builder.query<IVehicle[], void>({
             query: () => 'vehicle/getOnlyOpen',
             transformResponse: (response: { data: IVehicle[] }, meta, arg) => response.data,
@@ -128,4 +132,5 @@ export const {
     , useGetVehiclesFilterQuery
     , useGetVehiclePriceQuery
     , useGetVehicleByIdQuery
-    ,useGetVehiclesOnlyOpenQuery } = vehicleApi
+    ,useGetVehiclesOnlyOpenQuery
+    ,useGetVehiclesCountQuery } = vehicleApi
