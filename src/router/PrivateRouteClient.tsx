@@ -4,7 +4,7 @@ import { useAuthStore } from "../hooks/useAuthStore";
 
 export const PrivateRouteClient = () => {
   const { status, user } = useAuthStore();
-  console.log(status === 'authenticated' && user.rols === 'Client')
+  if(status ==='cheking') return <Outlet/>
   return status === 'authenticated' && user.rols === 'Client'
     ? <Outlet /> :
     <Navigate to='/' />
