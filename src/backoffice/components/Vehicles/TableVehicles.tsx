@@ -34,6 +34,7 @@ interface Props {
 export const TableVehicles: FC<Props> = ({ openSideBar }) => {
     const [globalFilter, setGlobalFilter] = useState<string>('');
     const [vehicle, setVehicle] = useState<IVehicleForm>(vehicleDefaultValues)
+    const [image,setImage] = useState<any>()
     const toast = useRef<any>(null);
     const [filters1, setFilters1] = useState({
         'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -95,21 +96,21 @@ export const TableVehicles: FC<Props> = ({ openSideBar }) => {
     const onHandleSubmitSaveVehicle = async (data: IVehicleForm) => {
         // debugger
         const formData = new FormData();
-        const image = data.imagePath as any
-        console.log(image?.files[0])
+        console.log('send')
+        console.log(image)
         formData.append('plate',data.plate)
         formData.append('capacity',data?.capacity?.toString()!)
         formData.append('price',data?.price?.toString()!)
         formData.append('year',data.year?.toString()!)
         formData.append('description',data.description?.toString()!)
-        formData.append('imagePath',data.imagePath!)
+        formData.append('imagePath',image)
         formData.append('brandVehicleId',data.brandVehicleId?.toString()!)
         formData.append('modelVehicleId',data.modelVehicleId?.toString()!)
         formData.append('typeVehicleId',data.typeVehicleId?.toString()!)
         formData.append('hasAir',String(data.hasAir))
         
 
-        return
+        // return
         let res
         if (vehicle.id === 0) {
             res = await createVehicle(formData).unwrap()
@@ -248,7 +249,7 @@ export const TableVehicles: FC<Props> = ({ openSideBar }) => {
             </DataTable>
             {/* SAVE */}
             <Dialog visible={modalUpdate} modal onHide={closeModalUpdate} header={vehicle.id == 0 ? 'New Vehicle' : 'Update Vehicle'} style={{ width: '450px' }}>
-                <FormVehicles defaultValues={vehicle} onHandleSubmitSaveVehicle={onHandleSubmitSaveVehicle} closeModalUpdate={closeModalUpdate} />
+                <FormVehicles setImage={setImage} defaultValues={vehicle} onHandleSubmitSaveVehicle={onHandleSubmitSaveVehicle} closeModalUpdate={closeModalUpdate} />
             </Dialog>
             {/* DELETE */}
             <Dialog

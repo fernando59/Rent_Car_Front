@@ -18,31 +18,31 @@ interface Props {
     onHandleSubmitSaveVehicle: (data: IVehicleForm) => void
     defaultValues: IVehicleForm
     closeModalUpdate: () => void
+    setImage: (e:any) => void
 }
 
 
 
-export const FormVehicles: FC<Props> = ({ onHandleSubmitSaveVehicle, defaultValues, closeModalUpdate }) => {
+export const FormVehicles: FC<Props> = ({ onHandleSubmitSaveVehicle, defaultValues, closeModalUpdate,setImage }) => {
     const { control,setValue, formState: { errors }, handleSubmit,register,getValues } = useForm({ defaultValues });
     const [url, setUrl] = useState<any>(null)
     //RTK Query
     const { data: models } = useGetModelVehiclesQuery()
     const { data: typeVehicles } = useGetTypeVehiclesQuery()
     const { data: brands } = useGetBrandsQuery()
-    const imagePath = register('imagePath', { required: true })
-
+    
     const getFormErrorMessage = (name: any) => {
         const key = name as keyof IVehicleForm
         return errors[key] && <small className="p-error">{errors[key]?.message}</small>
     };
     const fileChange = (e: any) => {
-        // const file = e.target.files[0];
-        //setValue("imagePath",file)
-        console.log(getValues('imagePath'))
-        // const urlValue = URL.createObjectURL(file);
-        // setUrl(urlValue)
-
+        const file = e.target.files[0];
+        setImage(file)
+        const urlValue = URL.createObjectURL(file);
+        setUrl(urlValue)
+        
     };
+    const imagePath = register('imagePath', { required: true,onChange:fileChange })
     return (
         <>
 
@@ -59,7 +59,8 @@ export const FormVehicles: FC<Props> = ({ onHandleSubmitSaveVehicle, defaultValu
 
                 </div>
                 <Button type="button" icon="pi pi-camera" className="p-button-rounded p-button-primary" aria-label="Image" onClick={() => document.getElementById("image")?.click()} />
-                <input type="file" id="image" className="hidden" accept="image/*" {...imagePath} onChange={fileChange} />
+                <input type="file" id="image" className="hidden" accept="image/*" {...register('imagePath',{required:true,onChange:fileChange})} />
+                {/* <input type="file" id="image"  accept="image/*" {...register('imagePath',{required:true,})}  /> */}
                 <div className="flex gap-4">
 
                     <div className="field pt-10 mb-2">
