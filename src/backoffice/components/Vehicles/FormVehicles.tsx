@@ -4,7 +4,7 @@ import { Dropdown } from "primereact/dropdown";
 import { InputNumber } from 'primereact/inputnumber';
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
-import { FC, useState } from "react";
+import { FC } from "react";
 import { Controller, useForm } from 'react-hook-form';
 import { ITypeVehicle } from "../../../models";
 import { IBrand } from "../../../models/Brand";
@@ -19,13 +19,16 @@ interface Props {
     defaultValues: IVehicleForm
     closeModalUpdate: () => void
     setImage: (e:any) => void
+    setUrl: (e:any) => void
+    url:any
+    isLoading:boolean
+
 }
 
 
 
-export const FormVehicles: FC<Props> = ({ onHandleSubmitSaveVehicle, defaultValues, closeModalUpdate,setImage }) => {
-    const { control,setValue, formState: { errors }, handleSubmit,register,getValues } = useForm({ defaultValues });
-    const [url, setUrl] = useState<any>(null)
+export const FormVehicles: FC<Props> = ({ onHandleSubmitSaveVehicle, defaultValues, closeModalUpdate,setImage,setUrl,url,isLoading }) => {
+    const { control, formState: { errors }, handleSubmit,register } = useForm({ defaultValues });
     //RTK Query
     const { data: models } = useGetModelVehiclesQuery()
     const { data: typeVehicles } = useGetTypeVehiclesQuery()
@@ -42,7 +45,9 @@ export const FormVehicles: FC<Props> = ({ onHandleSubmitSaveVehicle, defaultValu
         setUrl(urlValue)
         
     };
-    const imagePath = register('imagePath', { required: true,onChange:fileChange })
+    // const imagePath = register('imagePath', { required: true,onChange:fileChange })
+    const imagePath = register('imagePath', { onChange:fileChange })
+    console.log(errors)
     return (
         <>
 
@@ -59,7 +64,7 @@ export const FormVehicles: FC<Props> = ({ onHandleSubmitSaveVehicle, defaultValu
 
                 </div>
                 <Button type="button" icon="pi pi-camera" className="p-button-rounded p-button-primary" aria-label="Image" onClick={() => document.getElementById("image")?.click()} />
-                <input type="file" id="image" className="hidden" accept="image/*" {...register('imagePath',{required:true,onChange:fileChange})} />
+                <input type="file" id="image" className="hidden" accept="image/*" {...register('imagePath',{onChange:fileChange})} />
                 {/* <input type="file" id="image"  accept="image/*" {...register('imagePath',{required:true,})}  /> */}
                 <div className="flex gap-4">
 
@@ -201,7 +206,7 @@ export const FormVehicles: FC<Props> = ({ onHandleSubmitSaveVehicle, defaultValu
 
                     <div className="grow-0">
 
-                        <Button label="Save" icon="pi pi-check" className="p-button-text" type='submit' />
+                        <Button label="Save" icon="pi pi-check" className="p-button-text" type='submit' loading={isLoading} />
                     </div>
                 </div>
             </form>

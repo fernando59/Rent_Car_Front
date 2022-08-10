@@ -7,7 +7,7 @@ import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
 import { FC, useRef, useState } from 'react';
 import { useModal } from '../../../hooks/useModal';
-import { IVehicleForm } from '../../../models/Vehicle';
+import { IVehicleForm, PhotosVehicles } from '../../../models/Vehicle';
 import { useCreateVehicleMutation, useDeleteVehicleMutation, useGetVehiclesQuery, useUpdateVehicleMutation } from '../../../store/apis/vehicleApi';
 import { ChipTable } from './ChipTable';
 import { FormVehicles } from './FormVehicles';
@@ -24,8 +24,9 @@ const vehicleDefaultValues: IVehicleForm = {
     brandVehicleId: 0,
     modelVehicleId: 0,
     typeVehicleId: 0,
-    description:undefined,
-    imagePath:undefined
+    description: undefined,
+    imagePath: undefined,
+    photosVehicles: undefined
 }
 
 interface Props {
@@ -34,7 +35,8 @@ interface Props {
 export const TableVehicles: FC<Props> = ({ openSideBar }) => {
     const [globalFilter, setGlobalFilter] = useState<string>('');
     const [vehicle, setVehicle] = useState<IVehicleForm>(vehicleDefaultValues)
-    const [image,setImage] = useState<any>()
+    const [image, setImage] = useState<any>()
+    const [url, setUrl] = useState<any>(null)
     const toast = useRef<any>(null);
     const [filters1, setFilters1] = useState({
         'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -43,8 +45,8 @@ export const TableVehicles: FC<Props> = ({ openSideBar }) => {
 
 
     //RKT QUERY
-    const { data } = useGetVehiclesQuery()
-    const [createVehicle,{isLoading,isSuccess}] = useCreateVehicleMutation()
+    const { data,isLoading:isLoadingTable}  = useGetVehiclesQuery()
+    const [createVehicle, { isLoading, isSuccess }] = useCreateVehicleMutation()
     const [updateVehicle] = useUpdateVehicleMutation()
     const [deleteVehicle] = useDeleteVehicleMutation()
 
@@ -82,6 +84,20 @@ export const TableVehicles: FC<Props> = ({ openSideBar }) => {
         openModalStateSave()
     }
     const openModalUpdateSave = (data: IVehicleForm) => {
+        console.log(data)
+        //  data.photosVehicles = data.photosVehicles as PhotosVehicles[]
+        const images: PhotosVehicles[] = data.photosVehicles as unknown as PhotosVehicles[]
+        if (data.photosVehicles != undefined) {
+            const url = ` https://res.cloudinary.com/testapicloudinaryfernando/image/upload/${images[0]?.path}`
+            setUrl(url)
+            var reader = new FileReader()
+            reader.onloadend = () => {
+
+                setImage(reader.result as string)
+            }
+
+                var buffer = new ArrayBuffer(32);
+        }
         setVehicle(data)
         openModalStateSave()
     }
@@ -98,17 +114,23 @@ export const TableVehicles: FC<Props> = ({ openSideBar }) => {
         const formData = new FormData();
         console.log('send')
         console.log(image)
-        formData.append('plate',data.plate)
-        formData.append('capacity',data?.capacity?.toString()!)
-        formData.append('price',data?.price?.toString()!)
-        formData.append('year',data.year?.toString()!)
-        formData.append('description',data.description?.toString()!)
-        formData.append('imagePath',image)
-        formData.append('brandVehicleId',data.brandVehicleId?.toString()!)
-        formData.append('modelVehicleId',data.modelVehicleId?.toString()!)
-        formData.append('typeVehicleId',data.typeVehicleId?.toString()!)
-        formData.append('hasAir',String(data.hasAir))
+        if(image !=undefined){
+            // formData.append('imagePath', )
+            console.log('enter')
+            formData.append('imagePath', image)
+        }
+
         
+        formData.append('plate', data.plate)
+        formData.append('capacity', data?.capacity?.toString()!)
+        formData.append('price', data?.price?.toString()!)
+        formData.append('year', data.year?.toString()!)
+        formData.append('description', data.description?.toString()!)
+        formData.append('brandVehicleId', data.brandVehicleId?.toString()!)
+        formData.append('modelVehicleId', data.modelVehicleId?.toString()!)
+        formData.append('typeVehicleId', data.typeVehicleId?.toString()!)
+        formData.append('hasAir', String(data.hasAir))
+
 
         // return
         let res
@@ -116,7 +138,9 @@ export const TableVehicles: FC<Props> = ({ openSideBar }) => {
             res = await createVehicle(formData).unwrap()
         } else {
             data.id = vehicle.id
-            res = await updateVehicle(data).unwrap()
+            const id = vehicle.id?.toString()
+            formData.append('id', id!)
+            res = await updateVehicle(formData).unwrap()
         }
 
         const { success, message } = res
@@ -173,9 +197,9 @@ export const TableVehicles: FC<Props> = ({ openSideBar }) => {
         return (
             <div className='flex justify-end pr-10 gap-2'>
                 {/* <SplitButton label="Show" icon="pi pi-eye" onClick={() => openSideBar(rowData)} model={itemsButton}></SplitButton> */}
-                <Button  icon="pi pi-eye" className="p-button-rounded p-button-secondary mr-2" onClick={() => openSideBar(rowData)} />
-                <Button disabled={rowData.state !==1} icon="pi pi-pencil" className="p-button-rounded p-button-info mr-2" onClick={() => openModalUpdateSave(rowData)} />
-                <Button disabled={rowData.state !==1} icon="pi pi-trash" className="p-button-rounded p-button-danger" onClick={() => { openModalDelete(rowData) }} />
+                <Button icon="pi pi-eye" className="p-button-rounded p-button-secondary mr-2" onClick={() => openSideBar(rowData)} />
+                <Button disabled={rowData.state !== 1} icon="pi pi-pencil" className="p-button-rounded p-button-info mr-2" onClick={() => openModalUpdateSave(rowData)} />
+                <Button disabled={rowData.state !== 1} icon="pi pi-trash" className="p-button-rounded p-button-danger" onClick={() => { openModalDelete(rowData) }} />
             </div>
         );
     }
@@ -212,9 +236,9 @@ export const TableVehicles: FC<Props> = ({ openSideBar }) => {
         return <ChipTable text={text} background={background} textColor={textColor} />
 
     }
-    const imageBodyTemplate = (rowData:any) => {
+    const imageBodyTemplate = (rowData: any) => {
         const image = rowData.photosVehicles[0]?.path
-        return <img src={`https://res.cloudinary.com/testapicloudinaryfernando/image/upload/${image}`} onError={(e:any) => e.target.src='https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} alt={image} className="w-16 h-16 object-cover" />
+        return <img src={`https://res.cloudinary.com/testapicloudinaryfernando/image/upload/${image}`} onError={(e: any) => e.target.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} alt={image} className="w-16 h-16 object-cover" />
     }
     return (
         <>
@@ -231,6 +255,7 @@ export const TableVehicles: FC<Props> = ({ openSideBar }) => {
                 paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
                 rows={5}
+                loading={isLoadingTable}
                 rowsPerPageOptions={[5, 10, 20]}
                 header={header}
                 globalFilterFields={['id', 'plate', 'modelVehicle.name', 'brandVehicle.name', 'price']}
@@ -238,8 +263,8 @@ export const TableVehicles: FC<Props> = ({ openSideBar }) => {
             >
 
                 <Column field="id" header="Id" className='capitalize' sortable style={{ minWidth: '12rem' }}></Column>
-                
-                <Column header="Image" headerStyle={{ width: '400px'}} body={imageBodyTemplate}></Column>
+
+                <Column header="Image" headerStyle={{ width: '400px' }} body={imageBodyTemplate}></Column>
                 <Column field="plate" header="Plate" className='capitalize' sortable style={{ minWidth: '12rem' }}></Column>
                 <Column field="brandVehicle.name" header="Brand" className='capitalize' sortable style={{ minWidth: '12rem' }}></Column>
                 <Column field="modelVehicle.name" header="Model" className='capitalize' sortable style={{ minWidth: '12rem' }}></Column>
@@ -249,7 +274,7 @@ export const TableVehicles: FC<Props> = ({ openSideBar }) => {
             </DataTable>
             {/* SAVE */}
             <Dialog visible={modalUpdate} modal onHide={closeModalUpdate} header={vehicle.id == 0 ? 'New Vehicle' : 'Update Vehicle'} style={{ width: '450px' }}>
-                <FormVehicles setImage={setImage} defaultValues={vehicle} onHandleSubmitSaveVehicle={onHandleSubmitSaveVehicle} closeModalUpdate={closeModalUpdate} />
+                <FormVehicles isLoading={isLoading} setImage={setImage} setUrl={setUrl} url={url} defaultValues={vehicle} onHandleSubmitSaveVehicle={onHandleSubmitSaveVehicle} closeModalUpdate={closeModalUpdate} />
             </Dialog>
             {/* DELETE */}
             <Dialog

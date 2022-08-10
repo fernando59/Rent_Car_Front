@@ -16,8 +16,12 @@ export interface IVehicleForm{
     modelVehicleId:number
     typeVehicleId:number
     imagePath?: Blob
+    photosVehicles?:string | PhotosVehicles[]
 }
-
+export interface PhotosVehicles{
+    id:number
+    path:string
+}
 
 export interface IVehicle{
     plate:string | null

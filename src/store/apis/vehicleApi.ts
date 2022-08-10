@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { IModelVehicle, IPhotosVehicle, IVehicleForm, ResponseData } from '../../models';
+import { IModelVehicle, IPhotosVehicle, ResponseData } from '../../models';
 import { IBrand } from '../../models/Brand';
 
 const BASE_URL = process.env.REACT_APP_API_URL
@@ -92,9 +92,10 @@ export const vehicleApi = createApi({
             }
             , invalidatesTags: [{ type: 'Vehicles', id: 'LIST' }],
         }),
-        updateVehicle: builder.mutation<ResponseData, Partial<IVehicleForm>>({
-            query(data: IVehicleForm) {
-                const { id, ...body } = data
+        updateVehicle: builder.mutation<ResponseData, Partial<any>>({
+            query(body: any) {
+                const id = parseInt( body.get('id'))
+                // const {  ...body } = data
                 return {
                     url: `vehicle/${id}`,
                     method: 'PUT',
