@@ -8,9 +8,19 @@ const BASE_URL = process.env.REACT_APP_API_URL
 
 
 
-type OrderChange={
-    id:number,
-    status:number
+type OrderChange = {
+    id: number,
+    status: number
+}
+
+type dataChart ={
+    vehicle:string
+    count:number
+
+}
+type datas ={
+    labels:string[]
+    data:number[]
 }
 export const orderApi = createApi({
     reducerPath: 'orderApi',
@@ -30,7 +40,25 @@ export const orderApi = createApi({
         }),
         getOrdersByDay: builder.query<number, void>({
             query: () => 'order/GetOrdersByDay',
-            transformResponse: (response: { dataOnly:any }, meta, arg) => response.dataOnly,
+            transformResponse: (response: { dataOnly: any }, meta, arg) => response.dataOnly,
+        }),
+        getOrdersChart: builder.query<any, void>({
+            query: () => 'order/GetOrderChart',
+            transformResponse: (response: { data: any }, meta, arg) => {
+                const map:any ={}
+
+                const responseData:datas ={
+                    'labels':['A', 'B', 'C'],
+                    'data':[]
+                }
+                response.data.map((item:dataChart)=>{
+                    map[item.vehicle.toUpperCase()] = item.count
+                })
+                responseData.labels = Object.keys(map)
+                responseData.data= Object.values(map)
+                
+                return responseData
+            }
         }),
         getOrdersByUser: builder.query<Order[], void>({
             query: () => {
@@ -96,4 +124,11 @@ export const orderApi = createApi({
 })
 
 
-export const { useGetOrdersQuery, useCreateOrderMutation, useGetOrdersByUserQuery,useUpdateOrderMutation,useCreateOrderAdminMutation,useGetOrdersByDayQuery } = orderApi
+export const {
+      useGetOrdersQuery
+    , useCreateOrderMutation
+    , useGetOrdersByUserQuery
+    , useUpdateOrderMutation
+    , useCreateOrderAdminMutation
+    , useGetOrdersByDayQuery
+    , useGetOrdersChartQuery } = orderApi
