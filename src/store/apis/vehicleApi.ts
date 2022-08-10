@@ -12,6 +12,7 @@ interface IVehicle {
     year:number
     hasAir: boolean
     capacity:number
+    description:string
     modelVehicle: IModelVehicle
     brandVehicle: IBrand
     photosVehicles:IPhotosVehicle[]

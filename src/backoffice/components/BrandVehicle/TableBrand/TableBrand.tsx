@@ -104,11 +104,18 @@ export const TableBrand = () => {
     }
 
     const deleteBrandExecute = async () => {
+        try{
+
         const res = await deleteBrand(brand.id).unwrap()
         const { success, message } = res
         if (success) {
             closeModalDelete()
             toast.current.show({ severity: 'success', summary: 'Successful', detail: message, life: 3000 });
+        }
+        }catch(e:any){
+            const {message} = e.data
+            toast.current.show({ severity: 'error', summary: 'Error', detail: message, life: 3000 });
+        
         }
     }
 
@@ -136,11 +143,13 @@ export const TableBrand = () => {
             if (success) {
                 closeModalStateSave()
                 toast.current.show({ severity: 'success', summary: 'Successful', detail: message, life: 3000 });
+            }else{
+
+            toast.current.show({ severity: 'error', summary: 'Error', detail: message, life: 3000 });
             }
 
 
         } catch (e) {
-
             toast.current.show({ severity: 'error', summary: 'Error', detail: 'Error', life: 3000 });
         }
 

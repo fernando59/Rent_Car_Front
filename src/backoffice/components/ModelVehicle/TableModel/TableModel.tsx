@@ -77,11 +77,18 @@ export const TableModel = () => {
     }
 
     const deleteBrandExecute = async () => {
+        try{
+
         const res = await deleteModel(model.id).unwrap()
         const { success, message } = res
         if (success) {
             closeModalDelete()
             toast.current.show({ severity: 'success', summary: 'Successful', detail: message, life: 3000 });
+        }
+
+        }catch(e:any){
+            const {message} = e.data
+            toast.current.show({ severity: 'error', summary: 'Error', detail: message, life: 3000 });
         }
     }
 

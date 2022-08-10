@@ -2,7 +2,6 @@ import { skipToken } from '@reduxjs/toolkit/dist/query';
 import { Button } from 'primereact/button';
 import { Card } from 'primereact/card';
 import { Dialog } from 'primereact/dialog';
-import { Galleria } from 'primereact/galleria';
 import { Image } from 'primereact/image';
 import { Toast } from 'primereact/toast';
 import { useRef } from 'react';
@@ -83,13 +82,16 @@ export const VehicleDetailPage = () => {
       <Navbar />
 
       <div className="mx-auto container px-6">
-        <h1 className='py-10 font-bold text-5xl'>Detail Vehicle</h1>
+        <h1 className='py-10 font-bold text-4xl text-gray-500'>{vehicle?.brandVehicle.name} {vehicle?.modelVehicle.name} {vehicle?.year}</h1>
         <div className='grid grid-cols-1 md:grid-cols-2'>
 
-          <div className='rounded-md'>
+          <div className='rounded-md px-10'>
 
-            <Galleria ref={galleria1} value={vehicle?.photosVehicles} responsiveOptions={responsiveOptions} numVisible={3} style={{ maxWidth: '640px' }}
-              item={itemTemplate} thumbnail={thumbnailTemplate} />
+            {
+              vehicle?.photosVehicles.length === 0 ?
+                <img style={{ width: 400, objectFit: 'cover' }} src='https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png' />
+                : <img className='object-cover rounded-md' src={`https://res.cloudinary.com/testapicloudinaryfernando/image/upload/${vehicle?.photosVehicles[0].path}`} />
+            }
           </div>
           <div>
 
@@ -101,24 +103,37 @@ export const VehicleDetailPage = () => {
                   <span>{vehicle?.price} $</span>
                 </div>
                 <div className='flex justify-between py-2'>
-                  <span className='font-bold'>N° Days</span>
-                  <span>5</span>
+                  <span className='font-bold'>Has Air</span>
+                  <span>{vehicle?.hasAir ? 'Has Air' : 'No has air'}</span>
                 </div>
                 <div className='flex justify-between py-2'>
-                  <span className='font-bold'>Others</span>
-                  <span>20$</span>
+                  <span className='font-bold'>Year</span>
+                  <span>{vehicle?.year}</span>
+                </div>
+
+                <div className='flex justify-between py-2'>
+                  <span className='font-bold'>Brand</span>
+                  <span>{vehicle?.brandVehicle.name}</span>
+                </div>
+                <div className='flex justify-between py-2'>
+                  <span className='font-bold'>Model</span>
+                  <span>{vehicle?.modelVehicle.name}</span>
                 </div>
               </div>
               <hr />
-              <div className='flex justify-between py-2'>
+              {/* <div className='flex justify-between py-2'>
                 <span className='font-bold'>Total</span>
                 <span>30$</span>
-              </div>
+              </div> */}
               <div className='pt-3'>
 
                 <Button label='Rent' className='w-full' onClick={openModal} />
               </div>
             </Card>
+            <h1 className='font-bold text-left pt-10'>Description</h1>
+            <p>
+              {vehicle?.description}
+            </p>
 
 
             <Dialog visible={modalState} style={{ width: '450px' }} header={'Rent Car'} modal className="p-fluid" onHide={closeModal}>
