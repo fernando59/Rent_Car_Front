@@ -59,6 +59,7 @@ export const vehicleApi = createApi({
             query: () => `vehicle/getPricesRange`,
             transformResponse: (response: { data: number[] }, meta, arg) => response.data,
         }),
+   
         getVehiclesFilter: builder.query<IVehicle[], { page: number, quantity: number, brandId: number, modelId: number, typeVehicleId: number }>({
             query: (args) => {
                 const { page, quantity, brandId, modelId, typeVehicleId } = args

@@ -1,4 +1,4 @@
-import { useGetOrdersByDayQuery, useGetUsersQuery, useGetVehiclesCountQuery } from "../../store/apis"
+import { useGetOrdersByDayQuery, useGetOrderstotalSalesQuery, useGetUsersQuery, useGetVehiclesCountQuery } from "../../store/apis"
 import { CardDashboard } from "../components/CardDashboard"
 import { ChartPie } from "../components/ChartPie"
 
@@ -6,6 +6,7 @@ export const DashBoardPage = () => {
   const { data: ordersCount = 0 } = useGetOrdersByDayQuery()
   const { data: vehiclesCount = 0 } = useGetVehiclesCountQuery()
   const { data: users = [] } = useGetUsersQuery()
+  const {data:totalSales = 0} =useGetOrderstotalSalesQuery()
   return (
     <>
 
@@ -16,6 +17,7 @@ export const DashBoardPage = () => {
         <CardDashboard title="Orders" valueNumber={ordersCount} icon="pi-shopping-cart" backgroundIcon="bg-[#D0E1FD]" colorIconText="text-blue-500" />
         <CardDashboard title="Clients" valueNumber={users?.length} icon="pi-user" backgroundIcon="bg-[#FEDDC7]" colorIconText="text-orange-500" />
         <CardDashboard title="Vehicles" valueNumber={vehiclesCount} icon="pi-car" backgroundIcon="bg-[#EAD6FD]" colorIconText="text-[#A855F7]" />
+        <CardDashboard title="Total Sales" valueNumber={totalSales} icon="pi-wallet" backgroundIcon="bg-[#C3EDF5]" colorIconText="text-[#06B6DA]" />
 
 
 

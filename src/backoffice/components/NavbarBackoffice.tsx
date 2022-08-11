@@ -1,7 +1,7 @@
 import { Button } from 'primereact/button';
 import { Menu } from 'primereact/menu';
 import { useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { logoutAuth } from '../../store/slices';
 // import classNames from 'classnames';
@@ -9,6 +9,8 @@ import { logoutAuth } from '../../store/slices';
 export const NavbarBackoffice = (props: any) => {
     const menu = useRef<any>(null);
     const dispatch = useDispatch()
+    
+    const { user } = useSelector((state: any) => state.auth)
     const items = [
 
         {
@@ -45,8 +47,9 @@ export const NavbarBackoffice = (props: any) => {
             {/* <ul className={classNames("layout-topbar-menu lg:flex origin-top", {'layout-topbar-menu-mobile-active': props.mobileTopbarMenuActive })}> */}
             <ul className=' gap-2 hidden md:flex'>
 
-                <li>
+                <li className='flex items-center justify-center'>
                     <Menu model={items} popup ref={menu} id="popup_menu" />
+                    <span className="px-2 font-semibold text-gray-500" > {user.email} </span>
                     <Button className="p-button-rounded p-button-text p-button-plain" aria-label="Settings" icon="pi pi-user" onClick={(event) => menu.current.toggle(event)} />
                 </li>
             </ul>

@@ -24,7 +24,7 @@ const SubMenu: FC<PropsSubMenu> = ({ items, root, onMenuItemClick, className }) 
         return (
             <>
                 <i className={item.icon}></i>
-                <span className='pl-2 py-8'>{item.label}</span>
+                <span className='pl-2 py-2 select-none cursor-pointer'>{item.label}</span>
                 {submenuIcon}
                 {badge}
                 <Ripple />
@@ -66,14 +66,10 @@ const SubMenu: FC<PropsSubMenu> = ({ items, root, onMenuItemClick, className }) 
 
         if (item.to) {
             return (
-                <NavLink aria-label={item.label} onKeyDown={onKeyDown} role="menuitem" className={({ isActive }) => isActive ? '' : 'p-ripple'}
+                <NavLink aria-label={item.label} onKeyDown={onKeyDown} role="menuitem" className={ ({ isActive }) => isActive ? 'text-[#4F46E5] w-full' : 'p-ripple w-full'}
                     to={item.to} onClick={(e) => onMenuItemClick1(e, item, i)}  target={item.target}>
                     {content}
                 </NavLink>
-                // <NavLink aria-label={item.label} onKeyDown={onKeyDown} role="menuitem" className="p-ripple"
-                //  activeClassName="router-link-active router-link-exact-active" to={item.to} onClick={(e) => onMenuItemClick(e, item, i)} exact target={item.target}>
-                //     {content}
-                // </NavLink>
             )
         }
         else {
@@ -90,9 +86,9 @@ const SubMenu: FC<PropsSubMenu> = ({ items, root, onMenuItemClick, className }) 
 
         if (root) {
             return (
-                <li className={styleClass} key={i} role="none">
+                <li className={`${styleClass}`} key={i} role="none">
                     {root === true && <>
-                        <div className="uppercase text-gray-700 mb-2  text-sm font-semibold" aria-label={item.label}>{item.label}</div>
+                        <div className="uppercase text-gray-700 mb-2  text-sm font-semibold cursor-pointer" aria-label={item.label}>{item.label}</div>
                         <SubMenu items={item.items} onMenuItemClick={onMenuItemClick} />
                     </>}
                 </li>
@@ -100,7 +96,7 @@ const SubMenu: FC<PropsSubMenu> = ({ items, root, onMenuItemClick, className }) 
         }
         else {
             return (
-                <li className={styleClass} key={i} role="none">
+                <li  className={`${styleClass} py-2 w-full`} key={i} role="none">
                     {renderLink(item, i)}
                     <CSSTransition classNames="layout-submenu-wrapper" timeout={{ enter: 1000, exit: 450 }} in={active} unmountOnExit>
                         <SubMenu items={item.items} onMenuItemClick={onMenuItemClick} />

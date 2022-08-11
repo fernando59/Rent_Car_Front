@@ -42,6 +42,10 @@ export const orderApi = createApi({
             query: () => 'order/GetOrdersByDay',
             transformResponse: (response: { dataOnly: any }, meta, arg) => response.dataOnly,
         }),
+     getOrderstotalSales: builder.query<number, void>({
+            query: () => `order/GetOrdersTotalSales`,
+            transformResponse: (response: { data: number }, meta, arg) => response.data,
+        }),
         getOrdersChart: builder.query<any, void>({
             query: () => 'order/GetOrderChart',
             transformResponse: (response: { data: any }, meta, arg) => {
@@ -131,4 +135,5 @@ export const {
     , useUpdateOrderMutation
     , useCreateOrderAdminMutation
     , useGetOrdersByDayQuery
-    , useGetOrdersChartQuery } = orderApi
+    , useGetOrdersChartQuery
+    ,useGetOrderstotalSalesQuery } = orderApi
