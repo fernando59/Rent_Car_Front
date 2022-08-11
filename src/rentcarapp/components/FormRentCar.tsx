@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import { Button } from "primereact/button";
 import { Calendar } from "primereact/calendar";
+import { InputNumber } from "primereact/inputnumber";
 import { InputText } from "primereact/inputtext";
 import { FC, useEffect, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -164,27 +165,24 @@ export const FormRentCar: FC<Props> = ({ dailyRate = 0, vehicleId = 0, toast,clo
                         <InputText disabled value={state.days} style={{ background: '#F8F8F8' }} />
                         <label htmlFor="name" >Days</label>
                     </span>
-                    {/* {getFormErrorMessage('name')} */}
                 </div>
             </div>
             <div className="field">
 
                 <div className="field h-[85px]">
                     <span className="p-float-label p-input-icon-right">
-                        <InputText disabled value={state.dailyRate} style={{ background: '#F8F8F8' }} />
+                        <InputNumber disabled value={state.dailyRate} style={{ background: '#F8F8F8',textAlign:'right' }}  mode="currency" currency="USD" locale="en-US" />
                         <label htmlFor="name" >Daily Rate</label>
                     </span>
-                    {/* {getFormErrorMessage('name')} */}
                 </div>
             </div>
             <div className="field">
 
                 <div className="field h-[85px]">
                     <span className="p-float-label p-input-icon-right">
-                        <InputText disabled value={state.total} style={{ background: '#F8F8F8' }} />
+                        <InputNumber disabled value={state.total} style={{ background: '#F8F8F8',textAlign:'right' }}  mode="currency" currency="USD" locale="en-US" />
                         <label htmlFor="name" >Total</label>
                     </span>
-                    {/* {getFormErrorMessage('name')} */}
                 </div>
             </div>
 

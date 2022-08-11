@@ -108,7 +108,7 @@ export const FormVehicles: FC<Props> = ({ onHandleSubmitSaveVehicle, defaultValu
                         <Controller name="price" control={control}
                             rules={{ required: 'Price is required.' }}
                             render={({ field, fieldState }) => (
-                                <InputNumber id={field.name} onChange={(e) => field.onChange(e.value)} value={field.value} style={{ width: '100%' }} className={classNames({ 'p-invalid': fieldState.error })} mode="currency" currency="BOB" locale="es-EN" />
+                                <InputNumber id={field.name} onChange={(e) => field.onChange(e.value)} value={field.value} style={{ width: '100%' }} className={classNames({ 'p-invalid': fieldState.error })} mode="currency" currency="USD" locale="en-US" />
                                 // <InputText/>
                             )} />
                         <label htmlFor="name" className={classNames({ 'p-error': !!errors.price })}>Price</label>

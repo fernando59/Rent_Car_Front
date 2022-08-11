@@ -11,7 +11,7 @@ export const LoginBackofficePage = () => {
 
         <h1 className="text-center font-bold text-3xl">Login BackOffice</h1>
         <div>
-          <FormLogin />
+          <FormLogin isBackoffice={true} />
         </div>
 
       </div>

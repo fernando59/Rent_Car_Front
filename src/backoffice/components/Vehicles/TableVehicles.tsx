@@ -104,6 +104,7 @@ export const TableVehicles: FC<Props> = ({ openSideBar }) => {
 
     const closeModalUpdate = () => {
         closeModalStateSave()
+        setUrl(null)
         setVehicle(vehicleDefaultValues)
     }
 
@@ -177,22 +178,6 @@ export const TableVehicles: FC<Props> = ({ openSideBar }) => {
         </>
     );
 
-    const itemsButton = [
-        {
-            label: 'Update',
-            icon: 'pi pi-pencil',
-            command: (rowData: any) => {
-                openModalUpdateSave(rowData)
-            }
-        },
-        {
-            label: 'Delete',
-            icon: 'pi pi-trash',
-            command: (rowData: any) => {
-                openModalDelete(rowData)
-            }
-        },
-    ]
     const actionBodyTemplate = (rowData: IVehicleForm) => {
         return (
             <div className='flex justify-end pr-10 gap-2'>

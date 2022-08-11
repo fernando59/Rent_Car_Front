@@ -8,6 +8,7 @@ export const uiSlice = createSlice({
         isModalOpen: false,
         mobileMenuActive:false,
         isModalLoginOpen:false,
+        isModalRegisterOpen:false,
     },
     reducers: {
         onOpenDateModal: (state) => {
@@ -28,6 +29,12 @@ export const uiSlice = createSlice({
         closeModalLogin:(state)=>{
             state.isModalLoginOpen = false
         },
+        openModalRegister:(state)=>{
+            state.isModalRegisterOpen = true
+        },
+        closeModalRegister:(state)=>{
+            state.isModalRegisterOpen = false
+        },
 
 
     }
@@ -35,4 +42,4 @@ export const uiSlice = createSlice({
 
 
 // Action creators are generated for each case reducer function
-export const { onOpenDateModal, onCloseDateModal,activeMobileMenu,desactiveMobileMenu,openModalLogin,closeModalLogin } = uiSlice.actions;
+export const { onOpenDateModal, onCloseDateModal,activeMobileMenu,desactiveMobileMenu,openModalLogin,closeModalLogin,closeModalRegister,openModalRegister } = uiSlice.actions;

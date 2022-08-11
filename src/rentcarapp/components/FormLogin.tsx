@@ -7,15 +7,16 @@ import { FC, useRef } from 'react';
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch } from 'react-redux';
 import { useLoginMutation } from '../../store/apis/authApi';
-import { loginAuth } from '../../store/slices';
+import { closeModalLogin, loginAuth, openModalRegister } from '../../store/slices';
 
 
-interface Props{
-    closeModal?:()=>void
+interface Props {
+    closeModal?: () => void
+    isBackoffice: boolean
 }
-export const FormLogin:FC<Props> = ({closeModal}) => {
+export const FormLogin: FC<Props> = ({ closeModal, isBackoffice = false }) => {
     const dispatch = useDispatch();
-    const [login, {isLoading}] = useLoginMutation()
+    const [login, { isLoading }] = useLoginMutation()
     const toast = useRef<any>(null);
     interface ILogin {
         email: string
@@ -34,21 +35,25 @@ export const FormLogin:FC<Props> = ({closeModal}) => {
     };
 
     const onHandleSubmit = async (data: any) => {
-        try{
+        try {
 
-        const res = await login(data).unwrap()
-        if (res.token) {
-            toast.current.show({ severity: 'success', summary: 'Successfull', detail: 'Login Successfull', life: 3000 });
-            dispatch(loginAuth(res.token))
-            if(closeModal)closeModal()
-        }else{
+            const res = await login(data).unwrap()
+            if (res.token) {
+                toast.current.show({ severity: 'success', summary: 'Successfull', detail: 'Login Successfull', life: 3000 });
+                dispatch(loginAuth(res.token))
+                if (closeModal) closeModal()
+            } else {
 
+                toast.current.show({ severity: 'error', summary: 'Error', detail: 'User or Password are incorrect', life: 3000 });
+            }
+        } catch (e) {
             toast.current.show({ severity: 'error', summary: 'Error', detail: 'User or Password are incorrect', life: 3000 });
         }
-        }catch(e){
-            toast.current.show({ severity: 'error', summary: 'Error', detail: 'User or Password are incorrect', life: 3000 });
-        }
 
+    }
+    const handleRegister =()=>{
+        dispatch(closeModalLogin())
+        dispatch(openModalRegister())
     }
     return (
         <>
@@ -67,6 +72,7 @@ export const FormLogin:FC<Props> = ({closeModal}) => {
                     </span>
                     {getFormErrorMessage('email')}
                 </div>
+
                 <div className="field my-4">
                     <span className="p-float-label">
                         <Controller name="password" control={control} rules={{ required: 'Password is required.' }} render={({ field, fieldState }) => (
@@ -76,6 +82,10 @@ export const FormLogin:FC<Props> = ({closeModal}) => {
                     </span>
                     {getFormErrorMessage('password')}
                 </div>
+                {
+
+                    !isBackoffice && <p className='pb-5 text-right cursor-pointer font-semibold text-gray-500' onClick={handleRegister}>Don't have an account?  <span className='text-[#4F46E5]'>Create One</span>     </p>
+                }
                 <Button label='Login' type='submit' loading={isLoading} />
             </form>
             <Toast ref={toast} />

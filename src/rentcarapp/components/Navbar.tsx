@@ -6,34 +6,26 @@ import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../hooks/useAuthStore";
-import { useModal } from "../../hooks/useModal";
-import { closeModalLogin, logoutAuth, openModalLogin } from "../../store/slices";
+import { closeModalLogin, closeModalRegister, logoutAuth, openModalLogin, openModalRegister } from "../../store/slices";
 import { FormLogin } from "./FormLogin";
 import { FormRegister } from "./FormRegister";
 export const Navbar = () => {
 
-    const { user, token } = useSelector((state: any) => state.auth)
-    const {isModalLoginOpen} = useSelector((state: any) => state.ui)
+    const { user } = useSelector((state: any) => state.auth)
+    const {isModalLoginOpen,isModalRegisterOpen} = useSelector((state: any) => state.ui)
     const dispatch = useDispatch()
     const toast = useRef<any>(null);
     const navigate = useNavigate()
     const menu = useRef<any>(null);
     const { status } = useAuthStore();
-    const {
-        closeModalState: closeModalRegisterState,
-        modalState: modalRegister,
-        openModalState: openModalRegisterState
-    } = useModal()
-
-
 
     //open
     const openModalLoginUI = () => dispatch(openModalLogin())
-    const openModalRegister = () => openModalRegisterState()
+    const openModalRegisterUI = () => dispatch(openModalRegister())
 
     //close
     const closeModalLoginUi = () => { dispatch(closeModalLogin()) }
-    const closeModalRegister = () => { closeModalRegisterState() }
+    const closeModalRegisterUi = () => { dispatch(closeModalRegister()) }
 
 
     const items = [
@@ -101,19 +93,19 @@ export const Navbar = () => {
                             : <div className="flex gap-2">
                                 {/* LOGIN AND REGISTER */}
                                 <Button label="Login" onClick={openModalLoginUI} />
-                                <Button label="Register" onClick={openModalRegister} className="p-button-outlined" /></div>
+                                <Button label="Register" onClick={openModalRegisterUI} className="p-button-outlined" /></div>
                     }
                 </div>
             </header>
 
             <Dialog visible={isModalLoginOpen} onHide={closeModalLoginUi} breakpoints={{ '960px': '25vw', '640px': '100vw' }} style={{ width: '30vw' }} >
                 <h1 className="text-center font-bold text-4xl">Login</h1>
-                <FormLogin closeModal={closeModalLoginUi} />
+                <FormLogin closeModal={closeModalLoginUi} isBackoffice={false} />
             </Dialog>
 
-            <Dialog visible={modalRegister} onHide={closeModalRegister} breakpoints={{ '960px': '75vw', '640px': '100vw' }} style={{ width: '30vw' }} >
+            <Dialog visible={isModalRegisterOpen} onHide={closeModalRegisterUi} breakpoints={{ '960px': '75vw', '640px': '100vw' }} style={{ width: '30vw' }} >
                 <h1 className="text-center font-bold text-4xl">Register</h1>
-                <FormRegister toast={toast} closeModal={closeModalRegister} />
+                <FormRegister toast={toast} closeModal={closeModalRegisterUi} />
             </Dialog>
             <Toast ref={toast} />
         </>

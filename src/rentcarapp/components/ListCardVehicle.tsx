@@ -9,7 +9,7 @@ interface Props {
 }
 export const ListCardVehicle: FC<Props> = ({ brandId, modelId, typeVehicleId }) => {
 
-    const { data, isLoading,isFetching } = useGetVehiclesFilterQuery({ page: 1, quantity: 10, brandId: brandId, modelId: modelId, typeVehicleId: typeVehicleId })
+    const { data, isLoading,isFetching } = useGetVehiclesFilterQuery({ page: 0, quantity: 10, brandId: brandId, modelId: modelId, typeVehicleId: typeVehicleId })
 
     console.log(data)
     if(isLoading) return <>

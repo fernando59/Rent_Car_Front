@@ -2,6 +2,7 @@ import classNames from "classnames";
 import { Button } from "primereact/button";
 import { Calendar } from "primereact/calendar";
 import { Dropdown } from "primereact/dropdown";
+import { InputNumber } from "primereact/inputnumber";
 import { InputText } from "primereact/inputtext";
 import { FC, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -186,7 +187,7 @@ export const FormCreateOrderAdmin: FC<Props> = ({ defaultValues, onHandleSubmitC
 
                     <div className="field h-[85px]">
                         <span className="p-float-label p-input-icon-right">
-                            <InputText disabled value={state.dailyRate} style={{ background: '#F8F8F8' }} />
+                        <InputNumber disabled value={state.dailyRate} style={{ background: '#F8F8F8',textAlign:'right' }}  mode="currency" currency="USD" locale="en-US" />
                             <label htmlFor="name" >Daily Rate</label>
                         </span>
                         {/* {getFormErrorMessage('name')} */}
@@ -196,7 +197,8 @@ export const FormCreateOrderAdmin: FC<Props> = ({ defaultValues, onHandleSubmitC
 
                     <div className="field h-[85px]">
                         <span className="p-float-label p-input-icon-right">
-                            <InputText disabled value={state.total} style={{ background: '#F8F8F8' }} />
+                            {/* <InputText disabled value={state.total} style={{ background: '#F8F8F8' }} /> */}
+                            <InputNumber disabled value={state.total} style={{ background: '#F8F8F8',textAlign:'right' }}  mode="currency" currency="USD" locale="en-US" />
                             <label htmlFor="name" >Total</label>
                         </span>
                         {/* {getFormErrorMessage('name')} */}

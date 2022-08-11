@@ -7,31 +7,31 @@ import { FC, useRef } from 'react';
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch } from 'react-redux';
 import { useRegisterMutation } from '../../store/apis';
-import { openModalLogin } from '../../store/slices';
+import { closeModalRegister, openModalLogin } from '../../store/slices';
 
 
-interface Props{
-    toast:any
-    closeModal?:()=>void
+interface Props {
+    toast: any
+    closeModal?: () => void
 }
-export const FormRegister:FC<Props> = ({toast,closeModal}) => {
+export const FormRegister: FC<Props> = ({ toast, closeModal }) => {
 
-    const [regiter,{isLoading,isSuccess}] = useRegisterMutation()
+    const [regiter, { isLoading, isSuccess }] = useRegisterMutation()
     const dispatch = useDispatch()
-    interface IRegister{
-        username:string
+    interface IRegister {
+        username: string
         email: string
         password: string
-        confirm_password:string
+        confirm_password: string
     }
-    const defaultValues: IRegister= {
-        username:'',
+    const defaultValues: IRegister = {
+        username: '',
         email: '',
         password: '',
-        confirm_password:''
+        confirm_password: ''
     }
 
-    const { control, formState: { errors }, handleSubmit,watch } = useForm({ defaultValues });
+    const { control, formState: { errors }, handleSubmit, watch } = useForm({ defaultValues });
     const password = useRef({});
     password.current = watch("password", "");
 
@@ -53,21 +53,25 @@ export const FormRegister:FC<Props> = ({toast,closeModal}) => {
         </>
     );
     const passwordHeader = <h6>Pick a password</h6>;
+    const handleLogin =()=>{
+        dispatch(closeModalRegister())
+        dispatch(openModalLogin())
+    }
     const onHandleSubmit = async (data: any) => {
-        try{
+        try {
 
-        const res = await regiter(data).unwrap()
-        const {success,message} = res
-        if(success){
-            toast.current.show({ severity: 'success', summary: 'Successfull', detail: 'Successful registration', life: 2000 });
-            await new Promise(resolve => setTimeout(resolve, 2000))
-            dispatch(openModalLogin())
-            if(closeModal)closeModal()
-        }else{
+            const res = await regiter(data).unwrap()
+            const { success, message } = res
+            if (success) {
+                toast.current.show({ severity: 'success', summary: 'Successfull', detail: 'Successful registration', life: 2000 });
+                await new Promise(resolve => setTimeout(resolve, 2000))
+                dispatch(openModalLogin())
+                if (closeModal) closeModal()
+            } else {
 
-            toast.current.show({ severity: 'error', summary: 'Error', detail: message, life: 3000 });
-        }
-        }catch(e){
+                toast.current.show({ severity: 'error', summary: 'Error', detail: message, life: 3000 });
+            }
+        } catch (e) {
             toast.current.show({ severity: 'error', summary: 'Error', detail: 'User already exist!', life: 3000 });
         }
 
@@ -81,7 +85,7 @@ export const FormRegister:FC<Props> = ({toast,closeModal}) => {
                         <Controller name="username" control={control} rules={{ required: 'Name is required.' }} render={({ field, fieldState }) => (
                             <InputText id={field.name} {...field} autoFocus className={classNames({ 'p-invalid': fieldState.error })} />
                         )} />
-                        <label htmlFor="name" className={classNames({ 'p-error': errors.username})}>Name</label>
+                        <label htmlFor="name" className={classNames({ 'p-error': errors.username })}>Name</label>
                     </span>
                     {getFormErrorMessage('name')}
                 </div>
@@ -108,14 +112,17 @@ export const FormRegister:FC<Props> = ({toast,closeModal}) => {
                 </div>
                 <div className="field my-10">
                     <span className="p-float-label">
-                        <Controller name="confirm_password"   control={control} rules={{ validate:value=>value === password.current || "The passwords not match"  }} render={({ field, fieldState }) => (
-                            <Password id={field.name} {...field} toggleMask feedback={false} className={classNames({ 'p-invalid': fieldState.error })}  />
+                        <Controller name="confirm_password" control={control} rules={{ validate: value => value === password.current || "The passwords not match" }} render={({ field, fieldState }) => (
+                            <Password id={field.name} {...field} toggleMask feedback={false} className={classNames({ 'p-invalid': fieldState.error })} />
                         )} />
                         <label htmlFor="confirm_password" className={classNames({ 'p-error': errors.confirm_password })}>Confirm Password</label>
                     </span>
                     {getFormErrorMessage('confirm_password')}
                 </div>
-                <Button label='Register' type='submit' loading={isLoading} disabled={isSuccess}/>
+
+                   <p className='pb-5 text-right cursor-pointer font-semibold text-gray-500' onClick={handleLogin}>Have already an account?  <span className='text-[#4F46E5]'>Login Here</span>  </p>
+                
+                <Button label='Register' type='submit' loading={isLoading} disabled={isSuccess} />
             </form>
         </>
     )

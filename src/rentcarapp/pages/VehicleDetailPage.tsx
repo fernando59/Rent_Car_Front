@@ -82,7 +82,7 @@ export const VehicleDetailPage = () => {
       <Navbar />
 
       <div className="mx-auto container px-6">
-        <h1 className='py-10 font-bold text-4xl text-gray-500'>{vehicle?.brandVehicle.name} {vehicle?.modelVehicle.name} {vehicle?.year}</h1>
+        <h1 className='py-10 font-bold text-4xl text-gray-500 capitalize'> {vehicle?.brandVehicle.name} {vehicle?.modelVehicle.name} {vehicle?.year}</h1>
         <div className='grid grid-cols-1 md:grid-cols-2'>
 
           <div className='rounded-md px-10'>
@@ -113,11 +113,11 @@ export const VehicleDetailPage = () => {
 
                 <div className='flex justify-between py-2'>
                   <span className='font-bold'>Brand</span>
-                  <span>{vehicle?.brandVehicle.name}</span>
+                  <span className='capitalize'>{vehicle?.brandVehicle.name}</span>
                 </div>
                 <div className='flex justify-between py-2'>
                   <span className='font-bold'>Model</span>
-                  <span>{vehicle?.modelVehicle.name}</span>
+                  <span className='capitalize'>{vehicle?.modelVehicle.name}</span>
                 </div>
               </div>
               <hr />
@@ -130,7 +130,7 @@ export const VehicleDetailPage = () => {
                 <Button label='Rent' className='w-full' onClick={openModal} />
               </div>
             </Card>
-            <h1 className='font-bold text-left pt-10'>Description</h1>
+            <h1 className='font-bold text-left pt-10 '>Description</h1>
             <p>
               {vehicle?.description}
             </p>
