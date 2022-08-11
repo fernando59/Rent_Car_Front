@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import { Button } from "primereact/button";
+import { Checkbox } from 'primereact/checkbox';
 import { Dropdown } from "primereact/dropdown";
 import { InputNumber } from 'primereact/inputnumber';
 import { InputText } from "primereact/inputtext";
@@ -13,7 +14,6 @@ import { IVehicleForm } from "../../../models/Vehicle";
 import { useGetBrandsQuery } from "../../../store/apis";
 import { useGetModelVehiclesQuery } from "../../../store/apis/modelVehicleApi";
 import { useGetTypeVehiclesQuery } from "../../../store/apis/typeVehicleApi";
-
 interface Props {
     onHandleSubmitSaveVehicle: (data: IVehicleForm) => void
     defaultValues: IVehicleForm
@@ -186,6 +186,19 @@ export const FormVehicles: FC<Props> = ({ onHandleSubmitSaveVehicle, defaultValu
                         <label>Type Vehicle</label>
                     </span>
                 </div>
+                <div className="field my-10">
+                        <Controller
+                            control={control}
+                            name="hasAir"
+                            // rules={{ required: true }}
+                            render={({ field }
+                            ) => {
+                                return <Checkbox  inputId={field.name} {...field} onChange={(e) => field.onChange(e.checked)} checked={field.value}></Checkbox>
+                            }}
+                        />
+                        <label htmlFor="hasAir" className="cursor-pointer select-none">   Has Air</label>
+                </div>
+
                 <div className="field mt-5 mb-5 ">
                     <span className="p-float-label">
                         <Controller name="description" control={control}

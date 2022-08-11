@@ -34,7 +34,7 @@ export const CardVehicle: FC<Props> = ({ price, model, brand, id, year, capacity
 
                     <div className='inline-flex items-center pt-2 '>
 
-                        <span className='inline font-bold text-2xl px-3 truncate w-[200px]'>{model} {brand} {year} </span>
+                        <span className='inline font-bold text-2xl px-3 truncate w-[200px] capitalize'>{model} {brand} {year} </span>
                         <p className="inline font-bold text-right text-2xl px-3 w-[100px]"> {price} $  </p>
                     </div>
                     <div className='flex justify-between items-start'>

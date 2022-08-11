@@ -45,7 +45,7 @@ export const TableVehicles: FC<Props> = ({ openSideBar }) => {
 
 
     //RKT QUERY
-    const { data,isLoading:isLoadingTable}  = useGetVehiclesQuery()
+    const { data, isLoading: isLoadingTable } = useGetVehiclesQuery()
     const [createVehicle, { isLoading, isSuccess }] = useCreateVehicleMutation()
     const [updateVehicle] = useUpdateVehicleMutation()
     const [deleteVehicle] = useDeleteVehicleMutation()
@@ -96,7 +96,7 @@ export const TableVehicles: FC<Props> = ({ openSideBar }) => {
                 setImage(reader.result as string)
             }
 
-                var buffer = new ArrayBuffer(32);
+            var buffer = new ArrayBuffer(32);
         }
         setVehicle(data)
         openModalStateSave()
@@ -111,45 +111,47 @@ export const TableVehicles: FC<Props> = ({ openSideBar }) => {
 
 
     const onHandleSubmitSaveVehicle = async (data: IVehicleForm) => {
-        // debugger
-        const formData = new FormData();
-        console.log('send')
-        console.log(image)
-        if(image !=undefined){
-            // formData.append('imagePath', )
-            console.log('enter')
-            formData.append('imagePath', image)
-        }
+        try {
 
-        
-        formData.append('plate', data.plate)
-        formData.append('capacity', data?.capacity?.toString()!)
-        formData.append('price', data?.price?.toString()!)
-        formData.append('year', data.year?.toString()!)
-        formData.append('description', data.description?.toString()!)
-        formData.append('brandVehicleId', data.brandVehicleId?.toString()!)
-        formData.append('modelVehicleId', data.modelVehicleId?.toString()!)
-        formData.append('typeVehicleId', data.typeVehicleId?.toString()!)
-        formData.append('hasAir', String(data.hasAir))
+            const formData = new FormData();
+            if (image != undefined) {
+                // formData.append('imagePath', )
+                console.log('enter')
+                formData.append('imagePath', image)
+            }
 
 
-        // return
-        let res
-        if (vehicle.id === 0) {
-            res = await createVehicle(formData).unwrap()
-        } else {
-            data.id = vehicle.id
-            const id = vehicle.id?.toString()
-            formData.append('id', id!)
-            res = await updateVehicle(formData).unwrap()
-        }
+            formData.append('plate', data.plate)
+            formData.append('capacity', data?.capacity?.toString()!)
+            formData.append('price', data?.price?.toString()!)
+            formData.append('year', data.year?.toString()!)
+            formData.append('description', data.description?.toString()!)
+            formData.append('brandVehicleId', data.brandVehicleId?.toString()!)
+            formData.append('modelVehicleId', data.modelVehicleId?.toString()!)
+            formData.append('typeVehicleId', data.typeVehicleId?.toString()!)
+            formData.append('hasAir', String(data.hasAir))
 
-        const { success, message } = res
-        if (success) {
-            closeModalUpdate()
-            toast.current.show({ severity: 'success', summary: 'Successful', detail: message, life: 3000 });
-        } else {
-            toast.current.show({ severity: 'error', summary: 'Error', detail: message, life: 3000 });
+
+            // return
+            let res
+            if (vehicle.id === 0) {
+                res = await createVehicle(formData).unwrap()
+            } else {
+                data.id = vehicle.id
+                const id = vehicle.id?.toString()
+                formData.append('id', id!)
+                res = await updateVehicle(formData).unwrap()
+            }
+
+            const { success, message } = res
+            if (success) {
+                closeModalUpdate()
+                toast.current.show({ severity: 'success', summary: 'Successful', detail: message, life: 3000 });
+            } else {
+                toast.current.show({ severity: 'error', summary: 'Error', detail: message, life: 3000 });
+            }
+        } catch (e) {
+            toast.current.show({ severity: 'error', summary: 'Error', detail: 'error', life: 3000 });
         }
     }
     const closeModalDelete = () => {
@@ -228,7 +230,7 @@ export const TableVehicles: FC<Props> = ({ openSideBar }) => {
 
     const priceTemplate = (rowData: any) => {
         const price = rowData.price
-        return  <p>{price} $</p>
+        return <p>{price} $</p>
     }
     return (
         <>
