@@ -82,15 +82,15 @@ export const VehicleDetailPage = () => {
       <Navbar />
 
       <div className="mx-auto container px-6">
-        <h1 className='py-10 font-bold text-4xl text-gray-500 capitalize'> {vehicle?.brandVehicle.name} {vehicle?.modelVehicle.name} {vehicle?.year}</h1>
+        <h1 className='py-10 font-bold text-4xl text-gray-500 capitalize'>  {vehicle?.year} <span className='capitalize'>{vehicle?.brandVehicle.name}</span> <span className='capitalize'>{vehicle?.modelVehicle.name}</span></h1>
         <div className='grid grid-cols-1 md:grid-cols-2'>
 
           <div className='rounded-md px-10'>
 
             {
               vehicle?.photosVehicles.length === 0 ?
-                <img style={{ width: 400, objectFit: 'cover' }} src='https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png' />
-                : <img className='object-cover rounded-md' src={`https://res.cloudinary.com/testapicloudinaryfernando/image/upload/${vehicle?.photosVehicles[0].path}`} />
+                <img style={{ width: 400, objectFit: 'cover', height: 500 }} src='https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png' />
+                : <img style={{ width: '100%', objectFit: 'cover', height: 600 }} className='object-cover rounded-md' src={`https://res.cloudinary.com/testapicloudinaryfernando/image/upload/${vehicle?.photosVehicles[0].path}`} />
             }
           </div>
           <div>
@@ -100,27 +100,29 @@ export const VehicleDetailPage = () => {
               <div className='py-4 flex flex-col'>
                 <div className='flex justify-between py-2'>
                   <span className='font-bold'>Price by Day</span>
-                  <span>{vehicle?.price} $</span>
+                  <span className='font-medium text-gray-400'>{vehicle?.price} $</span>
                 </div>
+                <hr />
                 <div className='flex justify-between py-2'>
                   <span className='font-bold'>Has Air</span>
-                  <span>{vehicle?.hasAir ? 'Has Air' : 'No has air'}</span>
+                  <span className='font-medium text-gray-400'>{vehicle?.hasAir ? 'Has Air' : 'No has air'}</span>
                 </div>
+                <hr />
                 <div className='flex justify-between py-2'>
                   <span className='font-bold'>Year</span>
-                  <span>{vehicle?.year}</span>
+                  <span className='font-medium text-gray-400'>{vehicle?.year}</span>
                 </div>
-
+                <hr />
                 <div className='flex justify-between py-2'>
                   <span className='font-bold'>Brand</span>
-                  <span className='capitalize'>{vehicle?.brandVehicle.name}</span>
+                  <span className='capitalize font-medium text-gray-400'>{vehicle?.brandVehicle.name}</span>
                 </div>
+                <hr />
                 <div className='flex justify-between py-2'>
                   <span className='font-bold'>Model</span>
-                  <span className='capitalize'>{vehicle?.modelVehicle.name}</span>
+                  <span className='capitalize font-medium text-gray-400'>{vehicle?.modelVehicle.name}</span>
                 </div>
               </div>
-              <hr />
               {/* <div className='flex justify-between py-2'>
                 <span className='font-bold'>Total</span>
                 <span>30$</span>
@@ -130,8 +132,8 @@ export const VehicleDetailPage = () => {
                 <Button label='Rent' className='w-full' onClick={openModal} />
               </div>
             </Card>
-            <h1 className='font-bold text-left pt-10 '>Description</h1>
-            <p>
+            <h1 className='font-bold text-left pt-10  text-gray-700 '>Description</h1>
+            <p className='tracking-wide'>
               {vehicle?.description}
             </p>
 

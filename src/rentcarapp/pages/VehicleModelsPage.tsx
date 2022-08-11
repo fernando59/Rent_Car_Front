@@ -61,6 +61,7 @@ export const VehicleModelsPage = () => {
         <div className='gridPageVehicles'>
           <div className='grid__part_a'>
             <Card>
+              <h3 className='text-2xl font-semibold text-gray-400 flex items-center gap-2'> <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="20" height="20" preserveAspectRatio="xMidYMid meet" viewBox="0 0 1024 1024"><path fill="#999" d="M349 838c0 17.7 14.2 32 31.8 32h262.4c17.6 0 31.8-14.3 31.8-32V642H349v196zm531.1-684H143.9c-24.5 0-39.8 26.7-27.5 48l221.3 376h348.8l221.3-376c12.1-21.3-3.2-48-27.7-48z" /></svg> Filter By</h3>
 
               <FormFilter
                 state={state}
@@ -75,11 +76,10 @@ export const VehicleModelsPage = () => {
 
           <div className='grid__part_b'>
 
-            <div className='grid__cards'>
 
-              <ListCardVehicle brandId={state.brandId} modelId={state.modelId} typeVehicleId={state.typeVehicleId} />
 
-            </div>
+            <ListCardVehicle brandId={state.brandId} modelId={state.modelId} typeVehicleId={state.typeVehicleId} />
+
             <Paginator first={0} rows={10} onPageChange={() => { }}></Paginator>
           </div>
         </div>

@@ -22,7 +22,6 @@ export const FormFilter: FC<Props> = ({ onChangeBrand, onChangeModel, onChangeTy
     const { data: models } = useGetModelVehiclesQuery()
     const { data: typeVehicles } = useGetTypeVehiclesQuery()
     const { data: brands } = useGetBrandsQuery()
-    // const { data: prices=[0,100] } = useGetVehiclePriceQuery()
 
 
 
@@ -32,8 +31,8 @@ export const FormFilter: FC<Props> = ({ onChangeBrand, onChangeModel, onChangeTy
 
             <div className="field my-10">
                 <span className="p-float-label">
-                    <Dropdown filter showClear filterBy="name" className='w-full min-w-[250px] capitalize' value={state.brandId} onChange={onChangeBrand} options={brands} optionLabel="name" optionValue="id" />
-                    <label>Brand </label>
+                    <Dropdown filter showClear filterBy="name" className='w-full min-w-[250px] capitalize' value={state.brandId} onChange={onChangeBrand} options={brands} optionLabel="name" optionValue="id" placeholder="Search a Brand" />
+                    <label className="font-bold">Brand </label>
                 </span>
             </div>
 
@@ -41,20 +40,16 @@ export const FormFilter: FC<Props> = ({ onChangeBrand, onChangeModel, onChangeTy
                 <span className="p-float-label">
 
                     <Dropdown filter showClear filterBy="name" className='w-full min-w-[250px] capitalize' value={state.modelId} onChange={onChangeModel} options={models} optionLabel="name" optionValue="id" />
-                    <label>Model</label>
+                    <label className="font-bold">Model</label>
                 </span>
             </div>
             <div className="field my-10">
                 <span className="p-float-label">
                     <Dropdown filter showClear filterBy="name" className='w-full min-w-[250px] capitalize' value={state.typeVehicleId} onChange={onChangeTypeVehicle} options={typeVehicles} optionLabel="name" optionValue="id" />
-                    <label>Type Vehicle</label>
+                    <label className="font-bold">Type Vehicle</label>
                 </span>
             </div>
-              {/* <div className="field my-10">
-                    <label className="py-2">Range Price {state?.price[0]} - {state?.price[1]} </label>
-                    <Slider value={prices} onChange={onChangePrice}  range />
-
-                </div> */}
+          
 
 
         </>

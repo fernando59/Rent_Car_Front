@@ -68,7 +68,7 @@ export const Reservation = () => {
 
     return <>
 
-        <h2 className='text-6xl font-bold text-center py-10'>Find Best Vehicles</h2>
+        <h2 className='text-6xl font-bold text-center py-20'>Find Best Vehicles</h2>
         <div className='flex justify-center h-full items-start'>
 
             <form onSubmit={handleSubmit(onHandleSubmit)} autoComplete="off" className='flex items-end flex-col md:flex-row gap-2 h-full'>
@@ -136,7 +136,7 @@ export const Reservation = () => {
                     )}
                     {getFormErrorMessage('endDate')}
                 </div>
-                <div className='h-[85px]'>
+                <div className='h-[85px]' >
 
                     <Button label="Search" icon="pi pi-search" type='submit' />
                 </div>

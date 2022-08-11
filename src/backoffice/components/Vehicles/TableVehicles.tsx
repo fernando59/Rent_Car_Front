@@ -225,6 +225,11 @@ export const TableVehicles: FC<Props> = ({ openSideBar }) => {
         const image = rowData.photosVehicles[0]?.path
         return <img src={`https://res.cloudinary.com/testapicloudinaryfernando/image/upload/${image}`} onError={(e: any) => e.target.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} alt={image} className="w-16 h-16 object-cover" />
     }
+
+    const priceTemplate = (rowData: any) => {
+        const price = rowData.price
+        return  <p>{price} $</p>
+    }
     return (
         <>
 
@@ -253,7 +258,7 @@ export const TableVehicles: FC<Props> = ({ openSideBar }) => {
                 <Column field="plate" header="Plate" className='capitalize' sortable style={{ minWidth: '12rem' }}></Column>
                 <Column field="brandVehicle.name" header="Brand" className='capitalize' sortable style={{ minWidth: '12rem' }}></Column>
                 <Column field="modelVehicle.name" header="Model" className='capitalize' sortable style={{ minWidth: '12rem' }}></Column>
-                <Column field="price" header="Price" className='capitalize' sortable style={{ minWidth: '12rem' }}></Column>
+                <Column field="price" header="Price" className='capitalize' body={priceTemplate} sortable style={{ minWidth: '12rem' }}></Column>
                 <Column field="state" header="State" className='capitalize' body={statusBodyTemplate} sortable style={{ minWidth: '12rem' }}></Column>
                 <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '8rem' }}></Column>
             </DataTable>
