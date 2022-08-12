@@ -150,7 +150,7 @@ export const TableOrder = () => {
 
                 <h1 className="text-center font-bold text-3xl py-10">Order Detail</h1>
                 <div className="flex justify-around">
-                    <div className="flex flex-col items-start">
+                    <div className="flex flex-col items-start justify-center">
                         <h2 className="text-gray-500">Start Date</h2>
                         <h2 className="font-bold">{new Date(order.startDate!).toLocaleDateString('en-Us')}</h2>
                     </div>
@@ -160,15 +160,25 @@ export const TableOrder = () => {
                     </div>
                 </div>
                 <div className="flex justify-around">
-                    <div className="flex flex-col items-start" >
+                    <div className="flex flex-col items-start justify-center" >
                         <h2 className="text-gray-500">Days</h2>
                         <h2 className="font-bold">{order.days}</h2>
                     </div>
-                    <div className="flex flex-col items-start" >
+                    <div className="flex flex-col items-start justify-center" >
                         <h2 className="text-gray-500">Price</h2>
                         <h2 className="font-bold">{order.price} $</h2>
                     </div>
                 </div>
+                {/* <div className="flex justify-around items-center">
+                    <div className="flex flex-col items-start" >
+                        <h2 className="text-gray-500 text-left flex-1">Total</h2>
+                        <h2 className="font-bold flex-1">{order.days*order.price} $</h2>
+                    </div>
+                    <div className="flex flex-col items-start" >
+                        <h2 className="text-gray-500"></h2>
+                        <h2 className="font-bold"></h2>
+                    </div>
+                </div> */}
 
                 <h1 className="text-center font-bold text-3xl py-10">Vehicle</h1>
                 <div className="flex justify-around">

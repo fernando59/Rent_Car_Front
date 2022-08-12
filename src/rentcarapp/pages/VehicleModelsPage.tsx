@@ -1,6 +1,5 @@
 
 import { Card } from 'primereact/card';
-import { Paginator } from 'primereact/paginator';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearBrand } from '../../store/slices';
@@ -51,6 +50,7 @@ export const VehicleModelsPage = () => {
     setState({ ...state, price: value })
 
   }
+
   return (
     <>
 
@@ -80,7 +80,6 @@ export const VehicleModelsPage = () => {
 
             <ListCardVehicle brandId={state.brandId} modelId={state.modelId} typeVehicleId={state.typeVehicleId} />
 
-            <Paginator first={0} rows={10} onPageChange={() => { }}></Paginator>
           </div>
         </div>
       </div>

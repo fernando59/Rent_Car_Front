@@ -1,29 +1,45 @@
 import { Skeleton } from 'primereact/skeleton';
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useGetVehiclesFilterQuery } from "../../store/apis/vehicleApi";
 import { CardVehicle } from "./CardVehicle";
+
+// import { Paginator } from 'primereact/paginator';
 interface Props {
     brandId: number
     modelId: number
     typeVehicleId: number
 }
 export const ListCardVehicle: FC<Props> = ({ brandId, modelId, typeVehicleId }) => {
+    const [state, setState] = useState({
+        page: 0,
+        quantity: 10
+    })
 
-    const { data, isLoading, isFetching } = useGetVehiclesFilterQuery({ page: 0, quantity: 10, brandId: brandId, modelId: modelId, typeVehicleId: typeVehicleId })
+    const { data = [], isLoading, isFetching } = useGetVehiclesFilterQuery({ page: state.page, quantity: state.quantity, brandId: brandId, modelId: modelId, typeVehicleId: typeVehicleId })
 
-    console.log(data)
     if (isLoading) return <>
-        <Skeleton width="10rem" height='10rem'></Skeleton>
-        <Skeleton width="10rem" height='10rem'></Skeleton>
-        <Skeleton width="10rem" height='10rem'></Skeleton>
-        <Skeleton width="10rem" height='10rem'></Skeleton>
+        <div className='grid__cards'>
+
+            <Skeleton width="10rem" height='10rem'></Skeleton>
+            <Skeleton width="10rem" height='10rem'></Skeleton>
+            <Skeleton width="10rem" height='10rem'></Skeleton>
+            <Skeleton width="10rem" height='10rem'></Skeleton>
+        </div>
     </>
     if (isFetching) return <>
-        <Skeleton width="10rem" height='10rem'></Skeleton>
-        <Skeleton width="10rem" height='10rem'></Skeleton>
-        <Skeleton width="10rem" height='10rem'></Skeleton>
-        <Skeleton width="10rem" height='10rem'></Skeleton>
+        <div className='grid__cards'>
+
+            <Skeleton width="10rem" height='10rem'></Skeleton>
+            <Skeleton width="10rem" height='10rem'></Skeleton>
+            <Skeleton width="10rem" height='10rem'></Skeleton>
+            <Skeleton width="10rem" height='10rem'></Skeleton>
+        </div>
     </>
+    const onChangePage = (e: any) => {
+        console.log(e)
+        setState({...state,page:e.first})
+    }
+    console.log(data.length)
     return (
         <>
             <div className='grid__cards'>
@@ -44,6 +60,7 @@ export const ListCardVehicle: FC<Props> = ({ brandId, modelId, typeVehicleId }) 
                 }
 
             </div>
+            {/* <Paginator first={state.page} rows={2} totalRecords={data?.length} onPageChange={onChangePage}></Paginator> */}
             {
                 data?.length == 0 && <>
                     <div className='flex flex-col items-center justify-center flex-1'>

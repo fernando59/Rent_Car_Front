@@ -45,6 +45,7 @@ export const authApi = createApi({
                     body
                 }
             },
+            // transformResponse: (response: { dataOnly: any }, meta, arg) => response.dataOnly,
         }),
         getUsers: builder.query<UsersList[], void>({
             query: () => {

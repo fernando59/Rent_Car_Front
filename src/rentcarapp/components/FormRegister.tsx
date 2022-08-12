@@ -7,7 +7,7 @@ import { FC, useRef } from 'react';
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch } from 'react-redux';
 import { useRegisterMutation } from '../../store/apis';
-import { closeModalRegister, openModalLogin } from '../../store/slices';
+import { closeModalRegister, loginAuth, openModalLogin } from '../../store/slices';
 
 
 interface Props {
@@ -61,11 +61,12 @@ export const FormRegister: FC<Props> = ({ toast, closeModal }) => {
         try {
 
             const res = await regiter(data).unwrap()
-            const { success, message } = res
+            const { success, message,dataOnly } = res
             if (success) {
                 toast.current.show({ severity: 'success', summary: 'Successfull', detail: 'Successful registration', life: 2000 });
                 await new Promise(resolve => setTimeout(resolve, 2000))
-                dispatch(openModalLogin())
+                // dispatch(openModalLogin())
+                dispatch(loginAuth(dataOnly))
                 if (closeModal) closeModal()
             } else {
 
